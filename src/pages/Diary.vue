@@ -1,6 +1,10 @@
 <template>
     <v-ons-page>
-
+        <v-ons-list>
+            <time-line></time-line>
+            <time-line></time-line>
+            <time-line></time-line>
+        </v-ons-list>
         <v-ons-fab
                 position="bottom right"
                 :visible="fabVisible"
@@ -11,7 +15,10 @@
 </template>
 
 <script>
+    import TimeLine from "../partials/TimeLine";
+
     export default {
+        components: {TimeLine},
         data() {
             return {
                 fabVisible: true

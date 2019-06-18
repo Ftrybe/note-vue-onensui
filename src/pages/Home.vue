@@ -4,7 +4,7 @@
             <v-ons-card class="panel">
                 <div class="content">
                     <div class="note">测试测试</div>
-                    <div class="time">-- 2017/6/8</div>
+                    <div class="time"> -- 2017/6/8</div>
                 </div>
             </v-ons-card>
         </div>
@@ -13,11 +13,13 @@
 
 <script>
     export default {
-        name: "Home"
+
     }
 </script>
 
 <style scoped lang="scss">
+    $base-font-size: 14px;
+    $sm-font-size: 12px;
     .bg {
         height: 100%;
         width: 100%;
