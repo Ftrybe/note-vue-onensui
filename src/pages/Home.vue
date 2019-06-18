@@ -1,12 +1,12 @@
 <template>
     <v-ons-page>
-        <div class="warp bg" style="background-image: url('bg/love_double_people.jpg')">
-            <div class="panel">
+        <div class="warp bg" style="background-image: url('bg/light_gril.jpg')">
+            <v-ons-card class="panel">
                 <div class="content">
                     <div class="note">测试测试</div>
                     <div class="time">-- 2017/6/8</div>
                 </div>
-            </div>
+            </v-ons-card>
         </div>
     </v-ons-page>
 </template>

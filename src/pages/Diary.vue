@@ -1,10 +1,22 @@
 <template>
-    <v-ons-page></v-ons-page>
+    <v-ons-page>
+
+        <v-ons-fab
+                position="bottom right"
+                :visible="fabVisible"
+        >
+            <v-ons-icon icon="md-edit"></v-ons-icon>
+        </v-ons-fab>
+    </v-ons-page>
 </template>
 
 <script>
     export default {
-        name: "Diary"
+        data() {
+            return {
+                fabVisible: true
+            };
+        }
     }
 </script>
 
