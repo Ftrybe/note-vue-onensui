@@ -1,10 +1,29 @@
+import 'onsenui/css/onsenui.css';
+import 'onsenui/css/onsen-css-components.css';
+
 import Vue from 'vue'
-import App from './App.vue'
+import Vuex from 'vuex'
 import store from './store'
+import VueOnsen from 'vue-onsenui'
 
-Vue.config.productionTip = false
+import AppNavigator from "./AppNavigator";
+import CustomToolbar from './partials/CustomToolbar'
 
+Vue.config.productionTip = false;
+
+Vue.use(Vuex);
+Vue.use(VueOnsen);
+Vue.component('custom-toolbar', CustomToolbar);
 new Vue({
-  store,
-  render: h => h(App)
-}).$mount('#app')
+    store,
+    render: h => h(AppNavigator),
+    beforeCreate() {
+        // Shortcut for Material Design
+        Vue.prototype.md = this.$ons.platform.isAndroid();
+        // Set iPhoneX flag based on URL
+        if (window.location.search.match(/iphonex/i)) {
+            document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
+            document.documentElement.setAttribute('onsflag-iphonex-landscape', '');
+        }
+    }
+}).$mount('#app');
