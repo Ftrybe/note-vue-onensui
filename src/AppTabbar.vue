@@ -3,12 +3,11 @@
     <custom-toolbar :style="swipeTheme" modifier="white-content">
       {{ title }}
       <v-ons-toolbar-button slot="right" modifier="white-content"
-        @click="$store.commit('splitter/toggle'); showTip(null, 'Try dragging from right edge!')"
+        @click="$store.commit('splitter/toggle')"
       >
         <v-ons-icon icon="ion-navicon, material:md-menu"></v-ons-icon>
       </v-ons-toolbar-button>
     </custom-toolbar>
-
     <v-ons-tabbar position="auto"
       swipeable
       :modifier="md ? 'autogrow white-content' : ''"
@@ -16,7 +15,6 @@
       :tabbar-style="swipeTheme"
       :tabs="tabs"
       :index.sync="index"
-      @postchange="showTip($event, 'Tip: Try swiping pages!')"
     ></v-ons-tabbar>
   </v-ons-page>
 </template>
@@ -49,7 +47,7 @@ export default {
           theme: red
         },
         {
-          label: '记事本',
+          label: '时间轴',
           icon: this.md ? null : 'ion-edit',
           page: Diary,
           theme: blue
@@ -74,19 +72,6 @@ export default {
       this.colors = this.colors.map((c, i) => lerp(this.tabs[a].theme[i], this.tabs[b].theme[i], ratio));
       this.topPosition = lerp(this.tabs[a].top || 0, this.tabs[b].top || 0, ratio);
     },
-    showTip(e, message) {
-      if (!this.shutUp && !(e && e.swipe) && !this.showingTip) {
-        this.showingTip = true;
-        this.$ons.notification.toast({
-          message,
-          buttonLabel: 'Shut up!',
-          timeout: 2000
-        }).then(i => {
-          this.shutUp = i === 0;
-          this.showingTip = false;
-        });
-      }
-    }
   },
 
   computed: {
@@ -99,7 +84,7 @@ export default {
       }
     },
     title() {
-      return this.md ? 'Onsen UI' : this.tabs[this.index].title || this.tabs[this.index].label;
+      return this.md ? '盲人日记' : this.tabs[this.index].title || this.tabs[this.index].label;
     },
     swipeTheme() {
       return this.md && {
