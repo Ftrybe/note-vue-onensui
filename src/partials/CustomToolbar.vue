@@ -2,7 +2,7 @@
   <v-ons-toolbar>
     <div class="left">
       <slot name="left">
-        <v-ons-back-button v-if="backLabel">
+        <v-ons-back-button v-if="backLabel" class="fs-15">
           {{ backLabel }}
         </v-ons-back-button>
       </slot>
@@ -13,7 +13,20 @@
 </template>
 
 <script>
-export default {
-  props: ['title', 'backLabel']
-};
+  export default {
+    props: ['title', 'backLabel']
+  };
 </script>
+<style scoped lang="scss">
+  .right{
+    padding-right: 16px;
+    color: #0076ff;
+    font-size: 20px;
+  }
+  .left{
+    font-size: 15px;
+    .back-button__label{
+      font-size: 15px;
+    }
+  }
+</style>
