@@ -1,10 +1,11 @@
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
-
+import 'v-calendar/lib/v-calendar.min.css';
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from './store'
 import VueOnsen from 'vue-onsenui'
+import VCalendar from 'v-calendar';
 
 import AppNavigator from "./AppNavigator";
 import CustomToolbar from './partials/CustomToolbar'
@@ -13,6 +14,10 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuex);
 Vue.use(VueOnsen);
+Vue.use(VCalendar, {
+    firstDayOfWeek: 2,  // Monday
+});
+
 Vue.component('custom-toolbar', CustomToolbar);
 new Vue({
     store,
