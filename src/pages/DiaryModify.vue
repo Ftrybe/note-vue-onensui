@@ -27,11 +27,10 @@
 
             <!--              <div class="list-item__title">标题</div>-->
             <v-ons-list-header>时间</v-ons-list-header>
-            <vc-date-picker
-                    v-model='date'
-            ></vc-date-picker>
         </v-ons-list>
-
+            <v-date-picker
+                    v-model='date'
+            ></v-date-picker>
     </v-ons-page>
 </template>
 
