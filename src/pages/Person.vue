@@ -1,5 +1,5 @@
 <template>
-    <v-ons-page>
+    <v-ons-page modifier="white">
         <v-ons-list>
             <v-ons-list-item class="info" modifier="chevron">
                 <div class="left">
@@ -17,6 +17,15 @@
                 </div>
                 <div class="center">
                     Icon
+                </div>
+            </v-ons-list-item>
+            <div class="list-item__division"></div>
+            <v-ons-list-item>
+                <div class="left">
+                    <v-ons-icon icon="md-face" class="list-item__icon"></v-ons-icon>
+                </div>
+                <div class="center">
+                    退出
                 </div>
             </v-ons-list-item>
         </v-ons-list>
@@ -43,5 +52,13 @@
             border-radius: 0;
         }
 
+    }
+    .list-item__division{
+        &:after{
+            content: '';
+            height: 0;
+            padding: 8px;
+            background: transparent;
+        }
     }
 </style>
