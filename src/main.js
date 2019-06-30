@@ -13,16 +13,15 @@ import CustomToolbar from './partials/CustomToolbar';
 Vue.config.productionTip = false;
 
 Vue.use(Vuex);
-Vue.use(axios);
 Vue.use(VueOnsen);
 Vue.use(VCalendar, {
     firstDayOfWeek: 2,  // Monday
 });
+Vue.prototype.$axios = axios;
 
 Vue.component('custom-toolbar', CustomToolbar);
 new Vue({
     store,
-    axios,
     render: h => h(AppNavigator),
     beforeCreate() {
         // Shortcut for Material Design

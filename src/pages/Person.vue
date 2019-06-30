@@ -1,7 +1,7 @@
 <template>
     <v-ons-page modifier="white">
         <v-ons-list>
-            <v-ons-list-item class="info" modifier="chevron">
+            <v-ons-list-item class="info" modifier="chevron" @click="showInfo()">
                 <div class="left">
                     <img class="list-item__thumbnail" src="bg/love_gril.jpg">
                 </div>
@@ -33,10 +33,33 @@
 </template>
 
 <script>
+    import PersonInfo from "./PersonInfo";
+
     export default {
         name: "Person",
         data() {
             return {}
+        },
+        methods: {
+            showInfo() {
+                this.$store.commit('navigator/options', {
+                    // Sets animations
+                    animation: "slide-ios",
+                    // Resets default options
+                    callback: () => this.$store.commit('navigator/options', {})
+                });
+                this.$store.commit('navigator/push', {
+                    extends: PersonInfo,
+                    data() {
+                        return {
+                            toolbarInfo: {
+                                backLabel: '时间轴',
+                                title: "个人信息"
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 </script>
@@ -53,8 +76,9 @@
         }
 
     }
-    .list-item__division{
-        &:after{
+
+    .list-item__division {
+        &:after {
             content: '';
             height: 0;
             padding: 8px;
