@@ -19,7 +19,7 @@
             }
         },
         mounted() {
-            this.$axios.get("/api/random").then()
+            // this.$axios.get("/api/random").then()
         }
     }
 </script>
