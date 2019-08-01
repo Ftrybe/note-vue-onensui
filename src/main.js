@@ -24,6 +24,7 @@ new Vue({
     store,
     render: h => h(AppNavigator),
     beforeCreate() {
+        // this.$ons.disableAutoStyling();
         // Shortcut for Material Design
         Vue.prototype.md = this.$ons.platform.isAndroid();
         // Set iPhoneX flag based on URL

@@ -49,6 +49,16 @@
                 </div>
 
             </v-ons-list-item>
+
+            <v-ons-list-item
+                    tappable modifier="longdivider"
+                    @click="$ons.openActionSheet({ buttons: ['所有人可见', '仅自己可见', '指定用户可见', '取消'], destructive: 2, cancelable: true })"
+            >
+                <div class="center">
+                 所有人可见
+                </div>
+            </v-ons-list-item>
+
             <v-ons-list-header>心情</v-ons-list-header>
             <v-ons-list-item>
                 <v-ons-button @click="actionSheetVisible = true">
@@ -61,6 +71,7 @@
                 :visible.sync="actionSheetVisible"
                 cancelable
                 title="Description"
+                posthide="test(event)"
         >
             <v-ons-action-sheet-button icon="md-square-o">Label 1</v-ons-action-sheet-button>
             <v-ons-action-sheet-button icon="md-square-o" modifier="destructive">Label 2</v-ons-action-sheet-button>
@@ -95,6 +106,9 @@
         methods: {
             save() {
                 alert(1);
+            },
+            test(event){
+                console.log(event);
             }
         }
     }
