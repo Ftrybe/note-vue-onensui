@@ -36,7 +36,6 @@
     import PersonInfo from "./PersonInfo";
 
     export default {
-        name: "Person",
         data() {
             return {}
         },
