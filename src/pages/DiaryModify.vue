@@ -55,10 +55,9 @@
                     @click="$ons.openActionSheet({ buttons: ['所有人可见', '仅自己可见', '指定用户可见', '取消'], destructive: 2, cancelable: true })"
             >
                 <div class="center">
-                 所有人可见
+                    所有人可见
                 </div>
             </v-ons-list-item>
-
             <v-ons-list-header>心情</v-ons-list-header>
             <v-ons-list-item>
                 <v-ons-button @click="actionSheetVisible = true">
@@ -107,7 +106,7 @@
             save() {
                 alert(1);
             },
-            test(event){
+            test(event) {
                 console.log(event);
             }
         }

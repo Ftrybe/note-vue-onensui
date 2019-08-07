@@ -65,12 +65,12 @@
 
 <style scoped lang="scss">
     .info {
-        height: 96px;
-        line-height: 48px;
+        height: 6rem;
+        line-height: 3rem;
 
         img {
-            height: 64px;
-            width: 64px;
+            height: 4rem;
+            width: 4rem;
             border-radius: 0;
         }
 
