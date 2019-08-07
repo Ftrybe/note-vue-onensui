@@ -6,8 +6,8 @@
                     <img class="list-item__thumbnail" src="bg/love_gril.jpg">
                 </div>
                 <div class="center" style="line-height: 28px;margin-left: 8px">
-                    <span class="list-item__title">Cutest kitty</span><span
-                        class="list-item__subtitle">On the Internet</span>
+                    <span class="list-item__title">昵称</span><span
+                        class="list-item__subtitle">用户名</span>
                 </div>
             </v-ons-list-item>
 
@@ -16,7 +16,7 @@
                     <v-ons-icon icon="md-face" class="list-item__icon"></v-ons-icon>
                 </div>
                 <div class="center">
-                    Icon
+                    我的日记
                 </div>
             </v-ons-list-item>
             <div class="list-item__division"></div>
@@ -25,7 +25,7 @@
                     <v-ons-icon icon="md-face" class="list-item__icon"></v-ons-icon>
                 </div>
                 <div class="center">
-                    退出
+                    设置
                 </div>
             </v-ons-list-item>
         </v-ons-list>
@@ -53,7 +53,8 @@
                         return {
                             toolbarInfo: {
                                 backLabel: '时间轴',
-                                title: "个人信息"
+                                title: "个人信息",
+                                theme: "red"
                             }
                         }
                     }
@@ -71,7 +72,7 @@
         img {
             height: 4rem;
             width: 4rem;
-            border-radius: 0;
+            border-radius: .25rem;
         }
 
     }

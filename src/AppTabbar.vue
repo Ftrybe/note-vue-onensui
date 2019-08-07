@@ -1,13 +1,13 @@
 <template>
   <v-ons-page :style="swipePosition">
-    <custom-toolbar :style="swipeTheme" modifier="white-content">
+    <v-toolbar :style="swipeTheme" modifier="white-content">
       {{ title }}
       <v-ons-toolbar-button slot="right" modifier="white-content"
         @click="$store.commit('splitter/toggle')"
       >
         <v-ons-icon icon="ion-navicon, material:md-menu"></v-ons-icon>
       </v-ons-toolbar-button>
-    </custom-toolbar>
+    </v-toolbar>
     <v-ons-tabbar position="auto"
       swipeable
       :modifier="md ? 'autogrow white-content' : ''"

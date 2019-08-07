@@ -1,7 +1,6 @@
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import 'v-calendar/lib/v-calendar.min.css';
-import './main.css';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import store from './store';
@@ -9,7 +8,7 @@ import VueOnsen from 'vue-onsenui';
 import VCalendar from 'v-calendar';
 import axios from 'axios';
 import AppNavigator from "./AppNavigator";
-import CustomToolbar from './partials/CustomToolbar';
+import Toolbar from './partials/Toolbar';
 
 Vue.config.productionTip = false;
 
@@ -20,7 +19,7 @@ Vue.use(VCalendar, {
 });
 Vue.prototype.$axios = axios;
 
-Vue.component('custom-toolbar', CustomToolbar);
+Vue.component('v-toolbar', Toolbar);
 new Vue({
     store,
     render: h => h(AppNavigator),
