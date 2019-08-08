@@ -1,10 +1,10 @@
 <template>
     <v-ons-page modifier="white">
-        <custom-toolbar v-bind="toolbarInfo">
+        <v-toolbar v-bind="toolbarInfo">
             <div slot="right">
                 <v-ons-icon icon="md-check" color="#0076ff" @click="save()"></v-ons-icon>
             </div>
-        </custom-toolbar>
+        </v-toolbar>
 
         <v-ons-list>
             <!--            <div class="list-item__title">标题</div>-->

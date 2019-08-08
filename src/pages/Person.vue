@@ -1,7 +1,7 @@
 <template>
     <v-ons-page modifier="white">
         <v-ons-list>
-            <v-ons-list-item class="info" modifier="chevron" @click="showInfo()">
+            <v-ons-list-item class="info" modifier="chevron nodivider" @click="showInfo()">
                 <div class="left">
                     <img class="list-item__thumbnail" src="bg/love_gril.jpg">
                 </div>
@@ -10,19 +10,41 @@
                         class="list-item__subtitle">用户名</span>
                 </div>
             </v-ons-list-item>
+        </v-ons-list>
 
-            <v-ons-list-item>
+        <v-ons-list>
+            <v-ons-list-item modifier="chevron">
                 <div class="left">
-                    <v-ons-icon icon="md-face" class="list-item__icon"></v-ons-icon>
+                    <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
                 </div>
                 <div class="center">
-                    我的日记
+                    日记
                 </div>
             </v-ons-list-item>
-            <div class="list-item__division"></div>
-            <v-ons-list-item>
+
+             <v-ons-list-item modifier="chevron">
                 <div class="left">
-                    <v-ons-icon icon="md-face" class="list-item__icon"></v-ons-icon>
+                    <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
+                </div>
+                <div class="center">
+                    备忘录
+                </div>
+            </v-ons-list-item>
+
+            <v-ons-list-item modifier="chevron">
+                <div class="left">
+                    <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
+                </div>
+                <div class="center">
+                    表白
+                </div>
+            </v-ons-list-item>
+        </v-ons-list>
+
+        <v-ons-list>
+            <v-ons-list-item modifier="chevron">
+                <div class="left">
+                    <v-ons-icon icon="ion-settings" class="list-item__icon"></v-ons-icon>
                 </div>
                 <div class="center">
                     设置
@@ -53,8 +75,7 @@
                         return {
                             toolbarInfo: {
                                 backLabel: '时间轴',
-                                title: "个人信息",
-                                theme: "red"
+                                title: "个人信息"
                             }
                         }
                     }
@@ -81,8 +102,10 @@
         &:after {
             content: '';
             height: 0;
-            padding: 8px;
-            background: transparent;
+            width: 100%;
+            padding: 8px 0;
+            display: block;
+            background: red;
         }
     }
 </style>

@@ -26,7 +26,8 @@ new Vue({
     beforeCreate() {
         // this.$ons.disableAutoStyling();
         // Shortcut for Material Design
-        Vue.prototype.md = this.$ons.platform.isAndroid();
+        this.$ons.disableAutoStyling();
+        //Vue.prototype.md = this.$ons.platform.isAndroid();
         // Set iPhoneX flag based on URL
         if (window.location.search.match(/iphonex/i)) {
             document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
