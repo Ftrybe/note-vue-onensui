@@ -7,8 +7,8 @@ import store from './store';
 import VueOnsen from 'vue-onsenui';
 import VCalendar from 'v-calendar';
 import axios from 'axios';
-import AppNavigator from "./AppNavigator";
-import Toolbar from './partials/Toolbar';
+import AppNavigator from './AppNavigator.vue';
+import Toolbar from './partials/Toolbar.vue';
 
 Vue.config.productionTip = false;
 
@@ -27,7 +27,7 @@ new Vue({
         // this.$ons.disableAutoStyling();
         // Shortcut for Material Design
         this.$ons.disableAutoStyling();
-        //Vue.prototype.md = this.$ons.platform.isAndroid();
+        Vue.prototype.md = this.$ons.platform.isAndroid();
         // Set iPhoneX flag based on URL
         if (window.location.search.match(/iphonex/i)) {
             document.documentElement.setAttribute('onsflag-iphonex-portrait', '');

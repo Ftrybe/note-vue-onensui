@@ -56,14 +56,13 @@
   </v-ons-page>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      toolbarInfo: {}
-    };
-  }
-};
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class PersonInfo extends Vue {
+    private toolbarInfo = {};
+}
 </script>
 
 <style scoped lang="scss">

@@ -11,17 +11,13 @@
     </v-ons-page>
 </template>
 
-<script>
-    export default {
-        data(){
-            return{
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 
-            }
-        },
-        mounted() {
-            // this.$axios.get("/api/random").then()
-        }
-    }
+@Component
+export default class Home extends Vue {
+
+}
 </script>
 
 <style scoped lang="scss">
@@ -67,9 +63,6 @@
                 letter-spacing: 1.5px;
                 text-align: justify;
                 line-height: 1.5rem;
-                .note{
-
-                }
                 .time{
                     align-self: flex-end;
                 }

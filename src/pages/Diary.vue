@@ -15,34 +15,29 @@
     </v-ons-page>
 </template>
 
-<script>
-    import TimeLine from "../partials/TimeLine";
-    import DiaryModify from './DiaryModify'
-
-    export default {
-        components: {TimeLine},
-        data() {
-            return {
-                fabVisible: true,
-                DiaryModify: DiaryModify
-            };
-        },
-        methods: {
-            push(page, key) {
+<script lang="ts">
+import {Component, Prop, Vue } from 'vue-property-decorator';
+import TimeLine from '../partials/TimeLine.vue';
+import DiaryModify from './DiaryModify.vue';
+@Component
+export default class Diary extends Vue {
+   private  fabVisible = true;
+    private  DiaryModify =  DiaryModify;
+    private  push(page: any, key: any) {
                 this.$store.commit('navigator/push', {
                     extends: page,
                     data() {
                         return {
                             toolbarInfo: {
                                 backLabel: '时间轴',
-                                title: key
-                            }
-                        }
-                    }
+                                title: key,
+                            },
+                        };
+                    },
                 });
             }
-        }
-    }
+}
+
 </script>
 
 <style scoped>

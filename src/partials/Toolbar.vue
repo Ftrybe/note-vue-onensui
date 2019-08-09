@@ -12,10 +12,15 @@
   </v-ons-toolbar>
 </template>
 
-<script>
-  export default {
-    props: ['title', 'backLabel']
-  };
+<script lang="ts">
+
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class HelloWorld extends Vue {
+  @Prop() private title!: string;
+  @Prop() private backLabel!: string;
+}
 </script>
 <style scoped lang="scss">
   .right{

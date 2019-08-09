@@ -20,10 +20,12 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "TimeLine"
-    }
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class TimeLine extends Vue {
+}
 </script>
 
 <style scoped lang="scss">

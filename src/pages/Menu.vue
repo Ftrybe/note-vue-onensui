@@ -42,63 +42,62 @@
   </v-ons-page>
 </template>
 
-<script>
-export default {
-  methods: {
-    loadView(index) {
-      this.$store.commit("tabbar/set", index + 1);
-      this.$store.commit("splitter/toggle");
-    },
-    loadLink(url) {
-      window.open(url, "_blank");
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class Menu extends Vue {
+private links = [
+        {
+          title: 'Docs',
+          icon: 'ion-document-text',
+          url: 'https://onsen.io/v2/docs/guide/vue/',
+        },
+        {
+          title: 'Github',
+          icon: 'ion-social-github',
+          url: 'https://github.com/OnsenUI/OnsenUI',
+        },
+        {
+          title: 'Code',
+          icon: 'ion-code',
+          url: 'https://github.com/OnsenUI/vue-onsenui-kitchensink',
+        },
+        {
+          title: 'Forum',
+          icon: 'ion-chatboxes',
+          url: 'https://community.onsen.io/',
+        },
+        {
+          title: 'Twitter',
+          icon: 'ion-social-twitter',
+          url: 'https://twitter.com/Onsen_UI',
+        },
+      ];
+     private access = [
+        {
+          title: 'Home',
+          icon: 'ion-home, material:md-home',
+        },
+        {
+          title: 'Forms',
+          icon: 'ion-edit, material:md-edit',
+        },
+        {
+          title: 'Animations',
+          icon: 'ion-film-marker, material: md-movie-alt',
+        },
+      ];
+
+   private loadView(index: number) {
+      this.$store.commit('tabbar/set', index + 1);
+      this.$store.commit('splitter/toggle');
     }
-  },
-  data() {
-    return {
-      links: [
-        {
-          title: "Docs",
-          icon: "ion-document-text",
-          url: "https://onsen.io/v2/docs/guide/vue/"
-        },
-        {
-          title: "Github",
-          icon: "ion-social-github",
-          url: "https://github.com/OnsenUI/OnsenUI"
-        },
-        {
-          title: "Code",
-          icon: "ion-code",
-          url: "https://github.com/OnsenUI/vue-onsenui-kitchensink"
-        },
-        {
-          title: "Forum",
-          icon: "ion-chatboxes",
-          url: "https://community.onsen.io/"
-        },
-        {
-          title: "Twitter",
-          icon: "ion-social-twitter",
-          url: "https://twitter.com/Onsen_UI"
-        }
-      ],
-      access: [
-        {
-          title: "Home",
-          icon: "ion-home, material:md-home"
-        },
-        {
-          title: "Forms",
-          icon: "ion-edit, material:md-edit"
-        },
-        {
-          title: "Animations",
-          icon: "ion-film-marker, material: md-movie-alt"
-        }
-      ]
-    };
-  }
-};
+
+    private loadLink(url: string) {
+      window.open(url, '_blank');
+    }
+}
 </script>
 
 <style scoped>
