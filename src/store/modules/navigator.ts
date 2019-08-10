@@ -1,6 +1,8 @@
 import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
 import store from '../index';
 import { Component } from 'vue';
+import { OnsPageOptions } from '@/core/model/ons/page.options';
+import { NavigatorOptions } from '@/core/model/ons';
 @Module({
     dynamic: true,
     name: 'NavigatorModule',
@@ -8,33 +10,33 @@ import { Component } from 'vue';
 })
 export default class NavigatorModule extends VuexModule {
     stack: any[] = [];
-    options = {};
+    options?: NavigatorOptions | {};
     @Mutation
-    push(page: Component){
-        this.stack.push(page);
+    push(onsPage: OnsPageOptions | Component | { extends: unknown, onsNavigatorProps: unknown, onsNavigatorOptions: unknown }) {
+        this.stack.push(onsPage);
     }
 
     @Mutation
-    pop(){
+    pop() {
         if (this.stack.length > 1) {
             this.stack.pop();
-          }
+        }
     }
 
     @Mutation
-    replace(page: Component){
+    replace(onsPage: OnsPageOptions | Component | { extends: unknown, onsNavigatorProps: unknown, onsNavigatorOptions: unknown }) {
         this.stack.pop();
-          this.stack.push(page);
-    }
-    
-    @Mutation
-    reset(page: Component){
-        this.stack = [page || this.stack[0]];
+        this.stack.push(onsPage);
     }
 
     @Mutation
-    option(newOptions = {}) {
+    reset(onsPage: OnsPageOptions | Component | { extends: unknown, onsNavigatorProps: unknown, onsNavigatorOptions: unknown }) {
+        this.stack = [onsPage || this.stack[0]];
+    }
+
+    @Mutation
+    option(newOptions: NavigatorOptions | { animation: unknown, animationOptions: unknown, callback: unknown }) {
         this.options = newOptions;
     }
-    
+
 }

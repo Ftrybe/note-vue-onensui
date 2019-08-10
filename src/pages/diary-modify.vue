@@ -70,11 +70,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 @Component
 export default class DiaryModify extends Vue {
   private name = 'text';
   private date = new Date();
-  private toolbarInfo = {};
+  @Prop() toolbarInfo:any;
+
   private actionSheetVisible = false;
   private items = [
     { key: 1, text: '所有人可见', value: 'all' },

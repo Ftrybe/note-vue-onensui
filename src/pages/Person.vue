@@ -47,28 +47,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import PersonInfo from './PersonInfo.vue';
+import { Component, Vue } from "vue-property-decorator";
+import PersonInfo from "./person-info.vue";
+import NavigatorModule from "../store/modules/navigator";
+import { getModule } from "vuex-module-decorators";
 
 @Component
-export default class HelloWorld extends Vue {
+export default class Person extends Vue {
+  navigator: NavigatorModule = getModule(NavigatorModule);
+
   private showInfo() {
-    this.$store.commit('navigator/options', {
-      // Sets animations
-      animation: 'slide-ios',
-      // Resets default options
-      callback: () => this.$store.commit('navigator/options', {}),
+    this.navigator.option({
+      animation: 'slide-md',
+      callback: () => this.navigator.option({})
     });
-    this.$store.commit('navigator/push', {
+    this.navigator.push({
       extends: PersonInfo,
-      data() {
-        return {
-          toolbarInfo: {
-            backLabel: '时间轴',
-            title: '个人信息',
-          },
-        };
-      },
+      onsNavigatorProps: {
+        toolbarInfo:{
+           backLabel: '时间轴',
+            title: '个人信息'
+        }
+      }
     });
   }
 }

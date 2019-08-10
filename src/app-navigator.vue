@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import AppSplitter from "./AppSplitter.vue";
+import AppSplitter from "./app-splitter.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "./store/modules/navigator";

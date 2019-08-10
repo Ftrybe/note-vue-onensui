@@ -6,9 +6,8 @@ import Vuex from 'vuex';
 import store from './store';
 import VueOnsen from 'vue-onsenui';
 import VCalendar from 'v-calendar';
-import axios from 'axios';
-import AppNavigator from './AppNavigator.vue';
-import Toolbar from './partials/Toolbar.vue';
+import AppNavigator from './app-navigator.vue';
+import Toolbar from './partials/toolbar.vue';
 
 Vue.config.productionTip = false;
 
@@ -17,7 +16,6 @@ Vue.use(VueOnsen);
 Vue.use(VCalendar, {
     firstDayOfWeek: 2,  // Monday
 });
-Vue.prototype.$axios = axios;
 
 Vue.component('v-toolbar', Toolbar);
 new Vue({

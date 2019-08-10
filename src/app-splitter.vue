@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import AppTabbar from './AppTabbar.vue';
-import MenuPage from './pages/Menu.vue';
+import AppTabbar from './app-tabbar.vue';
+import MenuPage from './pages/menu.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import SplitterModule from './store/modules/splitter';
