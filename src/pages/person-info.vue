@@ -58,7 +58,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-
 @Component
 export default class PersonInfo extends Vue {
     @Prop() toolbarInfo?:{};

@@ -9,7 +9,6 @@
       <v-ons-list-item
         v-for="(item, index) in access"
         :key="item.title"
-        :modifier="md ? 'nodivider' : ''"
         @click="loadView(index)"
       >
         <div class="left">

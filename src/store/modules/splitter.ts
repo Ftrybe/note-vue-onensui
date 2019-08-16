@@ -1,4 +1,5 @@
-import { VuexModule, Module, Mutation , Action} from 'vuex-module-decorators';
+import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
+
 import store from '../index';
 @Module({
     dynamic: true,
@@ -16,5 +17,4 @@ export default class SplitterModule extends VuexModule {
             this.open = !this.open;
           }
     }
-
 }

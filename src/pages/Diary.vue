@@ -1,9 +1,7 @@
 <template>
   <v-ons-page modifier="white">
     <v-ons-list>
-      <time-line></time-line>
-      <time-line></time-line>
-      <time-line></time-line>
+      <time-line v-for="(data,index) of diarys" :key="index" :item="data" ></time-line>
     </v-ons-list>
     <v-ons-fab position="bottom right" :visible="fabVisible" @click="push(DiaryModify,'1')">
       <v-ons-icon icon="md-edit"></v-ons-icon>
@@ -25,6 +23,24 @@ import { Component as VueComponent} from 'vue';
 })
 export default class Diary extends Vue {
   navigator: NavigatorModule = getModule(NavigatorModule);
+
+   diarys =
+    [{
+      "title": "什么东西1",
+      "createTime": new Date()
+    },
+    {
+      "title": "什么东西2",
+      "createTime": new Date()
+    },
+    {
+      "title": "什么东西3",
+      "createTime": new Date()
+    },
+    {
+      "title": "什么东西4",
+      "createTime": new Date()
+    }]
 
   private fabVisible = true;
   private DiaryModify = DiaryModify;

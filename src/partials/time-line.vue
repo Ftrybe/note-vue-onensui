@@ -2,29 +2,39 @@
     <div class="timeline-item">
         <div class="fl">
             <div>
-                <strong class="day">30</strong>
-                <span class="week">周五</span>
+                <strong class="day">{{item.createTime | dataformat("d")}}</strong>
+                <span class="day_week">{{ dayOfWeek }}</span>
             </div>
             <div class="year-mouth">
-                2019.09
+               {{item.createTime | dataformat('yyyy.MM')}}
             </div>
         </div>
         <div class="fr">
             <div class="timeline-item__tail"></div>
             <div class="timeline-item__node"></div>
             <div class="timeline-item__warp">
-                <div class="content">测试一下测试一下测试一下测试一下测试一下二十四字了</div>
-                <div class="time">13:23</div>
+                <div class="title "> {{item.title}} </div>
+                <div class="time"> {{item.createTime | dataformat("hh:mm")}} </div>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import {TimeLine} from '@/core/models/diary/time-line'
+import { DateFilter } from '@/core/filters/data.filter'
+@Component({
+    filters:{
+        dataformat: (date: Date,format: string)=>  new DateFilter().format(date, format)
+    }
+})
+export default class TimeLineComponent extends Vue {
+    @Prop() item!: TimeLine;
 
-@Component
-export default class TimeLine extends Vue {
+    get dayOfWeek(){
+        return '周'+'日一二三四五六'.charAt(this.item.createTime.getDay());
+    }
 }
 </script>
 
@@ -45,7 +55,7 @@ export default class TimeLine extends Vue {
                 width: 56px;
             }
 
-            .week {
+            .day_week {
                 margin-left: 4px;
             }
 
@@ -56,7 +66,7 @@ export default class TimeLine extends Vue {
 
         .fr {
             position: relative;
-            padding-bottom: $sm-font-size;
+            padding: 8px;
 
             .timeline-item__tail {
                 position: absolute;
@@ -84,7 +94,7 @@ export default class TimeLine extends Vue {
                 flex-direction: column;
                 margin-left: 28px;
                 font-size: 12px;
-                background-color: #ffffff;
+                background-color: #fff;
                 height: 100%;
                 border-radius: 6px;
                 margin-right: 8px;
@@ -92,14 +102,15 @@ export default class TimeLine extends Vue {
                     content: '';
                     position: absolute;
                     left: -12px;
-                    top: 16px;
+                    top: 8px;
                     width: 0;
                     height: 0;
                     border-top: 6px solid transparent;
                     border-right: 12px solid #fff;
                     border-bottom: 2px solid transparent;
+                    
                 }
-                .content{
+                .title{
                     padding: 8px;
                     text-align: justify;
                 }

@@ -1,8 +1,8 @@
 import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
 import store from '../index';
 import { Component } from 'vue';
-import { OnsPageOptions } from '@/core/model/ons/page.options';
-import { NavigatorOptions } from '@/core/model/ons';
+import { OnsPageOptions } from '@/core/models/ons/page.options';
+import { NavigatorOptions } from '@/core/models/ons';
 @Module({
     dynamic: true,
     name: 'NavigatorModule',
