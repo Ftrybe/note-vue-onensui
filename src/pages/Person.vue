@@ -1,6 +1,12 @@
 <template>
   <v-ons-page modifier="white">
     <v-ons-list>
+      <v-ons-list-item modifier="nodivider">
+        <div class="right">
+          <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
+        </div>
+      </v-ons-list-item>
+
       <v-ons-list-item class="info" modifier="chevron nodivider" @click="showInfo()">
         <div class="left">
           <img class="list-item__thumbnail" src="bg/love_gril.jpg" />
@@ -10,9 +16,7 @@
           <span class="list-item__subtitle">用户名</span>
         </div>
       </v-ons-list-item>
-    </v-ons-list>
 
-    <v-ons-list>
       <v-ons-list-item modifier="chevron">
         <div class="left">
           <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
@@ -51,12 +55,13 @@ import { Component, Vue } from "vue-property-decorator";
 import PersonInfo from "./person-info.vue";
 import NavigatorModule from "../store/modules/navigator";
 import { getModule } from "vuex-module-decorators";
+import SplitterModule from '@/store/modules/splitter';
 
 @Component
 export default class Person extends Vue {
   navigator: NavigatorModule = getModule(NavigatorModule);
-
-  private showInfo() {
+  splitter: SplitterModule = getModule(SplitterModule);
+  showInfo() {
     this.navigator.option({
       animation: 'slide-md',
       callback: () => this.navigator.option({})

@@ -1,15 +1,13 @@
 <template>
-  <v-ons-page >
-    <v-toolbar  modifier="white-content">
+  <v-ons-page>
+    <v-toolbar modifier="white-content">
       {{ title }}
+      <v-ons-toolbar-button slot="left" modifier="white-content" @click="splitter.toggle()">
+        <v-ons-icon icon="ion-navicon"></v-ons-icon>
+      </v-ons-toolbar-button>
     </v-toolbar>
 
-    <v-ons-tabbar
-      position="auto"
-      swipeable
-      :tabs="tabs"
-      :index.sync="index"
-    ></v-ons-tabbar>
+    <v-ons-tabbar position="auto" swipeable :tabs="tabs" :index.sync="index"></v-ons-tabbar>
   </v-ons-page>
 </template>
 
@@ -18,12 +16,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Home from "./pages/home.vue";
 import Diary from "./pages/diary.vue";
 import Person from "./pages/person.vue";
-import TabbarModule from './store/modules/tabbar';
-import { getModule } from 'vuex-module-decorators';
+import TabbarModule from "./store/modules/tabbar";
+import SplitterModule from "./store/modules/splitter";
+import { getModule } from "vuex-module-decorators";
 @Component
 export default class AppTabbar extends Vue {
-
   private tabbar: TabbarModule = getModule(TabbarModule);
+  private splitter: SplitterModule = getModule(SplitterModule);
   private tabs = [
     {
       label: "主页",
@@ -32,7 +31,7 @@ export default class AppTabbar extends Vue {
     },
     {
       label: "时间轴",
-      icon:  "ion-edit",
+      icon: "ion-edit",
       page: Diary
     },
     {

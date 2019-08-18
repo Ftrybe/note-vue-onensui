@@ -3,14 +3,13 @@
     <v-ons-splitter>
       <v-ons-splitter-side
         swipeable
-        side="right"
+        side="left"
         collapse
-        width="100%"
-        :swipe-target-width="md && 25"
-        :animation="md ? 'overlay' : 'reveal'"
+        width="80%"
+        :animation="'overlay'"
         :open.sync="isOpen"
       >
-        <menu-page></menu-page>
+        <person-page></person-page>
       </v-ons-splitter-side>
 
       <v-ons-splitter-content>
@@ -22,7 +21,7 @@
 
 <script lang="ts">
 import AppTabbar from './app-tabbar.vue';
-import MenuPage from './pages/menu.vue';
+import PersonPage from '@/pages/person.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import SplitterModule from './store/modules/splitter';
@@ -30,14 +29,11 @@ import SplitterModule from './store/modules/splitter';
 @Component({
   components: {
     AppTabbar,
-    MenuPage,
+    PersonPage,
   },
 })
 export default class AppSplitter extends Vue {
 
-  constructor(){
-    super();
-  }
   get isOpen() {
     return getModule(SplitterModule).open;
   }

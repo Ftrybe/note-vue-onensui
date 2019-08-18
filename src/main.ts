@@ -1,6 +1,7 @@
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import 'v-calendar/lib/v-calendar.min.css';
+import './assets/theme/index.scss'
 import Vue from 'vue';
 import Vuex from 'vuex';
 import store from './store';
