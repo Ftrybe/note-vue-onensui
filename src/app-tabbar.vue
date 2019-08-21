@@ -19,6 +19,7 @@ import Person from "./pages/person.vue";
 import TabbarModule from "./store/modules/tabbar";
 import SplitterModule from "./store/modules/splitter";
 import { getModule } from "vuex-module-decorators";
+import Express from './pages/express.vue';
 @Component
 export default class AppTabbar extends Vue {
   private tabbar: TabbarModule = getModule(TabbarModule);
@@ -35,9 +36,9 @@ export default class AppTabbar extends Vue {
       page: Diary
     },
     {
-      label: "我的",
+      label: "表白墙",
       icon: "ion-person",
-      page: Person
+      page: Express
     }
   ];
 

@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import {TimeLine} from '@/core/models/diary/time-line'
-import { DateFilter } from '@/core/filters/data.filter'
+import { DateFilter } from '@/core/filters/date.filter'
 @Component({
     filters:{
         dataformat: (date: Date,format: string)=>  new DateFilter().format(date, format)
@@ -39,8 +39,8 @@ export default class TimeLineComponent extends Vue {
 </script>
 
 <style scoped lang="scss">
-    $base-font-size: 14px;
-    $sm-font-size: 12px;
+    $base-font-size: 0.875rem;
+    $sm-font-size: 0.75rem;
 
     .timeline-item {
         display: flex;

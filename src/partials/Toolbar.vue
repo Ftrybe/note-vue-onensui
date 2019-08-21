@@ -25,7 +25,6 @@ export default class Toolbar extends Vue {
 <style scoped lang="scss">
   .right{
     padding-right: 16px;
-    color: #0076ff;
     font-size: 20px;
   }
   .left{
