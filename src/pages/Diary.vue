@@ -10,11 +10,12 @@
       </v-ons-fab>
 
       <v-ons-speed-dial-item
-        v-for="(icon, name) in addItems"
-        :key="name"
-        @click="$ons.notification.confirm(`Share on ${name}?`).then(value=> value? $ons.notification.alert('success'): null)"
+        v-for="(item, index) of addItems"
+        :key="index"
+        @click="navigator()"
+        :alt="item.name"
       >
-        <v-ons-icon :icon="icon"></v-ons-icon>
+        <v-ons-icon :icon="item.icon"></v-ons-icon>
       </v-ons-speed-dial-item>
     </v-ons-speed-dial>
   </v-ons-page>
@@ -37,24 +38,22 @@ export default class Diary extends Vue {
   navigatorVuex: NavigatorModule = getModule(NavigatorModule);
 
   // 添加按钮
-  spdOpen:boolean = false;
-  items = {
-    diary: {
-      
+  spdOpen: boolean = false;
+  addItems = [
+    {
+      name: "diary",
+      icon: "md-library",
+      page: DiaryModify
     },
-    memorandum: {
-
+    {
+      name: "memorandum",
+      icon: "md-memory"
     },
-    express: {
-
+    {
+      name: "express",
+      icon: "md-favorite"
     }
-  }
-  addItems = {
-    "Twitter": "md-twitter",
-    "Facebook": "md-facebook",
-    "Google+": "md-google-plus"
-  };
-
+  ];
   diarys = [
     {
       title: "什么东西1",
