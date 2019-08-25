@@ -22,14 +22,14 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import {TimeLine} from '@/core/models/diary/time-line'
+import { TimeLine } from '@/core/models/diary/time-line'
 import { DateFilter } from '@/core/filters/date.filter'
 @Component({
     filters:{
         dataformat: (date: Date,format: string)=>  new DateFilter().format(date, format)
     }
 })
-export default class TimeLineComponent extends Vue {
+export default class TimeLineItemComponent extends Vue {
     @Prop() item!: TimeLine;
 
     get dayOfWeek(){

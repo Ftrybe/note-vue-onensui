@@ -7,7 +7,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class Express extends Vue {
+export default class MemorandumEdit extends Vue {
 
 }
 </script>

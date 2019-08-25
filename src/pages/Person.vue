@@ -1,12 +1,11 @@
 <template>
-  <v-ons-page modifier="white">
+  <v-ons-page>
     <v-ons-list>
-      <v-ons-list-item modifier="nodivider">
+      <v-ons-list-item modifier="nodivider" style="background-color:#fafafa">
         <div class="right">
           <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
         </div>
       </v-ons-list-item>
-
       <v-ons-list-item class="info" modifier="chevron nodivider" @click="showInfo()">
         <div class="left">
           <img class="list-item__thumbnail" src="bg/love_gril.jpg" />
@@ -19,24 +18,18 @@
 
       <v-ons-list-item modifier="chevron">
         <div class="left">
-          <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
+          <v-ons-icon icon="md-book" class="list-item__icon"></v-ons-icon>
         </div>
         <div class="center">日记</div>
       </v-ons-list-item>
 
       <v-ons-list-item modifier="chevron">
         <div class="left">
-          <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
+          <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
         </div>
         <div class="center">备忘录</div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron">
-        <div class="left">
-          <v-ons-icon icon="ion-clipboard" class="list-item__icon" style="color:red"></v-ons-icon>
-        </div>
-        <div class="center">表白</div>
-      </v-ons-list-item>
     </v-ons-list>
 
     <v-ons-list>
@@ -55,7 +48,7 @@ import { Component, Vue } from "vue-property-decorator";
 import PersonInfo from "./person-info.vue";
 import NavigatorModule from "../store/modules/navigator";
 import { getModule } from "vuex-module-decorators";
-import SplitterModule from '@/store/modules/splitter';
+import SplitterModule from "@/store/modules/splitter";
 
 @Component
 export default class Person extends Vue {
@@ -63,15 +56,16 @@ export default class Person extends Vue {
   splitter: SplitterModule = getModule(SplitterModule);
   showInfo() {
     this.navigator.option({
-      animation: 'slide-md',
+      animation: "slide-md",
       callback: () => this.navigator.option({})
     });
+
     this.navigator.push({
       extends: PersonInfo,
       onsNavigatorProps: {
-        toolbarInfo:{
-           backLabel: '时间轴',
-            title: '个人信息'
+        toolbarInfo: {
+          backLabel: "时间轴",
+          title: "个人信息"
         }
       }
     });

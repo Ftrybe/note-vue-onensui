@@ -13,13 +13,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Home from "./pages/home.vue";
-import Diary from "./pages/diary.vue";
-import Person from "./pages/person.vue";
+import HomePage from "./pages/home.vue";
 import TabbarModule from "./store/modules/tabbar";
 import SplitterModule from "./store/modules/splitter";
 import { getModule } from "vuex-module-decorators";
-import Express from './pages/express.vue';
+import TimeLinePage from './pages/time-line.vue';
 @Component
 export default class AppTabbar extends Vue {
   private tabbar: TabbarModule = getModule(TabbarModule);
@@ -27,18 +25,13 @@ export default class AppTabbar extends Vue {
   private tabs = [
     {
       label: "主页",
-      icon: "ion-aperture",
-      page: Home
+      icon: "ion-home",
+      page: HomePage
     },
     {
       label: "时间轴",
-      icon: "ion-edit",
-      page: Diary
-    },
-    {
-      label: "表白墙",
-      icon: "ion-person",
-      page: Express
+      icon: "ion-aperture",
+      page: TimeLinePage
     }
   ];
 
