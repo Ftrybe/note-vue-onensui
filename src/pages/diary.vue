@@ -6,7 +6,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
-export default class Diary extends Vue {
+export default class DiaryPage extends Vue {
 
 }
 </script>

@@ -72,7 +72,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class DiaryEdit extends Vue {
+export default class DiaryEditPage extends Vue {
   private name = 'text';
   private date = new Date();
   @Prop() toolbarInfo:any;

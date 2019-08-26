@@ -16,14 +16,14 @@
         </div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron">
+      <v-ons-list-item modifier="chevron nodivider">
         <div class="left">
           <v-ons-icon icon="md-book" class="list-item__icon"></v-ons-icon>
         </div>
         <div class="center">日记</div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron">
+      <v-ons-list-item modifier="chevron nodivider mt-2">
         <div class="left">
           <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
         </div>
@@ -32,7 +32,7 @@
 
     </v-ons-list>
 
-    <v-ons-list>
+    <v-ons-list class="mt-3">
       <v-ons-list-item modifier="chevron">
         <div class="left">
           <v-ons-icon icon="ion-settings" class="list-item__icon"></v-ons-icon>
@@ -51,7 +51,7 @@ import { getModule } from "vuex-module-decorators";
 import SplitterModule from "@/store/modules/splitter";
 
 @Component
-export default class Person extends Vue {
+export default class PersonPage extends Vue {
   navigator: NavigatorModule = getModule(NavigatorModule);
   splitter: SplitterModule = getModule(SplitterModule);
   showInfo() {

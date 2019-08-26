@@ -1,13 +1,11 @@
 <template>
-    <v-ons-page>
-        
-    </v-ons-page>
+
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class MemorandumEditPage extends Vue {
+export default class PersonSetting extends Vue {
 
 }
 </script>
