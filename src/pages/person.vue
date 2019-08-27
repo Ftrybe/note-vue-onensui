@@ -103,7 +103,7 @@ export default class PersonPage extends Vue {
       extends: page,
       onsNavigatorProps: {
         toolbarInfo: {
-          backLabel: "时间轴",
+          backLabel: "我的",
           title: title
         }
       }

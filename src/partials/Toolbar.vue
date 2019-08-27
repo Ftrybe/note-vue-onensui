@@ -2,35 +2,36 @@
   <v-ons-toolbar>
     <div class="left">
       <slot name="left">
-        <v-ons-back-button v-if="backLabel" class="fs-15">
-          {{ backLabel }}
-        </v-ons-back-button>
+        <v-ons-back-button v-if="backLabel" class="fs-15">{{ backLabel }}</v-ons-back-button>
       </slot>
     </div>
-    <div class="center"><slot>{{ title }}</slot></div>
-    <div class="right"><slot name="right"></slot></div>
+    <div class="center">
+      <slot>{{ title }}</slot>
+    </div>
+    <div class="right">
+      <slot name="right"></slot>
+    </div>
   </v-ons-toolbar>
 </template>
 
 <script lang="ts">
-
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Toolbar extends Vue {
   @Prop() private title!: string;
-  @Prop() private backLabel!: string;
+  @Prop() private backLabel?: string;
 }
 </script>
 <style scoped lang="scss">
-  .right{
-    padding-right: 16px;
-    font-size: 20px;
+.right {
+  padding-right: 16px;
+  font-size: 20px;
+}
+.left {
+  font-size: 14px;
+  .back-button__label {
+    font-size: 14px;
   }
-  .left{
-    font-size: 15px;
-    .back-button__label{
-      font-size: 15px;
-    }
-  }
+}
 </style>
