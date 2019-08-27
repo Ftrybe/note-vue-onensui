@@ -2,7 +2,7 @@
   <v-ons-page>
     <v-toolbar v-bind="toolbarInfo"></v-toolbar>
     <v-ons-list>
-      <v-ons-list-item class="person-pic list-item--chevron">
+      <v-ons-list-item class="person-pic" modifier="chevron">
         <div class="center">
           <span class="list-item__title">头像</span>
         </div>
@@ -11,42 +11,42 @@
         </div>
       </v-ons-list-item>
 
-      <v-ons-list-item class="list-item--chevron">
-        <div class="center">
-          <span class="list-item__title">昵称</span>
-        </div>
-        <div class="right">不知道啥</div>
-      </v-ons-list-item>
-
       <v-ons-list-item>
         <div class="center">
           <span class="list-item__title">用户名</span>
         </div>
         <div class="right">sssssnnx</div>
       </v-ons-list-item>
+      
+      <v-ons-list-item modifier="chevron">
+        <div class="center">
+          <span class="list-item__title">昵称</span>
+        </div>
+        <div class="right">不知道啥</div>
+      </v-ons-list-item>
 
-      <v-ons-list-item class="list-item--chevron">
+      <v-ons-list-item modifier="chevron">
         <div class="center">
           <span class="list-item__title">手机号</span>
         </div>
         <div class="right">13400994216</div>
       </v-ons-list-item>
 
-      <v-ons-list-item class="list-item--chevron">
+      <v-ons-list-item modifier="chevron">
         <div class="center">
           <span class="list-item__title">性别</span>
         </div>
         <div class="right">男</div>
       </v-ons-list-item>
 
-      <v-ons-list-item class="list-item--chevron">
+      <v-ons-list-item modifier="chevron">
         <div class="center">
           <span class="list-item__title">心情</span>
         </div>
         <div class="right">真是个愉快的一天阿</div>
       </v-ons-list-item>
 
-      <v-ons-list-item class="list-item--chevron">
+      <v-ons-list-item modifier="chevron">
         <div class="center">
           <span class="list-item__title">生日</span>
         </div>
@@ -57,10 +57,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from "vue-property-decorator";
 @Component
 export default class PersonInfoPage extends Vue {
-    @Prop() toolbarInfo?:{};
+  @Prop() toolbarInfo?: {};
 }
 </script>
 
@@ -78,6 +78,6 @@ export default class PersonInfoPage extends Vue {
 }
 .right {
   margin-right: 1rem;
-  color: #9a9a9a
+  color: #9a9a9a;
 }
 </style>

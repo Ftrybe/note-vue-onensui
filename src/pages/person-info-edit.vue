@@ -1,0 +1,15 @@
+<template>
+    <v-ons-page>
+	</v-ons-page>
+</template>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class PersonInfoEdit extends Vue {
+
+}
+</script>
+<style scoped>
+
+</style>

@@ -6,7 +6,7 @@
           <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
         </div>
       </v-ons-list-item>
-      <v-ons-list-item class="info" modifier="chevron nodivider" @click="showInfo()">
+      <v-ons-list-item class="info" modifier="chevron nodivider" @click="forward(infoPage,'个人信息')">
         <div class="left">
           <img class="list-item__thumbnail" src="bg/love_gril.jpg" />
         </div>
@@ -16,24 +16,54 @@
         </div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron nodivider">
+      <v-ons-list-item modifier="nodivider" expandable>
         <div class="left">
           <v-ons-icon icon="md-book" class="list-item__icon"></v-ons-icon>
         </div>
         <div class="center">日记</div>
+
+        <v-ons-list class="expandable-content p-0 bg-none">
+          <v-ons-list-item modifier="chevron nodivider">
+            <div class="left">
+              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+            </div>
+            <div class="center">test</div>
+          </v-ons-list-item>
+
+          <v-ons-list-item modifier="chevron nodivider">
+            <div class="left">
+              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+            </div>
+            <div class="center">test</div>
+          </v-ons-list-item>
+        </v-ons-list>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron nodivider mt-2">
+      <v-ons-list-item modifier="nodivider" expandable>
         <div class="left">
           <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
         </div>
         <div class="center">备忘录</div>
-      </v-ons-list-item>
+        <v-ons-list class="expandable-content p-0 bg-none">
+          <v-ons-list-item modifier="chevron nodivider">
+            <div class="left">
+              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+            </div>
+            <div class="center">test</div>
+          </v-ons-list-item>
 
+          <v-ons-list-item modifier="chevron nodivider">
+            <div class="left">
+              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+            </div>
+            <div class="center">test</div>
+          </v-ons-list-item>
+        </v-ons-list>
+      </v-ons-list-item>
     </v-ons-list>
 
     <v-ons-list class="mt-3">
-      <v-ons-list-item modifier="chevron">
+      <v-ons-list-item modifier="chevron" @click="forward(settingPage,'设置')">
         <div class="left">
           <v-ons-icon icon="ion-settings" class="list-item__icon"></v-ons-icon>
         </div>
@@ -45,27 +75,36 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import PersonInfo from "./person-info.vue";
+import PersonInfoPage from "./person-info.vue";
 import NavigatorModule from "../store/modules/navigator";
 import { getModule } from "vuex-module-decorators";
 import SplitterModule from "@/store/modules/splitter";
+import { Component as VueComponent } from "vue";
+import PersonSettingPage from './person-setting.vue';
 
 @Component
 export default class PersonPage extends Vue {
+  // 页面导航
   navigator: NavigatorModule = getModule(NavigatorModule);
   splitter: SplitterModule = getModule(SplitterModule);
-  showInfo() {
+  
+  // 页面
+  settingPage = PersonSettingPage;
+  infoPage = PersonInfoPage;
+  isExpress = false;
+
+  forward(page: VueComponent, title: string) {
     this.navigator.option({
       animation: "slide-md",
       callback: () => this.navigator.option({})
     });
 
     this.navigator.push({
-      extends: PersonInfo,
+      extends: page,
       onsNavigatorProps: {
         toolbarInfo: {
           backLabel: "时间轴",
-          title: "个人信息"
+          title: title
         }
       }
     });

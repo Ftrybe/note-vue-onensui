@@ -1,5 +1,5 @@
 import { NavigatorOptions } from './navigator.options';
-import { Prop, Component } from 'vue/types/options';
+import { Component } from 'vue';
 
 export interface OnsPageOptions{
     extends: Component;
