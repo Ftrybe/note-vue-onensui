@@ -80,27 +80,30 @@ import NavigatorModule from "../store/modules/navigator";
 import { getModule } from "vuex-module-decorators";
 import SplitterModule from "@/store/modules/splitter";
 import { Component as VueComponent } from "vue";
-import PersonSettingPage from './person-setting.vue';
+import PersonSettingPage from "./person-setting.vue";
 
 @Component
 export default class PersonPage extends Vue {
   // 页面导航
   navigator: NavigatorModule = getModule(NavigatorModule);
   splitter: SplitterModule = getModule(SplitterModule);
-  
+
   // 页面
   settingPage = PersonSettingPage;
   infoPage = PersonInfoPage;
   isExpress = false;
 
-  forward(page: VueComponent, title: string) {
+  forward(page: VueComponent, title: string, animation:string = "slide") {
     this.navigator.option({
-      animation: "slide-md",
+      animation: animation,
       callback: () => this.navigator.option({})
     });
 
     this.navigator.push({
       extends: page,
+      onsNavigatorOptions: {
+        animation: animation
+      },
       onsNavigatorProps: {
         toolbarInfo: {
           backLabel: "我的",

@@ -45,12 +45,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 @Component
 export default class PersonSetting extends Vue {
   @Prop() toolbarInfo?: {};
-
-  items = [
-    {
-      title: "退出登录"
-    }
-  ];
+  
 }
 </script>
 <style scoped>
