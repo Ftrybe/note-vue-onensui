@@ -1,5 +1,6 @@
 <template>
   <v-ons-page modifier="white">
+        <v-toolbar v-bind="toolbarInfo"></v-toolbar>
   </v-ons-page>
 </template>
 

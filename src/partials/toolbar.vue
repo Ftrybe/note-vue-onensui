@@ -3,6 +3,7 @@
     <div class="left">
       <slot name="left">
         <v-ons-back-button v-if="backLabel" class="fs-15">{{ backLabel }}</v-ons-back-button>
+        <v-ons-back-button v-if="!backLabel&&backButton" class="fs-15"></v-ons-back-button>
       </slot>
     </div>
     <div class="center">
@@ -18,9 +19,10 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Toolbar extends Vue {
+export default class ToolbarComponent extends Vue {
   @Prop() private title!: string;
   @Prop() private backLabel?: string;
+  @Prop() private backButton?:boolean;
 }
 </script>
 <style scoped lang="scss">

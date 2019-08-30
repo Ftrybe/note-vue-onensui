@@ -23,18 +23,16 @@
         <div class="center">日记</div>
 
         <v-ons-list class="expandable-content p-0 bg-none">
-          <v-ons-list-item modifier="chevron nodivider">
+          <v-ons-list-item
+            modifier="chevron nodivider"
+            v-for="(tag,index) of diaryTags"
+            :key="index"
+            @click="forward(diaryListPage,tag.name)"
+          >
             <div class="left">
               <v-ons-icon icon="ion-pricetag"></v-ons-icon>
             </div>
-            <div class="center">test</div>
-          </v-ons-list-item>
-
-          <v-ons-list-item modifier="chevron nodivider">
-            <div class="left">
-              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
-            </div>
-            <div class="center">test</div>
+            <div class="center">{{tag.name}}</div>
           </v-ons-list-item>
         </v-ons-list>
       </v-ons-list-item>
@@ -49,14 +47,21 @@
             <div class="left">
               <v-ons-icon icon="ion-pricetag"></v-ons-icon>
             </div>
-            <div class="center">test</div>
+            <div class="center">全部</div>
           </v-ons-list-item>
 
-          <v-ons-list-item modifier="chevron nodivider">
+          <v-ons-list-item modifier="chevron nodivider" v-for="(tag,index) of memorandumTags" :key="index"> 
             <div class="left">
               <v-ons-icon icon="ion-pricetag"></v-ons-icon>
             </div>
-            <div class="center">test</div>
+            <div class="center">{{tag.name}}</div>
+          </v-ons-list-item>
+
+          <v-ons-list-item modifier="chevron nodivider" tappable @click="addTag()">
+            <div class="left">
+              <v-ons-icon icon="ion-pricetags"></v-ons-icon>
+            </div>
+            <div class="center">添加</div>
           </v-ons-list-item>
         </v-ons-list>
       </v-ons-list-item>
@@ -81,6 +86,8 @@ import { getModule } from "vuex-module-decorators";
 import SplitterModule from "@/store/modules/splitter";
 import { Component as VueComponent } from "vue";
 import PersonSettingPage from "./person-setting.vue";
+import DiaryListPage from "./diary-list.vue";
+import MemorandumListPage from "./memorandum-list.vue";
 
 @Component
 export default class PersonPage extends Vue {
@@ -91,9 +98,41 @@ export default class PersonPage extends Vue {
   // 页面
   settingPage = PersonSettingPage;
   infoPage = PersonInfoPage;
+  diaryListPage = DiaryListPage;
+  memorandumListPage = MemorandumListPage;
   isExpress = false;
 
-  forward(page: VueComponent, title: string, animation:string = "slide") {
+  diaryTags = [
+    {
+      name: "全部",
+    },
+    {
+      name: "故事",
+    },
+    {
+      name: "心情",
+    },
+    {
+      name: "随笔",
+    },
+    {
+      name: "笑话",
+    },
+    {
+      name: "感情",
+    }
+  ];
+
+  memorandumTags = [
+    {
+      name: "全部",
+    },
+    {
+      name: "测试"
+    }
+  ];
+
+  forward(page: VueComponent, title: string, animation: string = "slide") {
     this.navigator.option({
       animation: animation,
       callback: () => this.navigator.option({})
@@ -106,11 +145,23 @@ export default class PersonPage extends Vue {
       },
       onsNavigatorProps: {
         toolbarInfo: {
-          backLabel: "我的",
+          backButton: true,
           title: title
         }
       }
     });
+  }
+  addTag() {
+    this.$ons.notification
+      .prompt("请输入标签名", {
+        title: "",
+        buttonLabels:["取消","添加"]
+      })
+      .then(value => {
+        if (value) {
+          console.log(value);
+        }
+      });
   }
 }
 </script>
