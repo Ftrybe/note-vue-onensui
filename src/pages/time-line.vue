@@ -12,7 +12,7 @@
       <v-ons-speed-dial-item
         v-for="(item, index) of addItems"
         :key="index"
-        @click="navigator(item)"
+        @click="forward(item)"
         :alt="item.name"
       >
         <v-ons-icon :icon="item.icon"></v-ons-icon>
@@ -69,7 +69,7 @@ navigatorVuex: NavigatorModule = getModule(NavigatorModule);
     }
   ];
 
-  private navigator(item: any) {
+  private forward(item: any) {
     this.navigatorVuex.push({
       extends: item.page,
       onsNavigatorProps: {

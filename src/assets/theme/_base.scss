@@ -4,6 +4,14 @@
 .mt-3{
     margin-top: 0.5rem;
 }
+.mr-auto{
+    margin-right: auto;
+}
+.ml-auto{
+    margin-left: auto;
+}
+
+
 .p-0{
     padding: 0;
 }
@@ -17,6 +25,23 @@
     padding-top: 0.25rem;
 }
 
+
+.w-100{
+    width: 100%;
+}
+
 .bg-none{
     background: none;
+}
+
+
+
+.d-flex{
+    display: flex;
+}
+.flex-row-reverse{
+    flex-direction: row-reverse;
+}
+.text-algin-right{
+    text-align: right;
 }

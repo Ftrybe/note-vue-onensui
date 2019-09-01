@@ -89,7 +89,6 @@ import PersonSettingPage from "./person-setting.vue";
 import DiaryListPage from "./diary-list.vue";
 import MemorandumListPage from "./memorandum-list.vue";
 
-@Component
 export default class PersonPage extends Vue {
   // 页面导航
   navigator: NavigatorModule = getModule(NavigatorModule);
@@ -162,6 +161,10 @@ export default class PersonPage extends Vue {
           console.log(value);
         }
       });
+  }
+  longPress(){
+    alert("success");
+    console.log("成功");
   }
 }
 </script>

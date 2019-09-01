@@ -17,7 +17,6 @@ Vue.use(VueOnsen);
 Vue.use(VCalendar, {
     firstDayOfWeek: 2,  // Monday
 });
-
 Vue.component('v-toolbar', Toolbar);
 new Vue({
     store,
