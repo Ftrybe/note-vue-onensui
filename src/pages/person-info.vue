@@ -25,7 +25,7 @@
         <div class="right">不知道啥</div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron">
+      <v-ons-list-item modifier="chevron" @click="forward('手机号','13400994216')">
         <div class="center">
           <span class="list-item__title">手机号</span>
         </div>
@@ -39,7 +39,7 @@
         <div class="right">男</div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron">
+      <v-ons-list-item modifier="chevron" @click="forward('心情','真是个愉快的一天阿')">
         <div class="center">
           <span class="list-item__title">心情</span>
         </div>
@@ -51,7 +51,7 @@
           <span class="list-item__title">生日</span>
         </div>
         <div class="right">
-          <div @click="openPicker()">{{date |dataformat("yyyy-MM-d")}}</div>
+          <div @click="switchPicker()">{{date |dataformat("yyyy-MM-d")}}</div>
           <date-picker  @save="savePicker"></date-picker>
         </div>
       </v-ons-list-item>
@@ -68,13 +68,16 @@ import TextSingleEditComponent from "../partials/text-single-edit.vue";
 import { DateFilter } from "@/core/filters/date.filter";
 import DatePickerComponent from "../partials/date-picker.vue";
 import ActionSheetModule from '@/store/modules/action-sheet';
+import ScrollSelectComponent from "../partials/scroll-select.vue";
+
 @Component({
   filters: {
     dataformat: (date: Date, format: string) =>
       new DateFilter().format(date, format)
   },
   components: {
-    DatePicker: DatePickerComponent
+    DatePicker: DatePickerComponent,
+     "v-scroll-select": ScrollSelectComponent
   }
 })
 export default class PersonInfoPage extends Vue {
@@ -85,8 +88,8 @@ export default class PersonInfoPage extends Vue {
   date: Date = new Date();
 
   isOpenPicker: boolean = false;
-  async openPicker() {
-    getModule(ActionSheetModule).switch();
+  async switchPicker() {
+    getModule(ActionSheetModule).dp_switch();
     // this.isOpenPicker = !this.isOpenPicker;
   }
 
@@ -107,7 +110,7 @@ export default class PersonInfoPage extends Vue {
   }
 
    savePicker(date: Date) {
-     getModule(ActionSheetModule).switch();
+    this.switchPicker();
     this.date = date;
   }
 }

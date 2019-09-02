@@ -21,11 +21,11 @@ export default class DatePickerComponent extends Vue {
   actionSheetModule:ActionSheetModule = getModule(ActionSheetModule);
 
   get isVisible(){
-    return this.actionSheetModule.visible;
+    return this.actionSheetModule.dp_visible;
   }
 
   set isVisible(value){
-    this.actionSheetModule.switch();
+    this.actionSheetModule.dp_switch();
   }
   date: Date = new Date();
 

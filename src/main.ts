@@ -9,7 +9,7 @@ import VueOnsen from 'vue-onsenui';
 import VCalendar from 'v-calendar';
 import AppNavigator from './app-navigator.vue';
 import Toolbar from './partials/toolbar.vue';
-
+import VueTouch from 'vue-touch';
 Vue.config.productionTip = false;
 
 Vue.use(Vuex);
@@ -17,6 +17,7 @@ Vue.use(VueOnsen);
 Vue.use(VCalendar, {
     firstDayOfWeek: 2,  // Monday
 });
+Vue.use(VueTouch,{name: 'v-touch'});
 Vue.component('v-toolbar', Toolbar);
 new Vue({
     store,

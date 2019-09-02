@@ -32,7 +32,10 @@
             <div class="left">
               <v-ons-icon icon="ion-pricetag"></v-ons-icon>
             </div>
-            <div class="center">{{tag.name}}</div>
+            <div class="center">
+              <v-touch @press="longPress" :options="{time:1000}">{{tag.name}}</v-touch>
+            </div>
+            <!-- <div class="center" >{{tag.name}}</div> -->
           </v-ons-list-item>
         </v-ons-list>
       </v-ons-list-item>
@@ -50,11 +53,17 @@
             <div class="center">全部</div>
           </v-ons-list-item>
 
-          <v-ons-list-item modifier="chevron nodivider" v-for="(tag,index) of memorandumTags" :key="index"> 
+          <v-ons-list-item
+            modifier="chevron nodivider"
+            v-for="(tag,index) of memorandumTags"
+            :key="index"
+          >
             <div class="left">
               <v-ons-icon icon="ion-pricetag"></v-ons-icon>
             </div>
-            <div class="center">{{tag.name}}</div>
+            <div class="center">
+                <v-touch @press="longPress" :options="{time:1000}">{{tag.name}}</v-touch>
+            </div>
           </v-ons-list-item>
 
           <v-ons-list-item modifier="chevron nodivider" tappable @click="addTag()">
@@ -103,28 +112,28 @@ export default class PersonPage extends Vue {
 
   diaryTags = [
     {
-      name: "全部",
+      name: "全部"
     },
     {
-      name: "故事",
+      name: "故事"
     },
     {
-      name: "心情",
+      name: "心情"
     },
     {
-      name: "随笔",
+      name: "随笔"
     },
     {
-      name: "笑话",
+      name: "笑话"
     },
     {
-      name: "感情",
+      name: "感情"
     }
   ];
 
   memorandumTags = [
     {
-      name: "全部",
+      name: "全部"
     },
     {
       name: "测试"
@@ -154,7 +163,7 @@ export default class PersonPage extends Vue {
     this.$ons.notification
       .prompt("请输入标签名", {
         title: "",
-        buttonLabels:["取消","添加"]
+        buttonLabels: ["取消", "添加"]
       })
       .then(value => {
         if (value) {
@@ -162,7 +171,8 @@ export default class PersonPage extends Vue {
         }
       });
   }
-  longPress(){
+
+  longPress() {
     alert("success");
     console.log("成功");
   }

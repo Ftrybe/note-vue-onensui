@@ -6,10 +6,16 @@ import store from '../index';
     store
 })
 export default class ActionSheetModule extends VuexModule {
-   visible:boolean = false;
+   dp_visible:boolean = false;
+   ss_visible:boolean = false;
 
    @Mutation
-   switch(){
-       this.visible = !this.visible;
+   dp_switch(){
+       this.dp_visible = !this.dp_visible;
+   }
+   
+   @Mutation
+   ss_switch(){
+       this.ss_visible = !this.ss_visible;
    }
 }
