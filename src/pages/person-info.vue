@@ -36,7 +36,10 @@
         <div class="center">
           <span class="list-item__title">性别</span>
         </div>
-        <div class="right">男</div>
+        <div class="right" @click="switchGender">男</div>
+        <v-ons-action-sheet :visible.sync="isOpenGender">
+          <v-scroll-select :listData="genderList" v-model="gender"></v-scroll-select>
+        </v-ons-action-sheet>
       </v-ons-list-item>
 
       <v-ons-list-item modifier="chevron" @click="forward('心情','真是个愉快的一天阿')">
@@ -52,7 +55,15 @@
         </div>
         <div class="right">
           <div @click="switchPicker()">{{date |dataformat("yyyy-MM-d")}}</div>
-          <date-picker  @save="savePicker"></date-picker>
+          <v-ons-action-sheet :visible.sync="isOpenPicker">
+            <v-date-picker
+              v-model="date"
+              :popover="{visibility:'click',placement:'bottom'}"
+              class="w-100"
+              is-inline
+            ></v-date-picker>
+             <v-ons-action-sheet-button @click="savePicker(date)">保存</v-ons-action-sheet-button>
+          </v-ons-action-sheet>
         </div>
       </v-ons-list-item>
     </v-ons-list>
@@ -67,7 +78,7 @@ import { getModule } from "vuex-module-decorators";
 import TextSingleEditComponent from "../partials/text-single-edit.vue";
 import { DateFilter } from "@/core/filters/date.filter";
 import DatePickerComponent from "../partials/date-picker.vue";
-import ActionSheetModule from '@/store/modules/action-sheet';
+import ActionSheetModule from "@/store/modules/action-sheet";
 import ScrollSelectComponent from "../partials/scroll-select.vue";
 
 @Component({
@@ -76,8 +87,8 @@ import ScrollSelectComponent from "../partials/scroll-select.vue";
       new DateFilter().format(date, format)
   },
   components: {
-    DatePicker: DatePickerComponent,
-     "v-scroll-select": ScrollSelectComponent
+    // "v-date-picker": DatePickerComponent,
+    "v-scroll-select": ScrollSelectComponent
   }
 })
 export default class PersonInfoPage extends Vue {
@@ -87,13 +98,19 @@ export default class PersonInfoPage extends Vue {
 
   date: Date = new Date();
 
-  isOpenPicker: boolean = false;
-  async switchPicker() {
-    getModule(ActionSheetModule).dp_switch();
-    // this.isOpenPicker = !this.isOpenPicker;
-  }
+  gender: string = "男";
 
-  forward(title: string,value:string) {
+  genderList = new Array<string>("男", "女");
+  isOpenPicker: boolean = false;
+  isOpenGender:boolean = false;
+  switchPicker() {
+    //getModule(ActionSheetModule).dp_switch();
+     this.isOpenPicker = !this.isOpenPicker;
+  }
+  switchGender() {
+    this.isOpenGender = !this.isOpenGender;
+  }
+  forward(title: string, value: string) {
     this.navigatorVuex.push({
       extends: TextSingleEditComponent,
       onsNavigatorOptions: {
@@ -109,9 +126,8 @@ export default class PersonInfoPage extends Vue {
     });
   }
 
-   savePicker(date: Date) {
+  savePicker(date: Date) {
     this.switchPicker();
-    this.date = date;
   }
 }
 </script>
