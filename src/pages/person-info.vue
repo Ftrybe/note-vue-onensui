@@ -37,7 +37,7 @@
           <span class="list-item__title">性别</span>
         </div>
         <div class="right" @click="switchGender">男</div>
-        <v-ons-action-sheet :visible.sync="isOpenGender">
+        <v-ons-action-sheet :visible.sync="isOpenGender" cancelable>
           <v-scroll-select :listData="genderList" v-model="gender"></v-scroll-select>
         </v-ons-action-sheet>
       </v-ons-list-item>
@@ -55,7 +55,7 @@
         </div>
         <div class="right">
           <div @click="switchPicker()">{{date |dataformat("yyyy-MM-d")}}</div>
-          <v-ons-action-sheet :visible.sync="isOpenPicker">
+          <v-ons-action-sheet :visible.sync="isOpenPicker" @posthide="test" cancelable>
             <v-date-picker
               v-model="date"
               :popover="{visibility:'click',placement:'bottom'}"
@@ -98,11 +98,12 @@ export default class PersonInfoPage extends Vue {
 
   date: Date = new Date();
 
-  gender: string = "男";
+  gender: string = "女";
 
   genderList = new Array<string>("男", "女");
   isOpenPicker: boolean = false;
   isOpenGender:boolean = false;
+
   switchPicker() {
     //getModule(ActionSheetModule).dp_switch();
      this.isOpenPicker = !this.isOpenPicker;
@@ -128,6 +129,10 @@ export default class PersonInfoPage extends Vue {
 
   savePicker(date: Date) {
     this.switchPicker();
+  }
+  
+  test(event:Object){
+    console.log(event);
   }
 }
 </script>

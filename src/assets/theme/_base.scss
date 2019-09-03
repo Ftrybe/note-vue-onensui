@@ -7,6 +7,9 @@
 .mr-auto{
     margin-right: auto;
 }
+.ml-1{
+    margin-left: 0.25rem;
+}
 .ml-auto{
     margin-left: auto;
 }
@@ -24,8 +27,16 @@
 .pt-1{
     padding-top: 0.25rem;
 }
+.pt-2{
+    padding-top: 0.5rem;
+}
+.pl-1{
+    padding-left: 0.25rem;
+}
 
-
+.w-0{
+    width: 0;
+}
 .w-100{
     width: 100%;
 }
@@ -44,4 +55,8 @@
 }
 .text-algin-right{
     text-align: right;
+}
+
+.vertical-middle{
+    vertical-align: middle;
 }

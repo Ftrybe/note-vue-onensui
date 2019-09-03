@@ -40,12 +40,12 @@ navigatorVuex: NavigatorModule = getModule(NavigatorModule);
   spdOpen: boolean = false;
   addItems = [
     {
-      name: "diary",
+      name: "编写日记",
       icon: "md-book",
       page: DiaryEditPage
     },
     {
-      name: "memorandum",
+      name: "编写备忘录",
       icon: "md-bookmark",
       page: MemorandumPage
     }

@@ -2,7 +2,7 @@
   <v-ons-page modifier="white">
     <v-toolbar v-bind="toolbarInfo">
       <div slot="right">
-        <v-ons-icon icon="md-check" color="#0076ff" @click="save()"></v-ons-icon>
+        <v-ons-icon icon="md-save" style="color:#c8e0fb" @click="save()"></v-ons-icon>
       </div>
     </v-toolbar>
 
@@ -36,11 +36,7 @@
         </div>
       </v-ons-list-item>
 
-      <v-ons-list-item
-        tappable
-        modifier="longdivider"
-        @click="$ons.openActionSheet({ buttons: ['所有人可见', '仅自己可见', '指定用户可见', '取消'], destructive: 2, cancelable: true })"
-      >
+      <v-ons-list-item tappable modifier="longdivider" @click="actionSheetVisible = true">
         <div class="center">所有人可见</div>
       </v-ons-list-item>
       <v-ons-list-header>心情</v-ons-list-header>
@@ -52,43 +48,38 @@
     <v-ons-action-sheet
       :visible.sync="actionSheetVisible"
       cancelable
-      title="Description"
-      posthide="test(event)"
+      title="日记可见性"
+      @posthide="test"
     >
-      <v-ons-action-sheet-button icon="md-square-o">Label 1</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o" modifier="destructive">Label 2</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">Label 3</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">Label 1</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o" modifier="destructive">Label 2</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">Label 3</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">Label 1</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o" modifier="destructive">Label 2</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">Label 3</v-ons-action-sheet-button>
+      <v-ons-action-sheet-button icon="md-square-o">所有人可见</v-ons-action-sheet-button>
+      <v-ons-action-sheet-button icon="md-square-o">仅自己可见</v-ons-action-sheet-button>
+      <v-ons-action-sheet-button icon="md-square-o" modifier="destructive">取消</v-ons-action-sheet-button>
+      <v-ons-action-sheet-button icon="md-square-o">确定</v-ons-action-sheet-button>
     </v-ons-action-sheet>
   </v-ons-page>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class DiaryEditPage extends Vue {
-  private name = 'text';
+  private name = "text";
   private date = new Date();
-  @Prop() toolbarInfo:any;
+  @Prop() toolbarInfo: any;
 
   private actionSheetVisible = false;
   private items = [
-    { key: 1, text: '所有人可见', value: 'all' },
-    { key: 2, text: '指定人可见', value: 'only' },
-    { key: 3, text: '仅自己可见', value: 'none' },
+    { key: 1, text: "所有人可见", value: "all" },
+    { key: 2, text: "指定人可见", value: "only" },
+    { key: 3, text: "仅自己可见", value: "none" }
   ];
-  private selectedItem = 'all';
+  private selectedItem = "all";
 
   private save() {
     alert(1);
   }
-  private test(event: any) {
+  private test(event: Object) {
     // tslint:disable-next-line:no-console
     console.log(event);
   }

@@ -1,7 +1,7 @@
 <template>
-  <div class="pd-select-item">
-    <div class="pd-select-line"></div>
-    <div class="pd-select-list">
+  <div class="pd-select-item" :class="isShort? 'pd-short-height':''">
+    <div class="pd-select-line" :class="isShort? 'pd-short-top':''"></div>
+    <div class="pd-select-list" :class="isShort? 'pd-short-top':''">
       <ul class="pd-select-ul" ref="list">
         <li
           class="pd-select-list-item"
@@ -11,7 +11,7 @@
         >{{el.value}}</li>
       </ul>
     </div>
-    <ul class="pd-select-wheel" ref="wheel">
+    <ul class="pd-select-wheel" ref="wheel" :class="isShort? 'pd-short-top':''">
       <li
         class="pd-select-wheel-item"
         :class="{'hidden':setHidden(el.index)}"
@@ -31,13 +31,15 @@ export default class ScrollSelectComponent extends Vue {
   spin = { start: -9, end: 9, branch: 9 };
   finger = { startY: 0, lastY: 0, startTime: 0, lastTime: 0, transformY: 0 };
 
-  @Prop({default:[]})
+  @Prop({ default: [] })
   listData!: Array<string>;
-  @Prop({default:"line"})
+  @Prop({ default: "line" })
   type!: string;
   @Prop()
-  value!:string;
+  value!: string;
 
+  @Prop({ default: true })
+  isShort?: boolean;
   get renderData() {
     let temp = [];
     for (let k = this.spin.start; k <= this.spin.end; k++) {
@@ -255,6 +257,7 @@ $color-text-second: #a8a8a8;
         margin: 0;
       }
     }
+
     &-ul {
       position: relative;
     }
@@ -330,6 +333,14 @@ $color-text-second: #a8a8a8;
         width: 100%;
         color: $color-text-second;
       }
+    }
+  }
+  &-short{
+    &-height{
+      height: 140px;
+    }
+    &-top{
+      top: 50px;
     }
   }
 }

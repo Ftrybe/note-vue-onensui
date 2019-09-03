@@ -8,7 +8,7 @@
       <div class="inp">
         <v-ons-input float v-model="value"></v-ons-input>
       </div>
-    <v-ons-list-header style="color:rab(160,160,160)">请在此处输入你的昵称</v-ons-list-header>
+    <v-ons-list-header style="color:rab(160,160,160);background:none">请在此处输入你的昵称</v-ons-list-header>
       
   </v-ons-page>
 </template>
