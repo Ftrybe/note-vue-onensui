@@ -132,9 +132,5 @@ declare module 'vue-onsenui' {
 
        load(options: { page: any, parent: Element, params?: Object }, done: Function): void;
    }
-    module "vue/types/vue" {
-        interface Vue {
-          $ons: Onsenui;
-        }
-    }
+
 }

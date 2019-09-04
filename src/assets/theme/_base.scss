@@ -40,6 +40,9 @@
 .w-100{
     width: 100%;
 }
+.h-100{
+    height: 100%;
+}
 
 .bg-none{
     background: none;
@@ -47,12 +50,21 @@
 
 
 
-.d-flex{
+.d-flex,
+.flex-column,
+.flex-row-reverse{
     display: flex;
 }
 .flex-row-reverse{
     flex-direction: row-reverse;
 }
+.flex-column{
+    flex-direction: column;
+}
+.flex-grow{
+    flex-grow: 1;
+}
+
 .text-algin-right{
     text-align: right;
 }

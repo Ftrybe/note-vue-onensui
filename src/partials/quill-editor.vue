@@ -22,4 +22,13 @@ export default class QuillEditorComponent extends Vue {
 }
 </script>
 <style scoped lang='scss'>
+ .quillWrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100%;
+  background: white;
+  .ql-editor.ql-blank {
+    flex-grow: 1;
+  }
+}
 </style>
