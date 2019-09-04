@@ -13,16 +13,21 @@
             </div>
         </div>
         <div class="time">
-
         </div>
     </div>
-    
+    <v-quill-editor>
+      
+    </v-quill-editor>
   </v-ons-page>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-
-@Component
+import QuillEditorComponent from '@/partials/quill-editor.vue';
+@Component({
+  components:{
+    'v-quill-editor': QuillEditorComponent
+  }
+})
 export default class MemorandumEditPage extends Vue {
   @Prop() toolbarInfo!: {};
 }
