@@ -1,5 +1,5 @@
 <template>
-  <v-quill-editor :value="value" @input="changeContent(value)" :editorToolbar="customToolbar"></v-quill-editor>
+  <v-quill-editor :value="value" @input="changeContent" :editorToolbar="customToolbar"></v-quill-editor>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
@@ -22,13 +22,21 @@ export default class QuillEditorComponent extends Vue {
 }
 </script>
 <style scoped lang='scss'>
- .quillWrapper {
+.quillWrapper {
   display: flex;
   flex-direction: column-reverse;
-  height: 100%;
   background: white;
+  flex-grow: 1;
   .ql-editor.ql-blank {
+    display: flex;
     flex-grow: 1;
   }
+  .ql-container{
+    flex-grow: 1;
+  }
+
 }
+::v-deep * {
+    -webkit-user-select: text;
+  }
 </style>

@@ -15,7 +15,7 @@
         </div>
         <div class="time"></div>
       </div>
-      <div class="flex-grow">
+      <div class="d-flex flex-grow">
         <v-quill-editor></v-quill-editor>
       </div>
     </div>
