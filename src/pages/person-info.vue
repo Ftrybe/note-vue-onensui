@@ -87,7 +87,6 @@ import ScrollSelectComponent from "../partials/scroll-select.vue";
       new DateFilter().format(date, format)
   },
   components: {
-    // "v-date-picker": DatePickerComponent,
     "v-scroll-select": ScrollSelectComponent
   }
 })

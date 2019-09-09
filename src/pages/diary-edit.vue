@@ -28,20 +28,8 @@
         <textarea class="textarea textarea--transparent w-100" rows="6" placeholder="在此输入内容 "></textarea>
       </v-ons-list-item>
       <v-ons-list-header>可见性</v-ons-list-header>
-      <v-ons-list-item>
-        <div class="center">
-          <v-ons-select style="width: 100%" class="list-item__input" v-model="selectedItem">
-            <option v-for="item in items" :value="item.value" :key="item.key">{{ item.text }}</option>
-          </v-ons-select>
-        </div>
-      </v-ons-list-item>
-
       <v-ons-list-item tappable modifier="longdivider" @click="actionSheetVisible = true">
         <div class="center">所有人可见</div>
-      </v-ons-list-item>
-      <v-ons-list-header>心情</v-ons-list-header>
-      <v-ons-list-item>
-        <v-ons-button @click="actionSheetVisible = true">Static action sheet</v-ons-button>
       </v-ons-list-item>
     </v-ons-list>
 
@@ -53,8 +41,7 @@
     >
       <v-ons-action-sheet-button icon="md-square-o">所有人可见</v-ons-action-sheet-button>
       <v-ons-action-sheet-button icon="md-square-o">仅自己可见</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o" modifier="destructive">取消</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">确定</v-ons-action-sheet-button>
+      <v-ons-action-sheet-button icon="md-square-o">取消</v-ons-action-sheet-button>
     </v-ons-action-sheet>
   </v-ons-page>
 </template>

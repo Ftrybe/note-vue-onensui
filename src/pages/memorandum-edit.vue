@@ -6,14 +6,21 @@
       </div>
     </v-toolbar>
     <div class="flex-column h-100">
-      <div class="mmdm-header">
+      <div class="mmdm-header d-flex">
         <div class="select-box">
-          <div class="select-title">一堆选项</div>
-          <div class="select-list">
-            <div class="select-list-item"></div>
-          </div>
+          <!-- <v-ons-select  v-model="selectedItem">
+            <option class="opt" v-for="(item,index) in tags" :value="item.value" :key="index">{{ item.text }}</option>
+          </v-ons-select> -->
+          <v-dropdown-select v-model="selectedItem" :list="tags"></v-dropdown-select>
         </div>
-        <div class="time"></div>
+        <div class="ml-auto time">
+          <v-date-picker
+            v-model="date"
+            :popover="{ placement: 'align-right', visibility: 'click' }"
+          >
+            <div>{{date |dataformat("yyyy-MM-d")}}</div>
+          </v-date-picker>
+        </div>
       </div>
       <div class="d-flex flex-grow">
         <v-quill-editor></v-quill-editor>
@@ -24,15 +31,49 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import QuillEditorComponent from "@/partials/quill-editor.vue";
+import { DateFilter } from "@/core/filters/date.filter";
+import DropdownSelectComponent from '../partials/dropdown-select.vue';
 @Component({
+  filters: {
+    dataformat: (date: Date, format: string) =>
+      new DateFilter().format(date, format)
+  },
   components: {
-    "v-quill-editor": QuillEditorComponent
+    "v-quill-editor": QuillEditorComponent,
+    "v-dropdown-select": DropdownSelectComponent
   }
 })
 export default class MemorandumEditPage extends Vue {
   @Prop() toolbarInfo!: {};
+  isOpenPicker: boolean = false;
+  date: Date = new Date();
+  tags = [
+    { text: "Vue", value: "Vue" },
+    { text: "React", value: "React" },
+    { text: "Angular", value: "Angular" }
+  ];
+  selectedItem =  "Vue";
+  test() {}
 }
 </script>
 <style scoped lang='scss'>
-
+.mmdm-header {
+  background: #fff;
+  padding: 0.5rem 1rem 0;
+  .select-box {
+    .select-title {
+    }
+  }
+}
+::v-deep .popover-origin.direction-bottom.align-left {
+  left: auto;
+  right: 0;
+}
+::v-deep
+  .popover-origin
+  .popover-content-wrapper
+  .popover-content.align-left::after {
+  left: auto;
+  right: 20px;
+}
 </style>
