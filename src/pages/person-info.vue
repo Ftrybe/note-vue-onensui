@@ -38,7 +38,7 @@
         </div>
         <div class="right" @click="switchGender">男</div>
         <v-ons-action-sheet :visible.sync="isOpenGender" cancelable>
-          <v-scroll-select :listData="genderList" v-model="gender"></v-scroll-select>
+          <v-select-scroll :listData="genderList" v-model="gender"></v-select-scroll>
         </v-ons-action-sheet>
       </v-ons-list-item>
 
@@ -79,7 +79,7 @@ import TextSingleEditComponent from "../partials/text-single-edit.vue";
 import { DateFilter } from "@/core/filters/date.filter";
 import DatePickerComponent from "../partials/date-picker.vue";
 import ActionSheetModule from "@/store/modules/action-sheet";
-import ScrollSelectComponent from "../partials/scroll-select.vue";
+import SelectScrollComponent from "../partials/select-scroll.vue";
 
 @Component({
   filters: {
@@ -87,7 +87,7 @@ import ScrollSelectComponent from "../partials/scroll-select.vue";
       new DateFilter().format(date, format)
   },
   components: {
-    "v-scroll-select": ScrollSelectComponent
+    "v-select-scroll": SelectScrollComponent
   }
 })
 export default class PersonInfoPage extends Vue {

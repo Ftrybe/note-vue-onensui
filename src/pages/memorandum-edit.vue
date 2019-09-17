@@ -8,10 +8,7 @@
     <div class="flex-column h-100">
       <div class="mmdm-header d-flex">
         <div class="select-box">
-          <!-- <v-ons-select  v-model="selectedItem">
-            <option class="opt" v-for="(item,index) in tags" :value="item.value" :key="index">{{ item.text }}</option>
-          </v-ons-select> -->
-          <v-dropdown-select v-model="selectedItem" :list="tags"></v-dropdown-select>
+          <v-select-dropdown v-model="selectedItem" :list="tags"></v-select-dropdown>
         </div>
         <div class="ml-auto time">
           <v-date-picker
@@ -22,7 +19,7 @@
           </v-date-picker>
         </div>
       </div>
-      <div class="d-flex flex-grow">
+      <div class="h-100">
         <v-quill-editor></v-quill-editor>
       </div>
     </div>
@@ -32,7 +29,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import QuillEditorComponent from "@/partials/quill-editor.vue";
 import { DateFilter } from "@/core/filters/date.filter";
-import DropdownSelectComponent from '../partials/dropdown-select.vue';
+import SelectDropdownComponent from '../partials/select-dropdown.vue';
 @Component({
   filters: {
     dataformat: (date: Date, format: string) =>
@@ -40,7 +37,7 @@ import DropdownSelectComponent from '../partials/dropdown-select.vue';
   },
   components: {
     "v-quill-editor": QuillEditorComponent,
-    "v-dropdown-select": DropdownSelectComponent
+    "v-select-dropdown": SelectDropdownComponent
   }
 })
 export default class MemorandumEditPage extends Vue {
@@ -50,7 +47,7 @@ export default class MemorandumEditPage extends Vue {
   tags = [
     { text: "Vue", value: "Vue" },
     { text: "React", value: "React" },
-    { text: "Angular", value: "Angular" }
+    { text: "Angular长点的标题好进行测试", value: "Angular长点的标题好进行测试" }
   ];
   selectedItem =  "Vue";
   test() {}

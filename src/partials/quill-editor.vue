@@ -14,8 +14,7 @@ export default class QuillEditorComponent extends Vue {
   @Prop() value?: string;
 
   customToolbar = [
-    [{ header: 2 },{ align: "center" },{ list: "ordered" }, { list: "bullet" }],
-    [{font:[]}]
+    [{ header: 2 },{ align: "center" },{ list: "ordered" }, { list: "bullet" }]
     ];
   @Emit()
   changeContent(value: string) {}
@@ -23,27 +22,23 @@ export default class QuillEditorComponent extends Vue {
 </script>
 <style scoped lang='scss'>
 .quillWrapper {
-  display: flex;
-  flex-direction: column-reverse;
   background: white;
-  flex-grow: 1;
-  .ql-editor.ql-blank {
-    display: flex;
-    flex-grow: 1;
-  }
-  .ql-container {
-    flex-grow: 1;
-  }
-  .ql-toolbar .ql-formats .ql-picker-options {
-    bottom: 100%;
-    top: 0 !important;
-  }
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
-::v-deep .qu-editor * {
+::v-deep .ql-toolbar{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+}
+::v-deep .ql-editor * {
    -webkit-user-select: text;
 }
 ::v-deep .ql-snow .ql-picker.ql-expanded .ql-picker-options {
-  top: unset;
+  top: auto;
   bottom: 100%;
 }
 </style>

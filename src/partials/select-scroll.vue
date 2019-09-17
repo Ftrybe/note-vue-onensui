@@ -27,7 +27,7 @@
 import { Component, Vue, Prop, PropSync } from "vue-property-decorator";
 
 @Component
-export default class ScrollSelectComponent extends Vue {
+export default class SelectScrollComponent extends Vue {
   spin = { start: -9, end: 9, branch: 9 };
   finger = { startY: 0, lastY: 0, startTime: 0, lastTime: 0, transformY: 0 };
 
