@@ -32,9 +32,7 @@
             <div class="left">
               <v-ons-icon icon="ion-pricetag"></v-ons-icon>
             </div>
-            <div class="center">
-              <v-touch @press="longPress" :options="{time:1000}">{{tag.name}}</v-touch>
-            </div>
+            <div class="center">{{tag.name}}</div>
             <!-- <div class="center" >{{tag.name}}</div> -->
           </v-ons-list-item>
         </v-ons-list>
@@ -44,7 +42,8 @@
         <div class="left">
           <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
         </div>
-        <div class="center">备忘录</div>
+        <div class="center">
+          <v-touch @press="addTag" :options="{time:1000}">备忘录</v-touch></div>
         <v-ons-list class="expandable-content p-0 bg-none">
           <v-ons-list-item modifier="chevron nodivider">
             <div class="left">
@@ -64,13 +63,6 @@
             <div class="center">
                 <v-touch @press="longPress" :options="{time:1000}">{{tag.name}}</v-touch>
             </div>
-          </v-ons-list-item>
-
-          <v-ons-list-item modifier="chevron nodivider" tappable @click="addTag()">
-            <div class="left">
-              <v-ons-icon icon="ion-pricetags"></v-ons-icon>
-            </div>
-            <div class="center">添加</div>
           </v-ons-list-item>
         </v-ons-list>
       </v-ons-list-item>

@@ -20,7 +20,7 @@
       :options="options"
     >
     <v-ons-list class="dd-options">
-      <v-ons-list-item v-for="(item,index) of list" :key="index" @click="select(item.value)">
+      <v-ons-list-item v-for="(item,index) of list" :key="index" @click="select(item.value)" :class="index=selectIndex?'active':''">
         <slot name="option-icon">
             <v-ons-icon class="dd-select-icon" icon="ion-pricetag"></v-ons-icon>
           </slot>
@@ -34,7 +34,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { Component, Vue, Prop, Emit, Watch } from "vue-property-decorator";
 import { PopoverOptions } from '../core/models/ons';
 
 @Component
@@ -50,6 +50,7 @@ export default class SelectDropdownComponent extends Vue {
   popoverDirection = "down";
   coverTarget = true;
   localValue: any = this.value;
+  selectIndex:number = 0;
   options: PopoverOptions = {
       animation:'fade'
   };
@@ -66,6 +67,11 @@ export default class SelectDropdownComponent extends Vue {
     this.coverTarget = coverTarget;
     this.popoverVisible = true;
   }
+
+  @Watch("localValue")
+  onOptionChange(val:string,oldVal:string){
+
+  }
 }
 </script>
 <style scoped lang='scss'>
@@ -78,7 +84,7 @@ export default class SelectDropdownComponent extends Vue {
     align-items: center;
     .dd-select-inp {
       border: none;
-      max-width: 5rem;
+      width: 100%;
     }
     .dd-suffix-box {
       width: 16px;

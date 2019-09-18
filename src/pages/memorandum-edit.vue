@@ -29,7 +29,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import QuillEditorComponent from "@/partials/quill-editor.vue";
 import { DateFilter } from "@/core/filters/date.filter";
-import SelectDropdownComponent from '../partials/select-dropdown.vue';
+import SelectDropdownComponent from "../partials/select-dropdown.vue";
 @Component({
   filters: {
     dataformat: (date: Date, format: string) =>
@@ -47,9 +47,12 @@ export default class MemorandumEditPage extends Vue {
   tags = [
     { text: "Vue", value: "Vue" },
     { text: "React", value: "React" },
-    { text: "Angular长点的标题好进行测试", value: "Angular长点的标题好进行测试" }
+    {
+      text: "Angular长点的标题好进行测试",
+      value: "Angular长点的标题好进行测试"
+    }
   ];
-  selectedItem =  "Vue";
+  selectedItem = "Vue";
   test() {}
 }
 </script>
@@ -58,6 +61,7 @@ export default class MemorandumEditPage extends Vue {
   background: #fff;
   padding: 0.5rem 1rem 0;
   .select-box {
+    max-width: 5rem;
     .select-title {
     }
   }
@@ -66,10 +70,7 @@ export default class MemorandumEditPage extends Vue {
   left: auto;
   right: 0;
 }
-::v-deep
-  .popover-origin
-  .popover-content-wrapper
-  .popover-content.align-left::after {
+::v-deep .popover-origin .popover-content-wrapper .popover-content.align-left::after {
   left: auto;
   right: 20px;
 }
