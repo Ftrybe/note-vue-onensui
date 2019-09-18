@@ -19,23 +19,25 @@
       :mask-color="'rgba(0,0,0,0)'"
       :options="options"
     >
-    <v-ons-list class="dd-options">
-      <v-ons-list-item v-for="(item,index) of list" :key="index" @click="select(item.value)" :class="index=selectIndex?'active':''">
-        <slot name="option-icon">
+      <v-ons-list class="dd-options">
+        <v-ons-list-item
+          v-for="(item,index) of list"
+          :key="index"
+          @click="select(item.value)"
+          :class="index=selectIndex?'active':''"
+        >
+          <slot name="option-icon">
             <v-ons-icon class="dd-select-icon" icon="ion-pricetag"></v-ons-icon>
           </slot>
-          <span>
-            {{item.value}}
-          </span>
-          
-      </v-ons-list-item>
-    </v-ons-list>
+          <span>{{item.value}}</span>
+        </v-ons-list-item>
+      </v-ons-list>
     </v-ons-popover>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop, Emit, Watch } from "vue-property-decorator";
-import { PopoverOptions } from '../core/models/ons';
+import { PopoverOptions } from "../core/models/ons";
 
 @Component
 export default class SelectDropdownComponent extends Vue {
@@ -50,9 +52,9 @@ export default class SelectDropdownComponent extends Vue {
   popoverDirection = "down";
   coverTarget = true;
   localValue: any = this.value;
-  selectIndex:number = 0;
+  selectIndex: number = 0;
   options: PopoverOptions = {
-      animation:'fade'
+    animation: "fade"
   };
   select(value: string) {
     this.localValue = value;
@@ -69,9 +71,7 @@ export default class SelectDropdownComponent extends Vue {
   }
 
   @Watch("localValue")
-  onOptionChange(val:string,oldVal:string){
-
-  }
+  onOptionChange(val: string, oldVal: string) {}
 }
 </script>
 <style scoped lang='scss'>
@@ -119,12 +119,12 @@ export default class SelectDropdownComponent extends Vue {
     line-height: 1.5rem;
   }
 }
-::v-deep .popover__content.popover--top__content{
+::v-deep .popover__content.popover--top__content {
   padding: 8px;
   margin-top: -12px;
   width: 100%;
 }
-::v-deep .popover__arrow.popover--top__arrow{
+::v-deep .popover__arrow.popover--top__arrow {
   display: none;
 }
 </style>

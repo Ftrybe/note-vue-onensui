@@ -19,7 +19,7 @@
           </v-date-picker>
         </div>
       </div>
-      <div class="h-100">
+      <div class="mmdm-editor">
         <v-quill-editor></v-quill-editor>
       </div>
     </div>
@@ -65,6 +65,9 @@ export default class MemorandumEditPage extends Vue {
     .select-title {
     }
   }
+}
+.mmdm-editor{
+  height: calc(100% - 32px);
 }
 ::v-deep .popover-origin.direction-bottom.align-left {
   left: auto;
