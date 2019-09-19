@@ -13,20 +13,10 @@
 import { Component, Vue, Emit, Prop } from "vue-property-decorator";
 import { DateFilter } from "@/core/filters/date.filter";
 import { getModule } from 'vuex-module-decorators';
-import ActionSheetModule from '../store/modules/action-sheet';
 
 @Component
 export default class DatePickerComponent extends Vue {
 
-  actionSheetModule:ActionSheetModule = getModule(ActionSheetModule);
-
-  get isVisible(){
-    return this.actionSheetModule.dp_visible;
-  }
-
-  set isVisible(value){
-    this.actionSheetModule.dp_switch();
-  }
   date: Date = new Date();
 
   @Emit("save")

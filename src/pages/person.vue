@@ -1,81 +1,105 @@
 <template>
   <v-ons-page>
-    <v-ons-list>
-      <v-ons-list-item modifier="nodivider" style="background-color:#fafafa">
-        <div class="right">
-          <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
-        </div>
-      </v-ons-list-item>
-      <v-ons-list-item class="info" modifier="chevron nodivider" @click="forward(infoPage,'个人信息')">
-        <div class="left">
-          <img class="list-item__thumbnail" src="bg/love_gril.jpg" />
-        </div>
-        <div class="center" style="line-height: 28px;margin-left: 8px">
-          <span class="list-item__title">昵称</span>
-          <span class="list-item__subtitle">用户名</span>
-        </div>
-      </v-ons-list-item>
+    <v-ons-page v-if="hasRole">
+      <v-ons-list>
+        <v-ons-list-item modifier="nodivider" style="background-color:#fafafa">
+          <div class="right">
+            <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
+          </div>
+        </v-ons-list-item>
+        <v-ons-list-item
+          class="info"
+          modifier="chevron nodivider"
+          @click="forward(infoPage,'个人信息')"
+        >
+          <div class="left">
+            <img class="list-item__thumbnail" src="bg/love_gril.jpg" />
+          </div>
+          <div class="center" style="line-height: 28px;margin-left: 8px">
+            <span class="list-item__title">昵称</span>
+            <span class="list-item__subtitle">用户名</span>
+          </div>
+        </v-ons-list-item>
 
-      <v-ons-list-item modifier="nodivider" expandable>
-        <div class="left">
-          <v-ons-icon icon="md-book" class="list-item__icon"></v-ons-icon>
-        </div>
-        <div class="center">日记</div>
+        <v-ons-list-item modifier="nodivider" expandable>
+          <div class="left">
+            <v-ons-icon icon="md-book" class="list-item__icon"></v-ons-icon>
+          </div>
+          <div class="center">日记</div>
 
-        <v-ons-list class="expandable-content p-0 bg-none">
-          <v-ons-list-item
-            modifier="chevron nodivider"
-            v-for="(tag,index) of diaryTags"
-            :key="index"
-            @click="forward(diaryListPage,tag.name)"
-          >
-            <div class="left">
-              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
-            </div>
-            <div class="center">{{tag.name}}</div>
-            <!-- <div class="center" >{{tag.name}}</div> -->
-          </v-ons-list-item>
-        </v-ons-list>
-      </v-ons-list-item>
+          <v-ons-list class="expandable-content p-0 bg-none">
+            <v-ons-list-item
+              modifier="chevron nodivider"
+              v-for="(tag,index) of diaryTags"
+              :key="index"
+              @click="forward(diaryListPage,tag.name)"
+            >
+              <div class="left">
+                <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+              </div>
+              <div class="center">{{tag.name}}</div>
+              <!-- <div class="center" >{{tag.name}}</div> -->
+            </v-ons-list-item>
+          </v-ons-list>
+        </v-ons-list-item>
 
-      <v-ons-list-item modifier="nodivider" expandable>
-        <div class="left">
-          <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
-        </div>
-        <div class="center">
-          <v-touch @press="addTag" :options="{time:1000}">备忘录</v-touch></div>
-        <v-ons-list class="expandable-content p-0 bg-none">
-          <v-ons-list-item modifier="chevron nodivider">
-            <div class="left">
-              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
-            </div>
-            <div class="center">全部</div>
-          </v-ons-list-item>
+        <v-ons-list-item modifier="nodivider" expandable>
+          <div class="left">
+            <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
+          </div>
+          <div class="center">
+            <v-touch @press="addTag" :options="{time:1000}">备忘录</v-touch>
+          </div>
+          <v-ons-list class="expandable-content p-0 bg-none">
+            <v-ons-list-item modifier="chevron nodivider">
+              <div class="left">
+                <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+              </div>
+              <div class="center">全部</div>
+            </v-ons-list-item>
 
-          <v-ons-list-item
-            modifier="chevron nodivider"
-            v-for="(tag,index) of memorandumTags"
-            :key="index"
-          >
-            <div class="left">
-              <v-ons-icon icon="ion-pricetag"></v-ons-icon>
-            </div>
-            <div class="center">
+            <v-ons-list-item
+              modifier="chevron nodivider"
+              v-for="(tag,index) of memorandumTags"
+              :key="index"
+            >
+              <div class="left">
+                <v-ons-icon icon="ion-pricetag"></v-ons-icon>
+              </div>
+              <div class="center">
                 <v-touch @press="longPress" :options="{time:1000}">{{tag.name}}</v-touch>
-            </div>
-          </v-ons-list-item>
-        </v-ons-list>
-      </v-ons-list-item>
-    </v-ons-list>
+              </div>
+            </v-ons-list-item>
+          </v-ons-list>
+        </v-ons-list-item>
+      </v-ons-list>
 
-    <v-ons-list class="mt-3">
-      <v-ons-list-item modifier="chevron" @click="forward(settingPage,'设置')">
-        <div class="left">
-          <v-ons-icon icon="ion-settings" class="list-item__icon"></v-ons-icon>
+      <v-ons-list class="mt-3">
+        <v-ons-list-item modifier="chevron" @click="forward(settingPage,'设置')">
+          <div class="left">
+            <v-ons-icon icon="ion-settings" class="list-item__icon"></v-ons-icon>
+          </div>
+          <div class="center">设置</div>
+        </v-ons-list-item>
+      </v-ons-list>
+    </v-ons-page>
+    <v-ons-page v-else>
+      <v-ons-list>
+        <v-ons-list-item>
+          <div class="right">
+            <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
+          </div>
+        </v-ons-list-item>
+        <v-ons-list-item>
+          <v-ons-icon icon="ion-person" size="64px" class="mx-auto"></v-ons-icon>
+        </v-ons-list-item>
+        <v-ons-list-item>
+        <div class="mx-auto">
+          登录/注册
         </div>
-        <div class="center">设置</div>
-      </v-ons-list-item>
-    </v-ons-list>
+        </v-ons-list-item>
+      </v-ons-list>
+    </v-ons-page>
   </v-ons-page>
 </template>
 
@@ -100,6 +124,8 @@ export default class PersonPage extends Vue {
   infoPage = PersonInfoPage;
   diaryListPage = DiaryListPage;
   memorandumListPage = MemorandumListPage;
+
+  hasRole = false;
   isExpress = false;
 
   diaryTags = [

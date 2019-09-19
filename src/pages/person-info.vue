@@ -78,7 +78,6 @@ import { getModule } from "vuex-module-decorators";
 import TextSingleEditComponent from "../partials/text-single-edit.vue";
 import { DateFilter } from "@/core/filters/date.filter";
 import DatePickerComponent from "../partials/date-picker.vue";
-import ActionSheetModule from "@/store/modules/action-sheet";
 import SelectScrollComponent from "../partials/select-scroll.vue";
 
 @Component({

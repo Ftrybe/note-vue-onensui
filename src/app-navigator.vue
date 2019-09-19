@@ -1,12 +1,18 @@
 <template>
-  <v-ons-navigator
-    swipeable
-    swipe-target-width="50px"
-    :page-stack="pageStack"
-    :pop-page="storePop"
-    :options="options"
-    :class="{ 'border-radius': borderRadius }"
-  ></v-ons-navigator>
+  <div>
+    <v-ons-navigator
+      swipeable
+      swipe-target-width="50px"
+      :page-stack="pageStack"
+      :pop-page="storePop"
+      :options="options"
+      :class="{ 'border-radius': borderRadius }"
+      v-if="isLogin"
+    ></v-ons-navigator>
+    <v-ons-page v-else>
+      <v-login-page></v-login-page>
+    </v-ons-page>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,17 +20,23 @@ import AppSplitter from "./app-splitter.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "./store/modules/navigator";
+import LoginPage from './pages/login.vue';
 
-@Component
+@Component({
+  components:{
+    "v-login-page":LoginPage
+  }
+})
 export default class AppNavigator extends Vue {
+  isLogin: boolean = false;
   navigator: NavigatorModule = getModule(NavigatorModule);
-  
+
   private storePop() {
     this.navigator.pop();
   }
 
   private beforeCreate() {
-    this.navigator =  getModule(NavigatorModule);
+    this.navigator = getModule(NavigatorModule);
     this.navigator.push(AppSplitter);
   }
 

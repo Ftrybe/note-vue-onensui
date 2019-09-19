@@ -43,6 +43,7 @@
       <v-ons-action-sheet-button icon="md-square-o">仅自己可见</v-ons-action-sheet-button>
       <v-ons-action-sheet-button icon="md-square-o">取消</v-ons-action-sheet-button>
     </v-ons-action-sheet>
+
   </v-ons-page>
 </template>
 
