@@ -1,5 +1,5 @@
 <template>
- <v-ons-page modifier="white">
+  <v-ons-page modifier="white">
     <v-ons-list>
       <time-line-item v-for="(data,index) of diarys" :key="index" :item="data"></time-line-item>
     </v-ons-list>
@@ -34,7 +34,7 @@ import { Component as VueComponent } from "vue";
   }
 })
 export default class TimeLinePage extends Vue {
-navigatorVuex: NavigatorModule = getModule(NavigatorModule);
+  navigatorVuex: NavigatorModule = getModule(NavigatorModule);
 
   // 添加按钮
   spdOpen: boolean = false;
@@ -70,8 +70,15 @@ navigatorVuex: NavigatorModule = getModule(NavigatorModule);
   ];
 
   private forward(item: any) {
+    // this.navigatorVuex.option({
+    //   animation: "slide",
+    //   callback: () => this.navigatorVuex.option({})
+    // });
     this.navigatorVuex.push({
       extends: item.page,
+      onsNavigatorOptions: {
+        animation: "slide"
+      },
       onsNavigatorProps: {
         toolbarInfo: {
           backLabel: "时间轴",
@@ -83,5 +90,4 @@ navigatorVuex: NavigatorModule = getModule(NavigatorModule);
 }
 </script>
 <style scoped>
-
 </style>

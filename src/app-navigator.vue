@@ -7,7 +7,7 @@
       :pop-page="storePop"
       :options="options"
       :class="{ 'border-radius': borderRadius }"
-      v-if="isLogin"
+      v-if="loginStatus"
     ></v-ons-navigator>
     <v-ons-page v-else>
       <v-login-page></v-login-page>
@@ -21,6 +21,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "./store/modules/navigator";
 import LoginPage from './pages/login.vue';
+import UserModule from './store/modules/user';
 
 @Component({
   components:{
@@ -28,7 +29,6 @@ import LoginPage from './pages/login.vue';
   }
 })
 export default class AppNavigator extends Vue {
-  isLogin: boolean = false;
   navigator: NavigatorModule = getModule(NavigatorModule);
 
   private storePop() {
@@ -51,6 +51,10 @@ export default class AppNavigator extends Vue {
   get borderRadius() {
     const url: Location = window.location;
     return new URL(url.toString()).searchParams.get("borderradius") !== null;
+  }
+
+  get loginStatus(){
+    return getModule(UserModule).isLogin;
   }
 }
 </script>

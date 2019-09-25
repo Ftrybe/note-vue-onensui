@@ -17,9 +17,14 @@
 .ml-auto {
     margin-left: auto;
 }
-
+.mx-2{
+    margin:0 .5rem;
+}
 .mx-auto{
     margin: 0 auto;
+}
+.m-2{
+    margin: .5rem;
 }
 .p-0 {
     padding: 0;
@@ -86,6 +91,9 @@
 
 .text-algin-right {
     text-align: right;
+}
+.text-center{
+    text-align: center;
 }
 
 .vertical-middle {

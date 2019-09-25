@@ -1,4 +1,4 @@
-import { VuexModule, Module } from 'vuex-module-decorators';
+import { VuexModule, Module, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 import store from '../index';
 @Module({
     dynamic: true,
@@ -6,5 +6,15 @@ import store from '../index';
     store
 })
 export default class UserModule extends VuexModule {
-   isLogin:boolean = false;
+    isLogin: boolean = false;
+    isAnonymous:boolean = true;
+    @Mutation
+    changeState() {
+        this.isLogin = !this.isLogin;
+    }
+
+    @Action({commit:'changeState'})
+    async change(){
+
+    }
 }

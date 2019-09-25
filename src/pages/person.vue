@@ -92,7 +92,7 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <v-ons-icon icon="ion-person" size="64px" class="mx-auto"></v-ons-icon>
-        </v-ons-list-item>
+        </v-ons-list-item>                                                                                                                                
         <v-ons-list-item>
         <div class="mx-auto">
           登录/注册
@@ -125,8 +125,7 @@ export default class PersonPage extends Vue {
   diaryListPage = DiaryListPage;
   memorandumListPage = MemorandumListPage;
 
-  hasRole = false;
-  isExpress = false;
+  hasRole = true;
 
   diaryTags = [
     {
@@ -142,7 +141,7 @@ export default class PersonPage extends Vue {
       name: "随笔"
     },
     {
-      name: "笑话"
+      name: "搞笑"
     },
     {
       name: "感情"
