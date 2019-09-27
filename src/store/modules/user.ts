@@ -14,7 +14,5 @@ export default class UserModule extends VuexModule {
     }
 
     @Action({commit:'changeState'})
-    async change(){
-
-    }
+    async change(){}
 }

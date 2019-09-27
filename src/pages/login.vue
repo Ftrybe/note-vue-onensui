@@ -1,6 +1,6 @@
 <template>
   <v-ons-page>
-    <v-toolbar>登录</v-toolbar>
+    <v-toolbar v-bind="toolbarInfo"></v-toolbar>
     <div class="flex-column login">
       <div class="flex-column p-3 login-box">
         <div class="login__title">
@@ -19,6 +19,9 @@
           </div>
         </div>
         <v-ons-button class="text-center" @click="login()">登录</v-ons-button>
+        <div>
+          <span>以游客方式访问</span>
+        </div>
         <div class="ml-auto">
           <v-ons-icon class="m-2" icon="fa-qq" style="color:#0076ff"></v-ons-icon>
           <v-ons-icon icon="fa-weixin" style="color:#00bb00"></v-ons-icon>
@@ -28,7 +31,7 @@
   </v-ons-page>
 </template>
 <script lang='ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "@/store/modules/navigator";
 import PublicPage from './public.vue';
@@ -36,6 +39,7 @@ import UserModule from '../store/modules/user';
 
 @Component
 export default class LoginPage extends Vue {
+  @Prop() toolbarInfo!:{};
   selectStandard: boolean = true;
   navigatorVuex: NavigatorModule = getModule(NavigatorModule);
   onSelect() {

@@ -1,6 +1,6 @@
 <template>
   <v-ons-page>
-    <v-ons-page v-if="hasRole">
+    <v-ons-page>
       <v-ons-list>
         <v-ons-list-item modifier="nodivider" style="background-color:#fafafa">
           <div class="right">
@@ -11,6 +11,7 @@
           class="info"
           modifier="chevron nodivider"
           @click="forward(infoPage,'个人信息')"
+          v-if="loginState"
         >
           <div class="left">
             <img class="list-item__thumbnail" src="bg/love_gril.jpg" />
@@ -18,6 +19,21 @@
           <div class="center" style="line-height: 28px;margin-left: 8px">
             <span class="list-item__title">昵称</span>
             <span class="list-item__subtitle">用户名</span>
+          </div>
+        </v-ons-list-item>
+
+        <v-ons-list-item
+          class="info"
+          modifier="chevron nodivider"
+          @click="forward(loginPage,'登录')"
+          v-else
+        >
+          <div class="left">
+            <img class="list-item__thumbnail" src="pic/unlogin.png" />
+          </div>
+          <div class="center" style="line-height: 28px;margin-left: 8px">
+            <span class="list-item__title">还未登录哦</span>
+            <span class="list-item__subtitle">点击登录账号~</span>
           </div>
         </v-ons-list-item>
 
@@ -38,7 +54,6 @@
                 <v-ons-icon icon="ion-pricetag"></v-ons-icon>
               </div>
               <div class="center">{{tag.name}}</div>
-              <!-- <div class="center" >{{tag.name}}</div> -->
             </v-ons-list-item>
           </v-ons-list>
         </v-ons-list-item>
@@ -48,7 +63,7 @@
             <v-ons-icon icon="md-bookmark" class="list-item__icon"></v-ons-icon>
           </div>
           <div class="center">
-            <v-touch @press="addTag" :options="{time:1000}">备忘录</v-touch>
+            <v-touch @press="addTag()" :options="{time:1000}">备忘录</v-touch>
           </div>
           <v-ons-list class="expandable-content p-0 bg-none">
             <v-ons-list-item modifier="chevron nodivider">
@@ -83,23 +98,6 @@
         </v-ons-list-item>
       </v-ons-list>
     </v-ons-page>
-    <v-ons-page v-else>
-      <v-ons-list>
-        <v-ons-list-item>
-          <div class="right">
-            <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
-          </div>
-        </v-ons-list-item>
-        <v-ons-list-item>
-          <v-ons-icon icon="ion-person" size="64px" class="mx-auto"></v-ons-icon>
-        </v-ons-list-item>                                                                                                                                
-        <v-ons-list-item>
-        <div class="mx-auto">
-          登录/注册
-        </div>
-        </v-ons-list-item>
-      </v-ons-list>
-    </v-ons-page>
   </v-ons-page>
 </template>
 
@@ -113,6 +111,9 @@ import { Component as VueComponent } from "vue";
 import PersonSettingPage from "./person-setting.vue";
 import DiaryListPage from "./diary-list.vue";
 import MemorandumListPage from "./memorandum-list.vue";
+import LoginPage from "./login.vue";
+import UserModule from "../store/modules/user";
+import { Onsenui } from "vue-onsenui";
 
 export default class PersonPage extends Vue {
   // 页面导航
@@ -124,8 +125,7 @@ export default class PersonPage extends Vue {
   infoPage = PersonInfoPage;
   diaryListPage = DiaryListPage;
   memorandumListPage = MemorandumListPage;
-
-  hasRole = true;
+  loginPage = LoginPage;
 
   diaryTags = [
     {
@@ -177,21 +177,29 @@ export default class PersonPage extends Vue {
     });
   }
   addTag() {
-    this.$ons.notification
-      .prompt("请输入标签名", {
-        title: "",
-        buttonLabels: ["取消", "添加"]
-      })
-      .then(value => {
-        if (value) {
-          console.log(value);
-        }
-      });
+    if (this.loginState) {
+      this.$ons.notification
+        .prompt("请输入要添加的标签名", {
+          title: "",
+          buttonLabels: ["取消", "添加"]
+        })
+        .then(value => {
+          if (value) {
+            console.log(value);
+          }
+        });
+    }else{
+      this.$ons.notification.toast("请先登录账户",{buttonLabel:'确定',timeout:1500});
+    }
   }
 
   longPress() {
     alert("success");
     console.log("成功");
+  }
+
+  get loginState() {
+    return getModule(UserModule).isLogin;
   }
 }
 </script>
