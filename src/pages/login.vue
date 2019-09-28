@@ -20,7 +20,7 @@
         </div>
         <v-ons-button class="text-center" @click="login()">登录</v-ons-button>
         <div>
-          <span>以游客方式访问</span>
+          <span class="login-none-btn">以游客方式访问</span>
         </div>
         <div class="ml-auto">
           <v-ons-icon class="m-2" icon="fa-qq" style="color:#0076ff"></v-ons-icon>
@@ -49,7 +49,6 @@ export default class LoginPage extends Vue {
   async login() {
     await getModule(UserModule).change();
 
-
     this.navigatorVuex.push({
       extends: PublicPage,
       onsNavigatorOptions: {
@@ -68,7 +67,7 @@ export default class LoginPage extends Vue {
 <style scoped lang='scss'>
 .login {
   width: 100%;
-  height: 600px;
+  height: auto;
   &-box {
     width: 80%;
     margin: 0 auto;
@@ -97,6 +96,12 @@ export default class LoginPage extends Vue {
 
   &__title {
     text-align: center;
+    margin-bottom: 16px;
+  }
+  &-none-btn{
+    font-size: 12px;
+    margin:8px 0;
+    color: #666;
   }
 }
 </style>

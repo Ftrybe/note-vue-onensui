@@ -7,6 +7,7 @@
             <v-ons-icon icon="ion-close" class="list-item__icon" @click="splitter.toggle()"></v-ons-icon>
           </div>
         </v-ons-list-item>
+
         <v-ons-list-item
           class="info"
           modifier="chevron nodivider"
@@ -29,7 +30,7 @@
           v-else
         >
           <div class="left">
-            <img class="list-item__thumbnail" src="pic/unlogin.png" />
+            <img class="list-item__thumbnail" src="pic/unlogin.gif" />
           </div>
           <div class="center" style="line-height: 28px;margin-left: 8px">
             <span class="list-item__title">还未登录哦</span>
@@ -96,6 +97,7 @@
           </div>
           <div class="center">设置</div>
         </v-ons-list-item>
+        
       </v-ons-list>
     </v-ons-page>
   </v-ons-page>

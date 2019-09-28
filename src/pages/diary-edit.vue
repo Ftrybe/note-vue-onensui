@@ -6,7 +6,7 @@
       </div>
     </v-toolbar>
 
-    <v-ons-list>
+    <v-ons-list class="flex-column h-100">
       <!--            <div class="list-item__title">标题</div>-->
       <v-ons-list-header>标题</v-ons-list-header>
       <v-ons-list-item>
@@ -24,8 +24,8 @@
 
       <!--            <div class="list-item__title">标题</div>-->
       <v-ons-list-header>内容</v-ons-list-header>
-      <v-ons-list-item>
-        <textarea class="textarea textarea--transparent w-100" rows="6" placeholder="在此输入内容 "></textarea>
+      <v-ons-list-item class="flex-grow">
+        <textarea class="textarea textarea--transparent w-100 h-100" rows="6" placeholder="在此输入内容 "></textarea>
       </v-ons-list-item>
       <v-ons-list-header>可见性</v-ons-list-header>
       <v-ons-list-item tappable modifier="longdivider" @click="actionSheetVisible = true">
