@@ -13,10 +13,18 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { UserService } from "../core/services/user.service";
 
 @Component
 export default class HomePage extends Vue {
-
+  private userService:UserService;
+  constructor() {
+    super();
+    this.userService = new UserService();
+  }
+  mounted() {
+    
+  }
 }
 </script>
 

@@ -4,7 +4,7 @@
     <div class="flex-column login">
       <div class="flex-column p-3 login-box">
         <div class="login__title">
-          <img src="svg/login.svg" alt width="200px" height="100px" />
+          <img data="svg/logo.svg" src="svg/logo.svg" alt width="200px" height="100px" />
         </div>
         <div class="login-type">
           <div class="login__standard" v-if="selectStandard">
@@ -19,7 +19,7 @@
           </div>
         </div>
         <v-ons-button class="text-center" @click="login()">登录</v-ons-button>
-        <div>
+        <div class="my-2">
           <span class="login-none-btn">以游客方式访问</span>
         </div>
         <div class="ml-auto">
@@ -34,22 +34,25 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "@/store/modules/navigator";
-import PublicPage from './public.vue';
-import UserModule from '../store/modules/user';
+import PublicPage from "./public.vue";
+import UserModule from "../store/modules/user";
 
 @Component
 export default class LoginPage extends Vue {
-  @Prop() toolbarInfo!:{};
+  @Prop() toolbarInfo!: {};
   selectStandard: boolean = true;
-  navigatorVuex: NavigatorModule = getModule(NavigatorModule);
+  navigatorModule: NavigatorModule = getModule(NavigatorModule);
+  userModule: UserModule = getModule(UserModule);
+  
   onSelect() {
     this.selectStandard = !this.selectStandard;
   }
 
   async login() {
+
     await getModule(UserModule).change();
 
-    this.navigatorVuex.push({
+    this.navigatorModule.push({
       extends: PublicPage,
       onsNavigatorOptions: {
         animation: "slide"
@@ -98,9 +101,10 @@ export default class LoginPage extends Vue {
     text-align: center;
     margin-bottom: 16px;
   }
-  &-none-btn{
+  &-none-btn {
     font-size: 12px;
-    margin:8px 0;
+    margin: 8px 0;
+    padding: 8px 0;
     color: #666;
   }
 }

@@ -7,12 +7,13 @@ import store from '../index';
 })
 export default class UserModule extends VuexModule {
     isLogin: boolean = false;
-    isAnonymous:boolean = true;
+    isAnonymous: boolean = true;
     @Mutation
     changeState() {
         this.isLogin = !this.isLogin;
     }
 
-    @Action({commit:'changeState'})
-    async change(){}
+    @Action({ commit: 'changeState' })
+    async change() { }
+
 }
