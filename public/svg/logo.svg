@@ -40,7 +40,7 @@
 	.st35{font-size:18px;glyph-orientation-vertical:0;writing-mode:tb;}
 
 	#pen{
-		animation: animMovePen ease .5s both;
+		animation: animMovePen ease 1s both;
 	}
 	#txt{
 		animation: animWrite ease 2s both;

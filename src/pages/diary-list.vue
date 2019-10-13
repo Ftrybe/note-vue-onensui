@@ -13,8 +13,8 @@
       <v-ons-card v-for="(item,index) in list" :key="index" @click="forward(item)">{{item}}</v-ons-card>
     </v-ons-list>
 
-    <div class="after-list">
-      <v-ons-icon icon="fa-spinner" size="26px" spin></v-ons-icon>
+    <div class="text-center mt-4">
+      <v-ons-icon icon="ion-ios-sync" size="26px" spin></v-ons-icon>
     </div>
   </v-ons-page>
 </template>
@@ -73,10 +73,6 @@ export default class DiaryListPage extends Vue {
 }
 </script>
 <style scoped lang='scss'>
-.after-list {
-  margin: 20px;
-  text-align: center;
-}
 .intro {
   text-align: left;
   padding: 0 22px;

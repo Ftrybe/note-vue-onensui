@@ -3,7 +3,7 @@
     <v-toolbar modifier="white-content">
       {{ title }}
       <v-ons-toolbar-button slot="left" modifier="white-content" @click="splitter.toggle()">
-        <v-ons-icon icon="ion-navicon"></v-ons-icon>
+        <v-ons-icon icon="ion-ios-navicon"></v-ons-icon>
       </v-ons-toolbar-button>
     </v-toolbar>
 
@@ -18,6 +18,7 @@ import TabbarModule from "./store/modules/tabbar";
 import SplitterModule from "./store/modules/splitter";
 import { getModule } from "vuex-module-decorators";
 import TimeLinePage from './pages/time-line.vue';
+import PublicPage from './pages/public.vue';
 @Component
 export default class AppTabbar extends Vue {
   private tabbar: TabbarModule = getModule(TabbarModule);
@@ -25,13 +26,13 @@ export default class AppTabbar extends Vue {
   private tabs = [
     {
       label: "主页",
-      icon: "ion-home",
+      icon: "ion-ios-home",
       page: HomePage
     },
     {
-      label: "时间轴",
-      icon: "ion-aperture",
-      page: TimeLinePage
+      label: "广场",
+      icon: "ion-ios-aperture",
+      page: PublicPage
     }
   ];
 

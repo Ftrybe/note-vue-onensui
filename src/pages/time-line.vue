@@ -1,10 +1,11 @@
 <template>
-  <v-ons-page modifier="white">
+  <v-ons-page>
+    <v-toolbar v-bind="toolbarInfo"></v-toolbar>
     <v-ons-list>
       <time-line-item v-for="(data,index) of diarys" :key="index" :item="data"></time-line-item>
     </v-ons-list>
 
-    <v-ons-speed-dial position="bottom right" direction="up" :open.sync="spdOpen">
+    <v-ons-speed-dial position="bottom right" direction="up" :open.sync="spdOpen" modifier="white">
       <v-ons-fab>
         <v-ons-icon icon="md-edit"></v-ons-icon>
       </v-ons-fab>
@@ -34,6 +35,7 @@ import { Component as VueComponent } from "vue";
   }
 })
 export default class TimeLinePage extends Vue {
+  @Prop() toolbarInfo!:{};
   navigatorVuex: NavigatorModule = getModule(NavigatorModule);
 
   // 添加按钮
