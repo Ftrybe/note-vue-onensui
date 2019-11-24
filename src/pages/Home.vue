@@ -67,9 +67,6 @@
                 letter-spacing: 1.5px;
                 text-align: justify;
                 line-height: 1.5rem;
-                .note{
-
-                }
                 .time{
                     align-self: flex-end;
                 }
