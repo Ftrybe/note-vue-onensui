@@ -7,69 +7,64 @@
     </v-toolbar>
 
     <v-ons-list class="flex-column h-100">
-      <!--            <div class="list-item__title">标题</div>-->
-      <v-ons-list-header>标题</v-ons-list-header>
       <v-ons-list-item>
         <div class="center">
-          <v-ons-input placeholder="请输入标题" float v-model="name"></v-ons-input>
+          <v-ons-input placeholder="请输入标题" float v-model="name" class="center"></v-ons-input>
         </div>
       </v-ons-list-item>
-      <v-ons-list-header>日期</v-ons-list-header>
-      <v-ons-list-item>
-        <div>
-          <v-date-picker class="list-item__input" v-model="date"></v-date-picker>
+      <v-ons-list-header>
+        <div class="flex-column h-100">
+          <div class="mmdm-header d-flex">
+            <div class="select-box">
+              <v-select-dropdown v-model="selectedItem" :list="tags"></v-select-dropdown>
+            </div>
+            <div class="ml-auto p-1">
+              <v-date-picker
+                v-model="date"
+                :popover="{ placement: 'align-right', visibility: 'click' }"
+              >
+                <div class="text-14">{{date |dataformat("yyyy-MM-d")}}</div>
+              </v-date-picker>
+            </div>
+          </div>
         </div>
-      </v-ons-list-item>
-      <!--            <div class="list-item__title">日期</div>-->
+      </v-ons-list-header>
 
-      <!--            <div class="list-item__title">标题</div>-->
-      <v-ons-list-header>内容</v-ons-list-header>
-      <v-ons-list-item class="flex-grow">
-        <textarea class="textarea textarea--transparent w-100 h-100" rows="6" placeholder="在此输入内容 "></textarea>
-      </v-ons-list-item>
-      <v-ons-list-header>可见性</v-ons-list-header>
-      <v-ons-list-item tappable modifier="longdivider" @click="actionSheetVisible = true">
-        <div class="center">所有人可见</div>
-      </v-ons-list-item>
+      <v-quill-editor></v-quill-editor>
     </v-ons-list>
-
-    <v-ons-action-sheet
-      :visible.sync="actionSheetVisible"
-      cancelable
-      title="日记可见性"
-      @posthide="test"
-    >
-      <v-ons-action-sheet-button icon="md-square-o">所有人可见</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">仅自己可见</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button icon="md-square-o">取消</v-ons-action-sheet-button>
-    </v-ons-action-sheet>
-
   </v-ons-page>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
+import QuillEditorComponent from "../partials/quill-editor.vue";
+import SelectDropdownComponent from '@/partials/select-dropdown.vue';
+import { DateFilter } from '@/core/filters/date.filter';
+@Component({
+    filters: {
+    dataformat: (date: Date, format: string) =>
+      new DateFilter().format(date, format)
+  },
+  components: {
+    "v-quill-editor": QuillEditorComponent,
+    "v-select-dropdown": SelectDropdownComponent
+  }
+})
 export default class DiaryEditPage extends Vue {
   private name = "text";
   private date = new Date();
+  private selectedItem = "生日";
   @Prop() toolbarInfo: any;
-
-  private actionSheetVisible = false;
-  private items = [
-    { key: 1, text: "所有人可见", value: "all" },
-    { key: 2, text: "指定人可见", value: "only" },
-    { key: 3, text: "仅自己可见", value: "none" }
+  tags = [
+    { text: "生日", value: "生日" },
+    { text: "React", value: "React" },
+    {
+      text: "Angular长点的标题好进行测试",
+      value: "Angular长点的标题好进行测试"
+    }
   ];
-  private selectedItem = "all";
-
   private save() {
     alert(1);
-  }
-  private test(event: Object) {
-    // tslint:disable-next-line:no-console
-    console.log(event);
   }
 }
 </script>
@@ -87,4 +82,5 @@ export default class DiaryEditPage extends Vue {
   height: 25px;
   border: 0;
 }
+
 </style>

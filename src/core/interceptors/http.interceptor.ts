@@ -6,13 +6,14 @@ export class HttpInterceptor {
     private neverCancel = false;
     constructor() {
         this.axios = Axios.create({
-            baseURL: process.env.baseURL,
+            baseURL: process.env.VUE_APP_BASE_URL,
             timeout: 8000
         });
         this.axios.defaults.timeout = 8000;
         this.cancelToken = Axios.CancelToken;
         this.request();
         this.response();
+        console.log(process.env.baseURL);
     }
 
     request() {

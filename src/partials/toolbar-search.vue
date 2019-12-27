@@ -7,7 +7,7 @@
       class="search-inp"
       ref="searchInp"
     ></v-ons-search-input>
-    <v-ons-icon icon="ion-search" class="ml-auto pl-1 pt-1 search-btn" :class="isActive?'active':''" @click="showSearchInp()"></v-ons-icon>
+    <v-ons-icon icon="ion-ios-search" class="ml-auto pl-1 pt-1 search-btn" :class="isActive?'active':''" @click="showSearchInp()"></v-ons-icon>
   </div>
 </template>
 <script lang='ts'>

@@ -10,19 +10,89 @@
       <slot>{{ title }}</slot>
     </div>
     <div class="right">
-      <slot name="right"></slot>
+      <slot name="right">
+        <v-ons-toolbar-button @click="showPopover($event,'down',true)">
+          <v-ons-icon icon="ion-ios-create"></v-ons-icon>
+        </v-ons-toolbar-button>
+      </slot>
+      <v-ons-popover
+        cancelable
+        :visible.sync="popoverVisible"
+        :target="popoverTarget"
+        :direction="popoverDirection"
+        :cover-target="coverTarget"
+        :mask-color="'rgba(0,0,0,0)'"
+      >
+      
+      <p class="text-center"  v-for="(item, index) of forwardItems"
+        :key="index"
+        >
+        <v-ons-icon :icon="item.icon" @click="forward(item)"> {{item.name}}</v-ons-icon>
+      </p>
+      </v-ons-popover>
     </div>
   </v-ons-toolbar>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import NavigatorModule from "@/store/modules/navigator";
+import { getModule } from "vuex-module-decorators";
+import DiaryEditPage from '@/pages/diary-edit.vue';
+import MemorandumPage from "@/pages/memorandum-edit.vue";
+import TabbarModule from '@/store/modules/tabbar';
 
 @Component
 export default class ToolbarComponent extends Vue {
   @Prop() private title!: string;
   @Prop() private backLabel?: string;
-  @Prop() private backButton?:boolean;
+  @Prop() private backButton?: boolean;
+
+  private navigatorVuex: NavigatorModule = getModule(NavigatorModule);
+  
+  private popoverVisible: boolean = false;
+  private popoverTarget = null;
+  private popoverDirection: string = "down";
+  private coverTarget: boolean = false;
+
+  private forwardItems = [
+    {
+      name: "编写日记",
+      icon: "ion-ios-journal",
+      page: DiaryEditPage
+    },
+    {
+      name: "编写备忘",
+      icon: "ion-ios-bookmarks",
+      page: MemorandumPage
+    }
+  ];
+  showPopover(event: any, direction: string, coverTarget = false) {
+    this.popoverTarget = event;
+    this.popoverDirection = direction;
+    this.coverTarget = coverTarget;
+    this.popoverVisible = true;
+  }
+  
+  private forward(item: any) {
+    this.popoverVisible = false;
+    this.navigatorVuex.option({
+      animation: "slide",
+      callback: () => this.navigatorVuex.option({})
+    });
+    this.navigatorVuex.push({
+      extends: item.page,
+      onsNavigatorOptions: {
+        animation: "slide"
+      },
+      onsNavigatorProps: {
+        toolbarInfo: {
+          backLabel: this.title,
+          title: item.name
+        }
+      }
+    });
+  }
 }
 </script>
 <style scoped lang="scss">
@@ -34,6 +104,20 @@ export default class ToolbarComponent extends Vue {
   font-size: 14px;
   .back-button__label {
     font-size: 14px;
+  }
+}
+::v-deep .popover--top {
+  p{
+    margin:10px;
+  }
+  .popover__arrow{
+    background: none;
+  }
+  .popover__content{
+    width:150px;
+    min-height: 32px;
+    margin-top: -24px;
+    box-shadow: 0 0 1px #666;
   }
 }
 </style>

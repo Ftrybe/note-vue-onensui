@@ -1,17 +1,17 @@
 import SysBaseEntity from "./sys-base.entity";
 import { RoleEnum } from '@/core/enums/role.enum';
 import { ActiveStateEnum } from '@/core/enums/active-state.enum';
-export interface SysLocalAuth extends SysBaseEntity {
+export class SysLocalAuth extends SysBaseEntity {
 
-    userId: string;
+    userId?: string;
 
-    username: string;
+    username?: string;
 
-    password: string;
+    password?: string;
 
-    phone: string;
+    phone?: string;
 
-    role: RoleEnum;
+    role?: RoleEnum;
 
-    state: ActiveStateEnum;
+    state?: ActiveStateEnum;
 } 

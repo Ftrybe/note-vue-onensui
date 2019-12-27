@@ -1,16 +1,14 @@
 <template>
   <v-ons-page :infinite-scroll="loadMore">
-    <v-toolbar v-bind="toolbarInfo">
-      <div slot="right">
-        <v-toolbar-search></v-toolbar-search>
-      </div>
-    </v-toolbar>
+    <v-toolbar v-bind="toolbarInfo"></v-toolbar>
     <p class="intro">
       在这里分享你的故事
       <br />
     </p>
     <v-ons-list>
-      <v-ons-card v-for="(item,index) in list" :key="index" @click="forward(item)">{{item}}</v-ons-card>
+      <v-ons-list-item v-for="(item,index) in list" :key="index" @click="forward(item)">
+        <v-ons-list-title>{{item}}</v-ons-list-title>
+      </v-ons-list-item>
     </v-ons-list>
 
     <div class="text-center mt-4">
@@ -21,10 +19,11 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import ToolbarSearchComponent from "../partials/toolbar-search.vue";
-import NavigatorModule from '@/store/modules/navigator';
-import {Component as VueComponent} from 'vue';
-import { getModule } from 'vuex-module-decorators';
-import DiaryPage from './diary.vue';
+import NavigatorModule from "@/store/modules/navigator";
+import { Component as VueComponent } from "vue";
+import { getModule } from "vuex-module-decorators";
+import DiaryPage from "./diary.vue";
+import { RouterUtils } from "../utils/router.utils";
 
 @Component({
   components: {
@@ -36,23 +35,12 @@ export default class DiaryListPage extends Vue {
   navigator: NavigatorModule = getModule(NavigatorModule);
   list: any = [];
 
-    forward(title: string) {
-    this.navigator.option({
+  forward(title: string) {
+    RouterUtils.forward({
+      page: DiaryPage,
       animation: "slide",
-      callback: () => this.navigator.option({})
-    });
-
-    this.navigator.push({
-      extends: DiaryPage,
-      onsNavigatorOptions: {
-        animation: "slide"
-      },
-      onsNavigatorProps: {
-        toolbarInfo: {
-          backButton: true,
-          title: title
-        }
-      }
+      title: title,
+      backButton: true
     });
   }
 
@@ -79,7 +67,6 @@ export default class DiaryListPage extends Vue {
   margin-top: 20px;
   font-size: 14px;
   line-height: 1.4;
-  color: rgba(0, 0, 0, .54);
+  color: rgba(0, 0, 0, 0.54);
 }
-
 </style>

@@ -1,8 +1,8 @@
 import SysBaseEntity from "./sys-base.entity";
 
-export interface SysMemorandumTag extends SysBaseEntity {
+export class SysMemorandumTag extends SysBaseEntity {
     // 标签名称
-    name: String;
+    name?: String;
 
-    userId:String;
+    userId?:String;
 }

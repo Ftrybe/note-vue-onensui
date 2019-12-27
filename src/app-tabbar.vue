@@ -1,12 +1,11 @@
 <template>
   <v-ons-page>
-    <v-toolbar modifier="white-content">
-      {{ title }}
+    <v-toolbar modifier="white-content" :title="title">
+      <!-- {{ title }} -->
       <v-ons-toolbar-button slot="left" modifier="white-content" @click="splitter.toggle()">
-        <v-ons-icon icon="ion-ios-navicon"></v-ons-icon>
+        <v-ons-icon icon="ion-ios-menu"></v-ons-icon>
       </v-ons-toolbar-button>
     </v-toolbar>
-
     <v-ons-tabbar position="auto" swipeable :tabs="tabs" :index.sync="index"></v-ons-tabbar>
   </v-ons-page>
 </template>

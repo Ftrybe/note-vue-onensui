@@ -2,15 +2,15 @@
 import SysBaseEntity from "./sys-base.entity";
 import { GenderEnum } from '@/core/enums/gender.enum';
 import { ActiveStateEnum } from '@/core/enums/active-state.enum';
-export interface SysUser extends SysBaseEntity {    
+export class SysUser extends SysBaseEntity {    
     
-    nickname: string;    
+    nickname?: string;    
     
-    birthday: Date;    
+    birthday?: Date;    
     
-    photo: string;    
+    photo?: string;    
     
-    gender: GenderEnum;    
+    gender?: GenderEnum;    
     
-    phoneState: ActiveStateEnum;
+    phoneState?: ActiveStateEnum;
 }

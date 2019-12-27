@@ -12,8 +12,12 @@
     <v-ons-list>
       <v-ons-card v-for="(item,index) in list" :key="index" @click="forward(item)">
         <div class="title">这是个标题</div>
-        <div class="content">{{item}}这是一个内容,贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长
-          贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长
+        <div class="content">
+          {{item}}贼这是一个内容,贼长贼长贼长贼长贼长贼长贼长贼长贼长贼长长贼长贼长贼长贼长贼长贼长贼
+          <div class="d-flex">
+            <div>username</div> 
+            <div class="ml-auto">2019-06-12</div>
+          </div>
         </div>
       </v-ons-card>
     </v-ons-list>
@@ -28,7 +32,7 @@ import { Component, Vue } from "vue-property-decorator";
 import HomePage from "./home.vue";
 import { getModule } from "vuex-module-decorators";
 import UserModule from "../store/modules/user";
-
+import {RouterUtils} from '@/utils/router.utils';
 @Component
 export default class PublicPage extends Vue {
   toolbarInfo!: {};
@@ -53,6 +57,9 @@ export default class PublicPage extends Vue {
   }
   get loginState() {
     return getModule(UserModule).isLogin;
+  }
+
+  forward() {
   }
 }
 </script>

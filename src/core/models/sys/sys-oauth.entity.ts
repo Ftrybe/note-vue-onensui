@@ -1,13 +1,13 @@
 import SysBaseEntity from "./sys-base.entity";
-export interface SysOAuth extends SysBaseEntity {
+export class SysOAuth extends SysBaseEntity {
 
-    userId: string;
+    userId?: string;
 
-    oauthName: string;
+    oauthName?: string;
 
-    oauthId: string;
+    oauthId?: string;
 
-    oauthAccessToken: string;
+    oauthAccessToken?: string;
     
-    oauthExpires: string;
+    oauthExpires?: string;
 }

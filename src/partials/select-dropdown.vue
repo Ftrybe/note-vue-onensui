@@ -27,7 +27,7 @@
           :class="index=selectIndex?'active':''"
         >
           <slot name="option-icon">
-            <v-ons-icon class="dd-select-icon" icon="ion-pricetag"></v-ons-icon>
+            <v-ons-icon class="dd-select-icon" icon="ion-ios-pricetag"></v-ons-icon>
           </slot>
           <span>{{item.value}}</span>
         </v-ons-list-item>
@@ -89,7 +89,7 @@ export default class SelectDropdownComponent extends Vue {
     .dd-suffix-box {
       width: 16px;
       height: 0;
-      margin-top: 0.5625rem;
+      margin-top: .3125rem;
       .dd-suffix {
         margin-left: 8px;
         width: 0;
@@ -112,17 +112,16 @@ export default class SelectDropdownComponent extends Vue {
 .dd-options {
   list-style: none;
   margin: 0;
-  border: 1px solid #dddddddd;
-  box-shadow: 2px 2px 2px 0px #dddddddd;
+  box-shadow: 0 0 1px 0px #000000b5;
+  border-radius: 3px;
   .dd-option {
     height: 1.5rem;
     line-height: 1.5rem;
   }
 }
 ::v-deep .popover__content.popover--top__content {
-  padding: 8px;
-  margin-top: -12px;
   width: 100%;
+  overflow: unset;
 }
 ::v-deep .popover__arrow.popover--top__arrow {
   display: none;

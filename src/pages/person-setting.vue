@@ -1,6 +1,8 @@
 <template>
   <v-ons-page>
-    <v-toolbar v-bind="toolbarInfo"></v-toolbar>
+    <v-toolbar v-bind="toolbarInfo">
+      <div slot="right"></div>
+    </v-toolbar>
     <v-ons-list v-if="loginState">
       <v-ons-list-item modifier="chevron nodivider">
         <div class="center">

@@ -1,27 +1,25 @@
 <template>
   <v-ons-page>
     <v-toolbar v-bind="toolbarInfo">
-      <div slot="right">
-        <v-ons-icon icon="md-save" style="color:#c8e0fb" @click="save()"></v-ons-icon>
-      </div>
+      <v-ons-toolbar-button slot="right">
+        <v-ons-icon icon="ion-ios-save" style="color:#c8e0fb" @click="save()"></v-ons-icon>
+      </v-ons-toolbar-button>
     </v-toolbar>
     <div class="flex-column h-100">
       <div class="mmdm-header d-flex">
         <div class="select-box">
           <v-select-dropdown v-model="selectedItem" :list="tags"></v-select-dropdown>
         </div>
-        <div class="ml-auto time">
+        <div class="ml-auto p-1">
           <v-date-picker
             v-model="date"
             :popover="{ placement: 'align-right', visibility: 'click' }"
           >
-            <div>{{date |dataformat("yyyy-MM-d")}}</div>
+            <div class="text-14">{{date |dataformat("yyyy-MM-d")}}</div>
           </v-date-picker>
         </div>
       </div>
-      <div class="mmdm-editor">
-        <v-quill-editor></v-quill-editor>
-      </div>
+        <v-quill-editor placeholder="在此输入您想记住的内容" test="11"></v-quill-editor>
     </div>
   </v-ons-page>
 </template>
@@ -45,7 +43,7 @@ export default class MemorandumEditPage extends Vue {
   isOpenPicker: boolean = false;
   date: Date = new Date();
   tags = [
-    { text: "Vue", value: "Vue" },
+    { text: "生日", value: "生日" },
     { text: "React", value: "React" },
     {
       text: "Angular长点的标题好进行测试",
@@ -62,12 +60,10 @@ export default class MemorandumEditPage extends Vue {
   padding: 0.5rem 1rem 0;
   .select-box {
     max-width: 5rem;
-    .select-title {
-    }
   }
 }
 .mmdm-editor{
-  height: calc(100% - 32px);
+  height: 100%;
 }
 ::v-deep .popover-origin.direction-bottom.align-left {
   left: auto;

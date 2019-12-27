@@ -1,15 +1,15 @@
 import SysBaseEntity from "./sys-base.entity";
 import { DisplayStateEnum } from '@/core/enums/display-state.enum';
 import { DiaryTagEnum } from '@/core/enums/diary-tag.enum';
-export interface SysDiary extends SysBaseEntity {
+export class SysDiary extends SysBaseEntity {
     // 标题
-    title: string;
+    title?: string;
 
-    userId:string;
+    userId?:string;
     //内容
-    content: string;
+    content?: string;
     //显示状态
-    state: DisplayStateEnum;
+    state?: DisplayStateEnum;
 
-    tag: DiaryTagEnum;
+    tag?: DiaryTagEnum;
 }

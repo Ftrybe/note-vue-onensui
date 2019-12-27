@@ -58,26 +58,31 @@
         </v-ons-list>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="nodivider" expandable>
+      <v-ons-list-item modifier="nodivider" expandable style="user-select:'none'">
         <div class="left">
-          <v-ons-icon icon="ion-ios-pricetags" class="list-item__icon"></v-ons-icon>
+          <div @touchstart.prevent>
+            <v-touch @press="addTag()">
+              <v-ons-icon icon="ion-ios-pricetags" class="list-item__icon"></v-ons-icon>
+            </v-touch>
+          </div>
         </div>
-        <div class="center">
-          <v-touch @press="addTag()" :options="{time:1000}">备忘录</v-touch>
-        </div>
+        <div class="center">备忘录</div>
         <v-ons-list class="expandable-content p-0 bg-none">
-          <v-ons-list-item
-            modifier="chevron nodivider"
-            v-for="(tag,index) of memorandumTags"
-            :key="index"
+          <v-touch
+            v-for="tag of memTags"
+            :key="tag.index"
+            :pan-options="{direction:'vertical',preventDefault:true,touchAction:'pan'}"
+            @panstart="panStart($event)"
+            @panmove="panMove($event)"
+            @panend="panEnd($event)"
           >
-            <div class="left">
-              <v-ons-icon icon="ion-ios-pricetag"></v-ons-icon>
-            </div>
-            <div class="center">
-              <v-touch @press="longPress" :options="{time:1000}">{{tag.name}}</v-touch>
-            </div>
-          </v-ons-list-item>
+            <v-ons-list-item modifier="chevron nodivider" @touchstart.prevent>
+              <div class="left">
+                <v-ons-icon icon="ion-ios-pricetag"></v-ons-icon>
+              </div>
+              <div class="center">{{tag.name}}</div>
+            </v-ons-list-item>
+          </v-touch>
         </v-ons-list>
       </v-ons-list-item>
 
@@ -85,9 +90,7 @@
         <div class="left">
           <v-ons-icon icon="ion-ios-timer" class="list-item__icon"></v-ons-icon>
         </div>
-        <div class="center">
-          时光轴
-        </div>
+        <div class="center">时光轴</div>
       </v-ons-list-item>
     </v-ons-list>
 
@@ -115,6 +118,7 @@ import MemorandumListPage from "./memorandum-list.vue";
 import TimeLinePage from "./time-line.vue";
 import LoginPage from "./login.vue";
 import UserModule from "../store/modules/user";
+import { RouterUtils } from '../utils/router.utils';
 
 export default class PersonPage extends Vue {
   // 页面导航
@@ -128,6 +132,10 @@ export default class PersonPage extends Vue {
   memorandumListPage = MemorandumListPage;
   timeLinePage = TimeLinePage;
   loginPage = LoginPage;
+  itemNode?:HTMLElement;
+
+  oldNodeY:number = 0;
+  moveY:number = 0;
 
   diaryTags = [
     {
@@ -152,31 +160,47 @@ export default class PersonPage extends Vue {
 
   memorandumTags = [
     {
-      name: "全部"
+      name: "全部",
+      index: 5
     },
     {
-      name: "测试"
+      name: "测试",
+      index: 2
     }
   ];
+ 
+  
+  panStart(node: any) {
+    this.itemNode = node.target.offsetParent.parentNode;
+    // const listNode = node.target.offsetParent;
+    // const itemNode = listNode.offsetParent;
+    this.oldNodeY = node.center.y;
+    console.log(this.oldNodeY);
+  }
 
-  forward(page: VueComponent, title: string, animation: string = "slide") {
-    this.navigator.option({
-      animation: animation,
-      callback: () => this.navigator.option({})
-    });
+  panMove(node: any) {
+    const itemNode = node.target.offsetParent.parentNode as HTMLElement;
+    const nodeHeight = itemNode.offsetHeight;
+    this.moveY = node.center.y - this.oldNodeY;
+    itemNode.setAttribute(
+      "style",
+      "transform:translateY("+ this.moveY +"px)"
+    );
+  }
 
-    this.navigator.push({
-      extends: page,
-      onsNavigatorOptions: {
-        animation: animation
-      },
-      onsNavigatorProps: {
-        toolbarInfo: {
-          backButton: true,
-          title: title
-        }
-      }
-    });
+  panEnd(node: any) {
+    const itemNode = node.target.offsetParent.parentNode as HTMLElement;
+    const parentNode =  (itemNode.parentNode as HTMLElement);
+    console.log(parentNode.scrollTop)
+    const nodeHeight = itemNode.offsetHeight;
+    if(Math.abs(this.moveY.valueOf())<nodeHeight){
+      itemNode.setAttribute('style','');
+    }
+    // console.log(node);
+  }
+
+  forward(page: VueComponent, title: string) {
+    RouterUtils.forward({page:page,animation:"slide",backButton:true,title:title})
   }
   addTag() {
     if (this.loginState) {
@@ -198,11 +222,12 @@ export default class PersonPage extends Vue {
     }
   }
 
-  longPress() {
-    alert("success");
+  longPress(ev: any) {
     console.log("成功");
   }
-
+  get memTags() {
+    return this.memorandumTags.sort((a, b) => a.index - b.index);
+  }
   get loginState() {
     return getModule(UserModule).isLogin;
   }
@@ -229,6 +254,30 @@ export default class PersonPage extends Vue {
     padding: 8px 0;
     display: block;
     background: red;
+  }
+}
+.m-active {
+  animation-name: shake;
+  animation-iteration-count: infinite;
+  animation-duration: 0.1s;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate(-0.4px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate(0.4px);
   }
 }
 </style>
