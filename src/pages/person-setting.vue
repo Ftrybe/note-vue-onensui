@@ -33,7 +33,7 @@
           <span class="title">安全设置</span>
         </div>
       </v-ons-list-item>
-      <v-ons-list-item modifier="chevron nodivider">
+      <v-ons-list-item modifier="chevron nodivider" @click="logout">
         <div class="center">
           <span class="title">退出登录</span>
         </div>
@@ -44,14 +44,35 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { getModule } from 'vuex-module-decorators';
-import UserModule from '../store/modules/user';
+import AuthModule from '../store/modules/auth';
+import NavigatorModule from '../store/modules/navigator';
+import HomePage from './home.vue';
+import AppSplitter from '../app-splitter.vue';
 
 @Component
 export default class PersonSetting extends Vue {
   @Prop() toolbarInfo?: {};
-  
+  authModule = getModule(AuthModule);
   get loginState(){
-    return getModule(UserModule).isLogin;
+    return this.authModule.token;
+  }
+  logout(){
+    this.$ons.notification.confirm("确认退出？",{
+      buttonLabels:["确定","取消"],
+      title: ""
+    }).then(code=>{
+      // console.log(code.nodeValue);
+      if(code==0){
+          this.authModule.logout();
+          this.$ons.notification.toast("退出成功",{
+              buttonLabels: "关闭",
+              timeout: 1500
+          });
+          getModule(NavigatorModule).reset({
+            extends: AppSplitter
+          });
+      }
+    })
   }
 }
 </script>

@@ -40,7 +40,6 @@ import SelectDropdownComponent from "../partials/select-dropdown.vue";
 })
 export default class MemorandumEditPage extends Vue {
   @Prop() toolbarInfo!: {};
-  isOpenPicker: boolean = false;
   date: Date = new Date();
   tags = [
     { text: "生日", value: "生日" },
@@ -57,7 +56,7 @@ export default class MemorandumEditPage extends Vue {
 <style scoped lang='scss'>
 .mmdm-header {
   background: #fff;
-  padding: 0.5rem 1rem 0;
+  padding: .5rem .5rem 0 .5rem;
   .select-box {
     max-width: 5rem;
   }

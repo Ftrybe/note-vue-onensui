@@ -1,6 +1,8 @@
+
+
 declare module 'vue-onsenui' {
     import { PluginFunction } from "vue";
-    import { AlertOptions } from "@/core/models/ons";
+    import { AlertOptions,ConfirmOptions,PromptOptions,ToastOptions } from "@/core/models/ons";
     export const install: PluginFunction<{}>;
     export function VueOnsen(): any;
 
@@ -50,13 +52,13 @@ declare module 'vue-onsenui' {
     }
     interface Notification {
 
-        alert(message: string | AlertOptions, options?: AlertOptions): Promise<HTMLElement>;
+        alert(message: string | AlertOptions, options?: AlertOptions): Promise<any>;
 
-        confirm(message: string | AlertOptions, options?: AlertOptions): Promise<HTMLElement>;
+        confirm(message: string | ConfirmOptions, options?: ConfirmOptions): Promise<any>;
 
-        prompt(message: string | AlertOptions, options?: AlertOptions): Promise<HTMLElement>;
+        prompt(message: string | PromptOptions, options?: PromptOptions): Promise<any>;
 
-        toast(...args: any[]): any;
+        toast(message: string | ToastOptions, options?: ToastOptions): Promise<any>;
    }
    interface Orientation {
 

@@ -6,7 +6,7 @@ import {Router} from '@/core/models/diary/router'
 export class RouterUtils {
 
     public static forward( router:Router | {page: Component, animation?: string,title?:string,backLabel?:string,backButton?:boolean,props?:any}) {
-       const navigator: NavigatorModule = getModule(NavigatorModule);
+        const navigator: NavigatorModule = getModule(NavigatorModule);
         navigator.option({
             animation: router.animation,
             callback: () => navigator.option({})

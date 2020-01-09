@@ -1,6 +1,6 @@
-import SysBaseEntity from "./sys-base.entity";
-import { SysMemorandumTag } from "./sys-memorandum-tag.entity";
-export class SysMemorandum extends SysBaseEntity {
+import BaseDTO from './base.dto';
+import { MemorandumTagDTO } from "./memorandum-tag.dto";
+export class MemorandumDTO extends BaseDTO {
     // 标题
 
     title?: string;
@@ -16,7 +16,7 @@ export class SysMemorandum extends SysBaseEntity {
 
     userId?: string;
     // 非数据库字段
-    tags?: SysMemorandumTag[];
+    tags?: MemorandumTagDTO[];
 
     tagIds?: string;
 }

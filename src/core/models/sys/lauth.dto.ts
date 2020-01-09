@@ -1,7 +1,7 @@
-import SysBaseEntity from "./sys-base.entity";
-import { RoleEnum } from '@/core/enums/role.enum';
 import { ActiveStateEnum } from '@/core/enums/active-state.enum';
-export class SysLocalAuth extends SysBaseEntity {
+import { RoleEnum } from '@/core/enums/role.enum';
+import BaseDTO from './base.dto';
+export class LAuth extends BaseDTO {
 
     userId?: string;
 
@@ -14,4 +14,6 @@ export class SysLocalAuth extends SysBaseEntity {
     role?: RoleEnum;
 
     state?: ActiveStateEnum;
+
+    captcha?: string;
 } 

@@ -1,8 +1,8 @@
 
-import SysBaseEntity from "./sys-base.entity";
+import BaseDTO from './base.dto';
 import { GenderEnum } from '@/core/enums/gender.enum';
 import { ActiveStateEnum } from '@/core/enums/active-state.enum';
-export class SysUser extends SysBaseEntity {    
+export class UserDTO extends BaseDTO {    
     
     nickname?: string;    
     
@@ -13,4 +13,6 @@ export class SysUser extends SysBaseEntity {
     gender?: GenderEnum;    
     
     phoneState?: ActiveStateEnum;
+
+    username?: string;
 }

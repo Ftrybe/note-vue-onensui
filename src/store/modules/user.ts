@@ -6,13 +6,21 @@ import store from '../index';
     store
 })
 export default class UserModule extends VuexModule {
-    isLogin: boolean = true;
+    userInfo = window.localStorage.getItem("userinfo");
     isAnonymous: boolean = true;
     @Mutation
-    changeState() {
-        this.isLogin = !this.isLogin;
+    setUserInfo(info:any) {
+        window.localStorage.setItem("userinfo",JSON.stringify(info));
+        this.userInfo = info;
+    }
+    @Mutation
+    clearUserInfo(){
+        window.localStorage.removeItem("userinfo");
+        this.userInfo = null;
     }
 
-    @Action({ commit: 'changeState' })
-    async change() { }
+    @Action
+    async init() {
+        this.setUserInfo(JSON.parse(localStorage.getItem('userinfo') || ''))
+     }
 }

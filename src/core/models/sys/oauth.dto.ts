@@ -1,5 +1,5 @@
-import SysBaseEntity from "./sys-base.entity";
-export class SysOAuth extends SysBaseEntity {
+import BaseDTO from './base.dto';
+export class OAuthDTO extends BaseDTO {
 
     userId?: string;
 

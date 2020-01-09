@@ -1,5 +1,5 @@
 
-export default class SysBaseEntity{
+export default class BaseDTO{
 
     // uuid主键
     id?: string;

@@ -233,8 +233,6 @@ export default class SelectScrollComponent extends Vue {
 </script>
 <style scoped lang='scss'>
 html {
-  font-family: "PingFang SC", "Helvetica Neue", "Helvetica", "STHeitiSC-Light",
-    "Arial", sans-serif;
   line-height: 1.8;
 }
 $color-background: #fff;
@@ -250,6 +248,7 @@ $color-text-second: #a8a8a8;
       height: 220px;
       background: $color-background;
       position: relative;
+      border-radius: 5px;
       & ul,
       li {
         padding: 0;

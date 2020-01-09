@@ -14,7 +14,7 @@ module.exports = {
     // css相关配置
     css: {
         // 是否使用css分离插件 ExtractTextPlugin 生产环境下是true,开发环境下是false
-        extract: true,
+        extract: false,
         // 开启 CSS source maps?
         sourceMap: false,
         // css预设器配置项
@@ -41,4 +41,7 @@ module.exports = {
             },
         },
     },
+    chainWebpack: config => {
+        config.resolve.symlinks(true);
+    }
 };

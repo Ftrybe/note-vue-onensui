@@ -9,7 +9,7 @@
           <span class="list-item__title">头像</span>
         </div>
         <div class="right">
-          <img class="list-item__thumbnail" src="http://placekitten.com/g/40/40" />
+          <img class="list-item__thumbnail" :src="user.photo" />
         </div>
       </v-ons-list-item>
 
@@ -17,21 +17,21 @@
         <div class="center">
           <span class="list-item__title">用户名</span>
         </div>
-        <div class="right username">sssssnnx</div>
+        <div class="right username">{{user.username}}</div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron" @click="forward('昵称','不知道啥')">
+      <v-ons-list-item modifier="chevron" @click="forward('昵称',user.nickname)">
         <div class="center">
           <span class="list-item__title">昵称</span>
         </div>
-        <div class="right">不知道啥</div>
+        <div class="right">{{user.nickname}}</div>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron" @click="forward('手机号','13400994216')">
+      <v-ons-list-item modifier="chevron" @click="forward('手机号',user.phone)">
         <div class="center">
           <span class="list-item__title">手机号</span>
         </div>
-        <div class="right">13400994216</div>
+        <div class="right">{{user.phone}}</div>
       </v-ons-list-item>
 
       <v-ons-list-item modifier="chevron">
@@ -44,12 +44,12 @@
         </v-ons-action-sheet>
       </v-ons-list-item>
 
-      <v-ons-list-item modifier="chevron" @click="forward('心情','真是个愉快的一天阿')">
+      <!-- <v-ons-list-item modifier="chevron" @click="forward('心情','真是个愉快的一天阿')">
         <div class="center">
           <span class="list-item__title">心情</span>
         </div>
         <div class="right">真是个愉快的一天阿</div>
-      </v-ons-list-item>
+      </v-ons-list-item> -->
 
       <v-ons-list-item modifier="chevron">
         <div class="left flex-row-reverse">
@@ -82,6 +82,8 @@ import { DateFilter } from "@/core/filters/date.filter";
 import DatePickerComponent from "../partials/date-picker.vue";
 import SelectScrollComponent from "../partials/select-scroll.vue";
 import { RouterUtils } from "@/utils/router.utils";
+import UserModule from '../store/modules/user';
+import { UserDTO } from '../core/models/sys/user.dto';
 @Component({
   filters: {
     dataformat: (date: Date, format: string) =>
@@ -106,9 +108,11 @@ export default class PersonInfoPage extends Vue {
     //getModule(ActionSheetModule).dp_switch();
     this.isOpenPicker = !this.isOpenPicker;
   }
+
   switchGender() {
     this.isOpenGender = !this.isOpenGender;
   }
+
   forward(title: string, value: string) {
     RouterUtils.forward({
       page: TextSingleEditComponent,
@@ -128,7 +132,14 @@ export default class PersonInfoPage extends Vue {
   }
 
   test(event: Object) {
-    console.log(event);
+  }
+  mounted(){
+    const date = (this.user as UserDTO).birthday;
+    this.date =  date ? new Date(date) : new Date();
+  }
+  
+  get user():any{
+    return getModule(UserModule).userInfo;
   }
 }
 </script>

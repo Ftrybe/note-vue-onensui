@@ -1,7 +1,7 @@
-import SysBaseEntity from "./sys-base.entity";
 import { DisplayStateEnum } from '@/core/enums/display-state.enum';
 import { DiaryTagEnum } from '@/core/enums/diary-tag.enum';
-export class SysDiary extends SysBaseEntity {
+import BaseDTO from './base.dto';
+export class DiaryDTO extends BaseDTO {
     // 标题
     title?: string;
 

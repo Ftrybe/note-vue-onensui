@@ -2,18 +2,18 @@
   <v-ons-page >
     <v-toolbar v-bind="toolbarInfo">
       <div slot="right">
-        <v-ons-icon icon="md-save" style="color:#c8e0fb" @click="save()"></v-ons-icon>
+        <v-ons-toolbar-button icon="ion-ios-save" style="color:#c8e0fb" @click="save()" />
       </div>
     </v-toolbar>
       <div class="inp">
-        <v-ons-input float v-model="value"></v-ons-input>
+        <v-ons-input float v-model="value" />
       </div>
-    <v-ons-list-header style="color:rab(160,160,160);background:none">请在此处输入你的昵称</v-ons-list-header>
+    <v-ons-list-header style="color:rab(160,160,160);background:none">请在此处输入你的{{toolbarInfo.title}}</v-ons-list-header>
       
   </v-ons-page>
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 
 @Component
 export default class TextSingleEditComponent extends Vue {
@@ -26,7 +26,8 @@ export default class TextSingleEditComponent extends Vue {
   mounted() {
     this.value = this.name;
   };
-  save(){
+
+  save(event:Event){
       
   }
 }

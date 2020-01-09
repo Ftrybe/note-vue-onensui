@@ -1,19 +1,20 @@
-import Axios, { AxiosRequestConfig, AxiosError, AxiosResponse, AxiosStatic, AxiosInstance, CancelToken, CancelTokenStatic, Canceler } from 'axios';
+import Axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler, CancelTokenStatic } from 'axios';
+const baseURL = process.env.VUE_APP_BASE_API;
 export class HttpInterceptor {
     public axios:AxiosInstance;
     private pending:any[] = [];
     private cancelToken:CancelTokenStatic;
     private neverCancel = false;
     constructor() {
+        console.log(process.env.VUE_APP_BASE_URL);
         this.axios = Axios.create({
-            baseURL: process.env.VUE_APP_BASE_URL,
+            baseURL: baseURL,
             timeout: 8000
         });
         this.axios.defaults.timeout = 8000;
         this.cancelToken = Axios.CancelToken;
         this.request();
         this.response();
-        console.log(process.env.baseURL);
     }
 
     request() {

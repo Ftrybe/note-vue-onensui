@@ -1,4 +1,7 @@
 export * from './alert.options';
+export * from './confirm.options';
+export * from './toast.options';
+export * from './prompt.options';
 export * from './animation.options';
 export * from './back-button.options';
 export * from './carousel.options';
