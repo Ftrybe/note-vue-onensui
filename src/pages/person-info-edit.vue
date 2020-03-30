@@ -1,16 +1,93 @@
 <template>
     <v-ons-page>
-        <v-toolbar v-bind="toolbarInfo"></v-toolbar>
-	</v-ons-page>
+        <v-toolbar v-bind="toolbarInfo">
+            <div slot="right">
+                <v-ons-toolbar-button
+                    icon="ion-ios-save"
+                    :style="isChange? '':'color:#c8e0fb'"
+                    @click="save()"
+                />
+            </div>
+        </v-toolbar>
+        <div class="inp">
+            <v-ons-input float v-model="value" @keyup="change" />
+        </div>
+        <v-ons-list-header
+            style="color:rab(160,160,160);background:none"
+        >请在此处输入你的{{toolbarInfo.title}}</v-ons-list-header>
+    </v-ons-page>
 </template>
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+<script lang='ts'>
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { UserDTO } from "../core/models/sys/user.dto";
+import { UserService } from "../core/services/user.service";
+import { AuthService } from "../core/services/auth.service";
+import { LAuthDTO } from "../core/models/sys/lauth.dto";
+import { getModule } from "vuex-module-decorators";
+import NavigatorModule from "../store/modules/navigator";
+import UserModule from "../store/modules/user";
+import AuthModule from "../store/modules/auth";
 
 @Component
-export default class PersonInfoEdit extends Vue {
-    @Prop() toolbarInfo!:{};
+export default class PersonInfoEditPage extends Vue {
+    @Prop() toolbarInfo!: any;
+
+    @Prop() name!: string;
+
+    isChange: boolean = false;
+
+    value: string = "";
+
+    response: any;
+
+    mounted() {
+        this.value = this.name;
+    }
+
+    async save() {
+        switch (this.toolbarInfo.title) {
+            case "昵称":
+                const user = new UserDTO();
+                const userService = new UserService();
+                user.nickname = this.value;
+                userService.update(user).then(rsp => {
+                    this.optsSuccess(rsp.data.message);
+                });
+                break;
+            case "手机号":
+                const auth = new LAuthDTO();
+                const authService = new AuthService();
+                auth.phone = this.value;
+                authService.update(auth).then(rsp => {
+                    if (rsp.data.code === "0") {
+                        getModule(AuthModule).setToken(rsp.data.data);
+                        this.optsSuccess(rsp.data.message);
+                    }
+                });
+                break;
+        }
+    }
+
+    change(event: InputEvent) {
+        if (this.value == this.name) {
+            this.isChange = false;
+        } else {
+            this.isChange = true;
+        }
+    }
+
+    async optsSuccess(message: string) {
+        getModule(UserModule).getCurrentInfo();
+        this.$ons.notification.toast(message, {
+            timeout: 1000
+        });
+        getModule(NavigatorModule).pop();
+    }
 }
 </script>
-<style scoped>
-
+<style scoped lang='scss'>
+.inp {
+    margin: 15px 15px 0;
+    border-bottom: 1px solid #03030373;
+}
 </style>

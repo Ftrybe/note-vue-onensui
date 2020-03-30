@@ -25,6 +25,7 @@ import PersonPage from '@/pages/person.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import SplitterModule from './store/modules/splitter';
+import store from './store';
 
 @Component({
   components: {
@@ -33,13 +34,30 @@ import SplitterModule from './store/modules/splitter';
   },
 })
 export default class AppSplitter extends Vue {
-
+  subscribe:any;
   get isOpen() {
     return getModule(SplitterModule).open;
   }
   set isOpen(newValue) {
     getModule(SplitterModule).toggle(newValue);
   }
+  // 
+  created(){
+    this.subscribe =  store.subscribe((mutation,state)=>{
+      if(mutation.type === "errorTip"){
+        this.$ons.notification.toast(mutation.payload,{
+          title: "",
+          buttonLabels: "关闭",
+          timeout: 1500
+        });
+      }
+		})
+  }
+  destroyed(){
+    this.subscribe();
+  }
+  
+  
 }
 </script>
 

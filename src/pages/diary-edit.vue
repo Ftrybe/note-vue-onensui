@@ -1,47 +1,49 @@
 <template>
     <v-ons-page modifier="white">
         <v-toolbar v-bind="toolbarInfo">
-            <div slot="right">
-                <v-ons-icon icon="md-save" style="color:#c8e0fb" @click="save()"></v-ons-icon>
-            </div>
+            <v-ons-toolbar-button slot="right">
+                <v-ons-icon icon="ion-ios-save" @click="save" />
+            </v-ons-toolbar-button>
         </v-toolbar>
 
         <v-ons-list class="flex-column h-100">
             <div class="subcontent" ref="subcontent">
-                <v-ons-list-item>
-                    <div class="center">
-                        <v-ons-input placeholder="请输入标题" float v-model="name" class="center"></v-ons-input>
+                <v-ons-list-item modifier="noborder">
+                    <div class="center" style="background-image:none">
+                        <v-ons-input placeholder="请输入标题" float v-model="diary.title" />
                     </div>
                 </v-ons-list-item>
 
-                    <div class="ext-content px-4">
-                        <div class="select-box w-100">
-                            <!-- <v-select-dropdown v-model="selectedItem" :list="tags"></v-select-dropdown> -->
-                            <v-ons-icon icon="ion-ios-bookmark"> 默认</v-ons-icon>
-                        </div>
-                         <div class="w-100">
-                            <v-ons-icon v-if="true" icon="ion-ios-eye"> 显示</v-ons-icon>
-                            <v-ons-icon v-else icon="ion-ios-eye"> 隐藏</v-ons-icon>
-                        </div>
-                        <div class="w-100">
-                            <v-ons-icon icon="ion-ios-time">
-                                <v-date-picker
-                                    v-model="date"
-                                    :popover="{ placement: 'align-right', visibility: 'click' }"
-                                    style="display:inline-block"
-                                >
-                                    <div class="text-14"> {{date |dataformat("yyyy-MM-d")}}</div>
-                                </v-date-picker>
-                            </v-ons-icon>
-                        </div>
-                       
+                <div class="ext-content px-4">
+                    <div class="select-box w-100">
+                        <v-select-dropdown v-model="diary.tag" :list="diaryTags" :suffix="false">
+                            <v-ons-icon icon="ion-ios-bookmark" />
+                        </v-select-dropdown>
                     </div>
+
+                    <div class="w-100">
+                        <v-ons-icon v-if="diary.visible" icon="ion-ios-eye" @click="diary.visible=false">显示</v-ons-icon>
+                        <v-ons-icon v-else icon="ion-ios-eye-off" @click="diary.visible=true">隐藏</v-ons-icon>
+                    </div>
+
+                    <div class="w-100">
+                        <v-ons-icon icon="ion-ios-time">
+                            <v-date-picker
+                                v-model="diary.unKnowDate"
+                                :popover="{ placement: 'align-right', visibility: 'click' }"
+                                style="display:inline-block"
+                            >
+                                <div class="text-14">{{diary.unKnowDate |dataformat("yyyy-MM-d")}}</div>
+                            </v-date-picker>
+                        </v-ons-icon>
+                    </div>
+                </div>
             </div>
             <div class="editor-box h-100">
                 <div class="editor-arrow" @click="toggleSubcontent(false)">
-                    <v-ons-icon v-if="isFocus" icon="ion-ios-arrow-down" style="color:#0076ff"></v-ons-icon>
+                    <v-ons-icon v-if="isFocus" icon="ion-ios-arrow-down" style="color:#0076ff" />
                 </div>
-                <v-quill-editor @focus="toggleSubcontent(true)" @blur="toggleSubcontent(false)" placeholder="请输入内容"></v-quill-editor>
+                <v-quill-editor @focus="toggleSubcontent(true)" @blur="toggleSubcontent(false)" placeholder="请输入内容" v-model="diary.content"/>
             </div>
         </v-ons-list>
     </v-ons-page>
@@ -52,6 +54,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import QuillEditorComponent from "../partials/quill-editor.vue";
 import SelectDropdownComponent from "@/partials/select-dropdown.vue";
 import { DateFilter } from "@/core/filters/date.filter";
+import { DiaryService } from "../core/services/diary.service";
+import { DiaryDTO } from "../core/models/sys/diary.dto";
+import { DiaryTagEnum } from "../core/enums/diary-tag.enum";
+import { getModule } from "vuex-module-decorators";
+import DiaryModule from "../store/modules/diary";
 @Component({
     filters: {
         dataformat: (date: Date, format: string) =>
@@ -63,27 +70,43 @@ import { DateFilter } from "@/core/filters/date.filter";
     }
 })
 export default class DiaryEditPage extends Vue {
-    private name = "text";
-    private date = new Date();
-    private selectedItem = "生日";
+    @Prop() toolbarInfo: any;
+    @Prop() data?:any;
+
+    private diary: DiaryDTO = new DiaryDTO(true);
+    private diaryService = new DiaryService();
+
     private isFocus: boolean = false;
 
-    @Prop() toolbarInfo: any;
-    tags = [
-        { text: "生日", value: "生日" },
-        { text: "React", value: "React" },
-        {
-            text: "Angular长点的标题好进行测试",
-            value: "Angular长点的标题好进行测试"
+    beforeMount(){
+        if(this.data){
+            this.diary = this.data;
         }
-    ];
-    private save() {
-        alert(1);
+        // this.diary = this.data || this.diary;
     }
-    private toggleSubcontent(isFocus:boolean) {
+    
+    private async save() {
+        console.log(this.diary);
+        let response;
+        if (this.data) {
+            response = await this.diaryService.update(this.diary);
+        } else {
+            response = await this.diaryService.save(this.diary);
+        }
+        if (response && response.data.code == "0") {
+            this.$ons.notification.toast(response.data.message, {
+                timeout: 1500
+            });
+        }
+    }
+    private toggleSubcontent(isFocus: boolean) {
         this.isFocus = isFocus;
-         const style = this.isFocus ? "height: 0px" : "";
+        const style = this.isFocus ? "height: 0px" : "";
         (this.$refs.subcontent as HTMLElement).setAttribute("style", style);
+    }
+
+    public get diaryTags() {
+        return getModule(DiaryModule).diaryTags;
     }
 }
 </script>
@@ -93,13 +116,9 @@ export default class DiaryEditPage extends Vue {
     height: 6rem;
     transition: height ease 0.4s;
     font-size: 14px;
-
 }
-.select-box {
-    // padding: 0 16px;
-}
-.ext-content{
-    justify-content:space-between;
+.ext-content {
+    justify-content: space-between;
     display: flex;
 }
 .editor-box {
@@ -135,9 +154,9 @@ export default class DiaryEditPage extends Vue {
     left: auto;
     right: 20px;
 }
-.ons-icon{
-    &::before{
-        padding-right: .5rem;
+.ons-icon {
+    &::before {
+        padding-right: 0.5rem;
     }
 }
 </style>

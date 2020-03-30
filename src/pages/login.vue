@@ -33,11 +33,14 @@
                             <v-ons-input float type="text" v-model="lauthInfo.captcha" />
                             <svg class="captcha" v-html="captcha" @click="getCaptcha" />
                         </div>
-                         <div class="inp-groups" v-if="!isSelectLogin && isPhone">
+                        <div class="inp-groups" v-if="!isSelectLogin && isPhone">
                             <v-ons-icon icon="ion-ios-information-circle-outline" />
                             <v-ons-input float type="text" v-model="lauthInfo.captcha" />
                         </div>
-                        <v-ons-button class="text-center w-100" @click="isSelectLogin ?login() :register()">{{currentTitle}}</v-ons-button>
+                        <v-ons-button
+                            class="text-center w-100"
+                            @click="isSelectLogin ?login() :register()"
+                        >{{currentTitle}}</v-ons-button>
                     </div>
                 </div>
                 <div>
@@ -48,10 +51,10 @@
                         >{{isSelectLogin?"注册":"登录"}}</span>
                     </div>
                 </div>
-                <div class="ml-auto">
+                <!-- <div class="ml-auto">
                     <v-ons-icon class="m-2" icon="fa-qq" style="color:#0076ff"></v-ons-icon>
                     <v-ons-icon icon="fa-weixin" style="color:#00bb00"></v-ons-icon>
-                </div>
+                </div> -->
             </div>
         </div>
     </v-ons-page>
@@ -63,8 +66,9 @@ import NavigatorModule from "@/store/modules/navigator";
 import PublicPage from "./public.vue";
 import AuthModule from "../store/modules/auth";
 import { AuthService } from "../core/services/auth.service";
-import { LAuth } from "../core/models/sys/lauth.dto";
-import { UserService } from '../core/services/user.service';
+import { LAuthDTO } from "../core/models/sys/lauth.dto";
+import { UserService } from "../core/services/user.service";
+import AppSplitter from "../app-splitter.vue";
 
 @Component
 export default class LoginPage extends Vue {
@@ -72,9 +76,9 @@ export default class LoginPage extends Vue {
 
     selectStandard: boolean = true;
     isSelectLogin: boolean = true;
-    isPhone:boolean = false;
+    isPhone: boolean = false;
     captcha = "";
-    lauthInfo: LAuth = {};
+    lauthInfo: LAuthDTO = {};
     captchaTime: number = 0;
     authService: AuthService = new AuthService();
     navigatorModule: NavigatorModule = getModule(NavigatorModule);
@@ -112,6 +116,7 @@ export default class LoginPage extends Vue {
             .register(this.lauthInfo, this.captchaTime)
             .then(rsp => {
                 if (rsp.data.code === "0") {
+                    this.navigatorModule.pop();
                     this.authModule.login(rsp.data.data);
                 }
                 this.$ons.notification.toast(rsp.data.message, {
@@ -129,16 +134,16 @@ export default class LoginPage extends Vue {
             }
         });
     }
-    
+
     // @Watch("lauthInfo.username")
     // isPhoneNum(value:string){
     //     if(value.length>10){
 
     //     }
     // }
-        
-    get currentTitle(){
-        return this.isSelectLogin? "登录":"注册";
+
+    get currentTitle() {
+        return this.isSelectLogin ? "登录" : "注册";
     }
 }
 </script>

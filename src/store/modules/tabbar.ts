@@ -7,7 +7,7 @@ import { Component } from 'vue';
     store
 })
 export default class TabbarModule extends VuexModule {
-    index: number = 1;
+    index: number = 0;
     @Mutation
     set(index: number){
         this.index = index;

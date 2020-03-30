@@ -17,7 +17,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "./store/modules/navigator";
 import LoginPage from './pages/login.vue';
-import UserModule from './store/modules/user';
 
 @Component
 export default class AppNavigator extends Vue {

@@ -10,4 +10,5 @@ export default class BaseDTO{
     // 修改时间
     modifyTime?: Date;
 
+    createId?:string;
 }

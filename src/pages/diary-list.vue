@@ -1,29 +1,38 @@
 <template>
     <v-ons-page :infinite-scroll="loadMore">
         <v-toolbar v-bind="toolbarInfo"></v-toolbar>
+        <v-ons-pull-hook :action="init" @changestate="state = $event.state">
+            <span v-show="state === 'initial'">刷新</span>
+            <span v-show="state === 'preaction'">加载完成</span>
+            <span v-show="state === 'action'">加载中。。</span>
+        </v-ons-pull-hook>
         <p class="intro">
             在这里分享你的故事
             <br />
         </p>
         <v-ons-list>
-            <v-ons-list-item v-for="(item,index) in list" :key="index" @click="forward(item)">
-                <v-ons-list-title>{{item}}</v-ons-list-title>
+            <v-ons-list-item v-for="(diary,index) in list" :key="index" @click="forward(diary)">
+                <v-ons-list-title>{{diary.title}}</v-ons-list-title>
             </v-ons-list-item>
         </v-ons-list>
 
-        <div class="text-center mt-4">
-            <v-ons-icon icon="ion-ios-sync" size="26px" spin></v-ons-icon>
+        <div class="text-center mt-4" v-if="currPage < total">
+            <v-ons-icon icon="ion-ios-sync" size="26px" spin />
         </div>
     </v-ons-page>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import ToolbarSearchComponent from "../partials/toolbar-search.vue";
-import NavigatorModule from "@/store/modules/navigator";
 import { Component as VueComponent } from "vue";
 import { getModule } from "vuex-module-decorators";
 import DiaryPage from "./diary.vue";
 import { RouterUtils } from "../utils/router.utils";
+import { DiaryService } from "@/core/services/diary.service";
+import { DiaryDTO } from "../core/models/sys/diary.dto";
+import { DiaryTagEnum } from "../core/enums/diary-tag.enum";
+import Page from "@/core/models/diary/page";
+import DiaryEditPage from "./diary-edit.vue";
 
 @Component({
     components: {
@@ -31,32 +40,64 @@ import { RouterUtils } from "../utils/router.utils";
     }
 })
 export default class DiaryListPage extends Vue {
-    @Prop() toolbarInfo!: {};
-    navigator: NavigatorModule = getModule(NavigatorModule);
-    list: any = [];
+    @Prop() toolbarInfo!: any;
+    @Prop() data?: any;
 
-    forward(title: string) {
+    diaryService = new DiaryService();
+
+    list: DiaryDTO[] = [];
+    currPage = 1;
+    total = 1;
+    state = "initial";
+
+    forward(data: any) {
         RouterUtils.forward({
-            page: DiaryPage,
+            page: DiaryEditPage,
             animation: "slide",
-            title: title,
-            backButton: true
+            title: "",
+            backLabel: this.toolbarInfo.title,
+            data: data
         });
     }
 
     loadMore(done: Function) {
-        setTimeout(() => {
-            for (let i = 0; i < 10; i++) {
-                this.list.push(this.list.length + i);
-            }
-            done();
-        }, 1000);
+        if (this.total > this.currPage) {
+            setTimeout(() => {
+                this.currPage += 1;
+                this.diaryService
+                    .list({ currPage: this.currPage }, { tag: this.data.id })
+                    .then(rsp => {
+                        const pageList: Page<DiaryDTO> = rsp.data.data;
+                        this.total = pageList.total as number;
+                        pageList.list.map((diary: DiaryDTO) => {
+                            this.list.push(diary);
+                        });
+                    });
+
+                done();
+            }, 1000);
+        }
     }
 
     beforeMount() {
-        for (let i = 0; i < 30; i++) {
-            this.list.push(i);
-        }
+        this.init();
+    }
+
+    init(done?: any) {
+        this.list = [];
+        this.diaryService
+            .list({ currPage: 1, pageSize: 10 }, { tag: this.data.id })
+            .then(rsp => {
+                const pageList: Page<DiaryDTO> = rsp.data.data;
+                this.total = pageList.total as number;
+                this.currPage = pageList.currPage as number;
+                pageList.list.map((diary: DiaryDTO) => {
+                    this.list.push(diary);
+                });
+                if (done) {
+                    done();
+                }
+            });
     }
 }
 </script>

@@ -1,36 +1,37 @@
-import { VuexModule, Module, Mutation, Action, MutationAction, getModule } from 'vuex-module-decorators';
+import { Action, getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import store from '../index';
-import { UserService } from '@/core/services/user.service';
+import MemorandumTagModule from './memorandum-tag';
 import UserModule from './user';
+const key = "user_token";
 @Module({
     dynamic: true,
     name: 'AuthModule',
     store
 })
 export default class AuthModule extends VuexModule {
-    token = localStorage.getItem("token");
+    token = localStorage.getItem(key);
 
     @Mutation
-    setToken(value:string){
+    setToken(value: string) {
         this.token = value;
-        localStorage.setItem("token",value);
+        localStorage.setItem(key, value);
     }
     @Mutation
-    clearToken(){
-        localStorage.removeItem("token");
+    clearToken() {
+        localStorage.removeItem(key);
         this.token = null;
     }
     @Action
-    async login(value:string){ 
+    async login(value: string) {
         this.setToken(value);
-        new UserService().getCurrentUser().then(rsp=>{
-            getModule(UserModule).setUserInfo(rsp.data.data);
-        });
+        getModule(MemorandumTagModule).getTagList();
+        getModule(UserModule).getCurrentInfo();
     };
 
-    @Action 
-    async logout(){
+    @Action
+    async logout() {
         this.clearToken();
         getModule(UserModule).clearUserInfo();
+        getModule(MemorandumTagModule).clear();
     }
 }

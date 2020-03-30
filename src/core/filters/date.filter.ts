@@ -1,5 +1,9 @@
 export class DateFilter{
-   public format(date: Date,fmt: string): string{
+   public format(input: Date,fmt: string): string{
+       let date = input;
+        if(Object.prototype.toString.call(date) == Object.prototype.toString.call("a")){
+            date = new Date(date);
+        }
         if(/(y+)/.test(fmt)){
             fmt = fmt.replace(RegExp.$1, (date.getFullYear()+'').substr(4-RegExp.$1.length));
         }

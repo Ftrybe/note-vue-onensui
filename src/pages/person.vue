@@ -41,7 +41,7 @@
                 </div>
             </v-ons-list-item>
 
-            <v-ons-list-item modifier="nodivider" expandable>
+            <v-ons-list-item modifier="nodivider" expandable v-if="userInfo">
                 <div class="left">
                     <v-ons-icon icon="ion-ios-book" class="list-item__icon"></v-ons-icon>
                 </div>
@@ -52,7 +52,7 @@
                         modifier="chevron nodivider"
                         v-for="(tag,index) of diaryTags"
                         :key="index"
-                        @click="forward(diaryListPage,tag.name)"
+                        @click="forward(diaryListPage,tag.name,tag)"
                     >
                         <div class="left">
                             <v-ons-icon icon="ion-ios-pricetag"></v-ons-icon>
@@ -62,29 +62,35 @@
                 </v-ons-list>
             </v-ons-list-item>
 
-            <v-ons-list-item modifier="nodivider" expandable style="user-select:'none'">
+            <v-ons-list-item
+                modifier="nodivider"
+                expandable
+                style="user-select:'none'"
+                v-if="userInfo"
+            >
                 <div class="left">
                     <div @touchstart.prevent>
-                        <v-touch @press="addTag()">
+                        <v-touch @press="addTag">
                             <v-ons-icon icon="ion-ios-pricetags" class="list-item__icon"></v-ons-icon>
                         </v-touch>
                     </div>
                 </div>
                 <div class="center">备忘录</div>
+                <v-ons-list class="expandable-content p-0 bg-none" expandable>
                 <draggable
                     v-model="memorandumTags"
                     v-bind="dragOptions"
                     :move="onMove"
-                    @change="test"
-                    tag="v-ons-list"
-                    class="expandable-content p-0 bg-none"
+                    :change="onChange"
+                    tag="div"
+                    
                 >
                     <v-ons-list-item
                         modifier="chevron nodivider"
                         v-for="tag in memorandumTags"
-                        :key="tag.index"
-                        @touchstart= "touchStart"
-                        @touchend="touchEnd($event,tag.name)"
+                        :key="tag.id"
+                        @touchstart="touchStart"
+                        @touchend="touchEnd($event,tag)"
                     >
                         <div class="left">
                             <v-ons-icon icon="ion-ios-pricetag"></v-ons-icon>
@@ -92,9 +98,24 @@
                         <div class="center">{{tag.name}}</div>
                     </v-ons-list-item>
                 </draggable>
+                 <v-ons-list-item
+                        modifier="chevron nodivider"
+                        @touchstart="touchStart"
+                        @touchend="touchEnd($event, {id:0,name:'全部'})"
+                    >
+                        <div class="left">
+                            <v-ons-icon icon="ion-ios-pricetag"></v-ons-icon>
+                        </div>
+                        <div class="center">全部</div>
+                    </v-ons-list-item>
+                </v-ons-list>
             </v-ons-list-item>
 
-            <v-ons-list-item modifier="chevron" @click="forward(timeLinePage,'时光轴')">
+            <v-ons-list-item
+                modifier="chevron"
+                @click="forward(timeLinePage,'时光轴')"
+                v-if="userInfo"
+            >
                 <div class="left">
                     <v-ons-icon icon="ion-ios-timer" class="list-item__icon"></v-ons-icon>
                 </div>
@@ -103,7 +124,7 @@
         </v-ons-list>
 
         <v-ons-list class="mt-3">
-            <v-ons-list-item modifier="chevron" @click="forward(settingPage,'设置')">
+            <v-ons-list-item modifier="chevron" @click="forward(settingPage,'设置','0')">
                 <div class="left">
                     <v-ons-icon icon="ion-ios-settings" class="list-item__icon"></v-ons-icon>
                 </div>
@@ -128,9 +149,13 @@ import LoginPage from "./login.vue";
 import UserModule from "../store/modules/user";
 import { RouterUtils } from "../utils/router.utils";
 import draggable from "vuedraggable";
-import MemorandumEditPage from './memorandum-edit.vue';
-import AuthModule from '../store/modules/auth';
-import { UserDTO } from '../core/models/sys/user.dto';
+import MemorandumEditPage from "./memorandum-edit.vue";
+import { UserDTO } from "../core/models/sys/user.dto";
+import MemorandumTagModule from "../store/modules/memorandum-tag";
+import DiaryModule from "../store/modules/diary";
+import { MemorandumTagService } from "../core/services/memorandum-tag.service";
+import { MemorandumTagDTO } from "../core/models/sys/memorandum-tag.dto";
+import Tag from '../core/models/sys/tag';
 
 @Component({
     components: {
@@ -138,10 +163,14 @@ import { UserDTO } from '../core/models/sys/user.dto';
     }
 })
 export default class PersonPage extends Vue {
-    // 页面导航
-    splitter: SplitterModule = getModule(SplitterModule);
+    // 导入vuex模块
+    splitter = getModule(SplitterModule);
+    userModule = getModule(UserModule);
+    memorandumTagModule = getModule(MemorandumTagModule);
 
-    // 页面
+    memoranduTagService = new MemorandumTagService();
+
+    // 导入需要的页面
     settingPage = PersonSettingPage;
     infoPage = PersonInfoPage;
     diaryListPage = DiaryListPage;
@@ -149,10 +178,12 @@ export default class PersonPage extends Vue {
     timeLinePage = TimeLinePage;
     loginPage = LoginPage;
 
+    localMemorandumTags?:MemorandumTagDTO[];
+    
+    // 备忘录标签设置
     editable = true;
     isDragging = false;
     delayedDragging = false;
-
     mTouchStartTime: number = 0;
     dragOptions = {
         animation: 0,
@@ -160,37 +191,10 @@ export default class PersonPage extends Vue {
         disabled: !this.editable,
         ghostClass: "ghost"
     };
-    diaryTags = [
-        {
-            name: "全部"
-        },
-        {
-            name: "故事"
-        },
-        {
-            name: "心情"
-        },
-        {
-            name: "随笔"
-        },
-        {
-            name: "搞笑"
-        },
-        {
-            name: "感情"
-        }
-    ];
 
-    memorandumTags = [
-        {
-            name: "全部",
-            index: 5
-        },
-        {
-            name: "测试",
-            index: 2
-        }
-    ];
+    get diaryTags() {
+        return getModule(DiaryModule).diaryTags;
+    }
 
     onMove(event: { relatedContext: any; draggedContext: any }) {
         const relatedElement = event.relatedContext.element;
@@ -200,22 +204,34 @@ export default class PersonPage extends Vue {
         );
     }
 
-    touchStart(e:TouchEvent){
-      this.mTouchStartTime = e.timeStamp;
-      e.preventDefault();
+    onChange(event:any){
+        console.log(event+ 'change');
     }
-    touchEnd(e:TouchEvent,title:string){
-      const mTouchTime = e.timeStamp - this.mTouchStartTime;
-      if(mTouchTime < 300){
-        this.forward(MemorandumListPage,title);
-      }
+
+    // onEnd(event:any){
+    //     console.log(event);
+    // }
+
+    // 使用拖拽插件导致点击不可用，使用触摸事件监听触摸时间触发点击事件
+    touchStart(e: TouchEvent) {
+        this.mTouchStartTime = e.timeStamp;
+        e.preventDefault();
     }
-    forward(page: VueComponent, title: string) {
+
+    touchEnd(e: TouchEvent, data: any) {
+        const mTouchTime = e.timeStamp - this.mTouchStartTime;
+        if (mTouchTime < 300) {
+            this.forward(MemorandumListPage, data.name, data);
+        }
+    }
+
+    forward(page: VueComponent, title: string, data?: any) {
         RouterUtils.forward({
             page: page,
             animation: "slide",
             backButton: true,
-            title: title
+            title: title,
+            data: data
         });
     }
 
@@ -226,9 +242,14 @@ export default class PersonPage extends Vue {
                     title: "",
                     buttonLabels: ["取消", "添加"]
                 })
-                .then(value => {
-                    if (value) {
-                        console.log(value);
+                .then(name => {
+                    if (name) {
+                        const tag = new MemorandumTagDTO();
+                        tag.name = name;
+                        
+                        this.memoranduTagService.save(tag).then(rsp => {
+                            this.memorandumTagModule.getTagList();
+                        });
                     }
                 });
         } else {
@@ -238,27 +259,25 @@ export default class PersonPage extends Vue {
             });
         }
     }
-    test(e:any){
-      console.log(this.memorandumTags);
-    }
-    
-    @Watch("isDragging")
-    Dragging(newValue: any) {
-        if (newValue) {
-            this.delayedDragging = true;
-            return;
+
+    mounted() {}
+
+    beforeCreate() {
+        if (localStorage.user_token) {
+            getModule(UserModule).init();
+            getModule(MemorandumTagModule).init();
         }
-        this.$nextTick(() => {
-            this.delayedDragging = false;
-        });
     }
 
-    beforeCreate(){
-        getModule(UserModule).init();
-    }
-    
     get userInfo() {
-        return getModule(UserModule).userInfo;
+        return this.userModule.userInfo;
+    }
+
+    get memorandumTags() {
+        return this.memorandumTagModule.tags;
+    }
+    set memorandumTags(value:any) {
+        this.memorandumTagModule.setTag(value);
     }
 }
 </script>

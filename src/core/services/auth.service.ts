@@ -1,19 +1,18 @@
-import http from 'axios'
-import { LAuth } from '../models/sys/lauth.dto';
+import http from 'axios';
+import { LAuthDTO } from '../models/sys/lauth.dto';
+import jwt from '@/core/interceptors/http.interceptor';
 http.defaults.baseURL = process.env.VUE_APP_BASE_API;
+
 export class AuthService {
-    login(auth: LAuth) {
+    
+    login(auth: LAuthDTO) {
         return http.post(
             '/tokens',
             auth
         );
     }
 
-    info(auth: LAuth) {
-        return http.get('/tokens')
-    }
-
-    register(auth: LAuth,t:Number) {
+    register(auth: LAuthDTO,t:Number) {
         return http.post(
             '/username',
             auth,{
@@ -30,5 +29,9 @@ export class AuthService {
                 t: t
             }
         });
+    }
+
+    update(auth:LAuthDTO){
+        return jwt.put('/tokens',auth);
     }
 }

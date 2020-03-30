@@ -1,6 +1,18 @@
 import BaseDTO from './base.dto';
-import { MemorandumTagDTO } from "./memorandum-tag.dto";
+import { MemorandumTagScopeDTO } from './memorandum-tag-scope.dto';
 export class MemorandumDTO extends BaseDTO {
+    constructor(init?: boolean) {
+        super();
+        if (init) {
+            this.title = "";
+            this.content = "";
+            this.eventStartTime = new Date();
+            this.eventStopTime = new Date();
+            this.tagId = "0";
+            this.scope = new MemorandumTagScopeDTO(true);
+        }
+    }
+
     // 标题
 
     title?: string;
@@ -15,8 +27,8 @@ export class MemorandumDTO extends BaseDTO {
     eventStopTime?: Date;
 
     userId?: string;
-    // 非数据库字段
-    tags?: MemorandumTagDTO[];
 
-    tagIds?: string;
+    tagId?: string;
+
+    scope?:MemorandumTagScopeDTO;
 }

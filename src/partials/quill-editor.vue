@@ -19,7 +19,9 @@ import { VueEditor } from "vue2-editor";
 })
 export default class QuillEditorComponent extends Vue {
     @Prop() value?: string;
+
     @Prop() placeholder?: string;
+
     customToolbar = [
         [
             { header: 2 },
@@ -31,7 +33,7 @@ export default class QuillEditorComponent extends Vue {
     created() {
     }
 
-    @Emit()
+    @Emit("input")
     changeContent(value: string) {}
 
     @Emit()
