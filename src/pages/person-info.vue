@@ -20,14 +20,17 @@
                 <div class="right username">{{user.username}}</div>
             </v-ons-list-item>
 
-            <v-ons-list-item modifier="chevron" @click="forward('昵称',user.nickname)">
+            <v-ons-list-item
+                modifier="chevron"
+                @click="forward('昵称',user.nickname,PersonInfoNickname)"
+            >
                 <div class="center">
                     <span class="list-item__title">昵称</span>
                 </div>
                 <div class="right">{{user.nickname}}</div>
             </v-ons-list-item>
 
-            <v-ons-list-item modifier="chevron" @click="forward('手机号',user.phone)">
+            <v-ons-list-item modifier="chevron" @click="forward('手机号',user.phone,PersonInfoPhone)">
                 <div class="center">
                     <span class="list-item__title">手机号</span>
                 </div>
@@ -38,18 +41,8 @@
                 <div class="center">
                     <span class="list-item__title">性别</span>
                 </div>
-                <div class="right" @click="switchGender">男</div>
-                <v-ons-action-sheet :visible.sync="isOpenGender" cancelable>
-                    <v-select-scroll :listData="genderList" v-model="gender"></v-select-scroll>
-                </v-ons-action-sheet>
+                <div class="right" @click="switchGender">{{ user.gender == 1? "男":"女"}}</div>
             </v-ons-list-item>
-
-            <!-- <v-ons-list-item modifier="chevron" @click="forward('心情','真是个愉快的一天阿')">
-        <div class="center">
-          <span class="list-item__title">心情</span>
-        </div>
-        <div class="right">真是个愉快的一天阿</div>
-            </v-ons-list-item>-->
 
             <v-ons-list-item modifier="chevron">
                 <div class="left flex-row-reverse">
@@ -57,7 +50,7 @@
                 </div>
                 <div class="right">
                     <div @click="switchPicker()">{{user.birthday |dataformat("yyyy-MM-d")}}</div>
-                    <v-ons-action-sheet :visible.sync="isOpenPicker" @posthide="test" cancelable>
+                    <v-ons-action-sheet :visible.sync="isOpenPicker" cancelable>
                         <v-date-picker
                             v-model="user.birthday"
                             :popover="{visibility:'click',placement:'bottom'}"
@@ -84,6 +77,8 @@ import { RouterUtils } from "@/utils/router.utils";
 import UserModule from "../store/modules/user";
 import { UserDTO } from "../core/models/sys/user.dto";
 import PersonInfoEditPage from "./person-info-edit.vue";
+import PersonInfoNickname from "./person-info-nickname.vue";
+import PersonInfoPhone from "./person-info-phone.vue";
 import { UserService } from "../core/services/user.service";
 import { GenderEnum } from "../core/enums/gender.enum";
 @Component({
@@ -98,16 +93,12 @@ import { GenderEnum } from "../core/enums/gender.enum";
 export default class PersonInfoPage extends Vue {
     @Prop() toolbarInfo?: {};
 
+    PersonInfoPhone = PersonInfoPhone;
+    PersonInfoNickname = PersonInfoNickname;
+
     user: UserDTO = new UserDTO(true);
 
-    // date: Date = new Date();
-
-    gender: string = "不显示";
-
-    genderList = new Array<string>("不显示", "男", "女");
-
     isOpenPicker: boolean = false;
-    isOpenGender: boolean = false;
 
     userService = new UserService();
 
@@ -117,12 +108,20 @@ export default class PersonInfoPage extends Vue {
     }
 
     switchGender() {
-        this.isOpenGender = !this.isOpenGender;
+        const timer = setTimeout(() => {
+            this.user.gender =
+                this.user.gender == GenderEnum.MEN
+                    ? GenderEnum.WOMEN
+                    : GenderEnum.MEN;
+            this.updateInfo();
+        }, 1000);
+        this.$once("hook:beforeDestroy", () => {
+            clearInterval(timer);
+        });
     }
-
-    forward(title: string, value: string) {
+    forward(title: string, value: string, page: any) {
         RouterUtils.forward({
-            page: PersonInfoEditPage,
+            page: page,
             animation: "slide",
             props: {
                 toolbarInfo: {
@@ -138,40 +137,20 @@ export default class PersonInfoPage extends Vue {
         this.switchPicker();
     }
 
-    test(event: Object) {}
-
     beforeMount() {
         this.user = this.userInfo as UserDTO;
         const date = this.user.birthday as Date;
         this.user.birthday = new Date(date);
-        
     }
 
     updateInfo() {
         this.userService.update(this.user).then(rsp => {
             getModule(UserModule).getCurrentInfo();
         });
+        this.isOpenPicker = false;
     }
     get userInfo(): any {
         return getModule(UserModule).userInfo;
-    }
-
-    get genderEnum() {
-        let gender = null;
-        switch (this.gender) {
-            case "不显示":
-                gender = GenderEnum.NONE;
-                break;
-            case "男":
-                gender = GenderEnum.MEN;
-                break;
-            case "女":
-                gender = GenderEnum.WOMEN;
-                break;
-            default:
-                break;
-        }
-        return gender;
     }
 }
 </script>

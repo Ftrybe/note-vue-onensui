@@ -86,7 +86,7 @@ export default class DiaryListPage extends Vue {
     init(done?: any) {
         this.list = [];
         this.diaryService
-            .list({ currPage: 1, pageSize: 10 }, { tag: this.data.id })
+            .list({ currPage: 1 }, { tag: this.data.id })
             .then(rsp => {
                 const pageList: Page<DiaryDTO> = rsp.data.data;
                 this.total = pageList.total as number;

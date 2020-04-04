@@ -98,7 +98,7 @@
                         <div class="center">{{tag.name}}</div>
                     </v-ons-list-item>
                 </draggable>
-                 <v-ons-list-item
+                 <!-- <v-ons-list-item
                         modifier="chevron nodivider"
                         @touchstart="touchStart"
                         @touchend="touchEnd($event, {id:0,name:'全部'})"
@@ -107,7 +107,7 @@
                             <v-ons-icon icon="ion-ios-pricetag"></v-ons-icon>
                         </div>
                         <div class="center">全部</div>
-                    </v-ons-list-item>
+                    </v-ons-list-item> -->
                 </v-ons-list>
             </v-ons-list-item>
 

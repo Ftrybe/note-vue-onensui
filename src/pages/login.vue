@@ -1,5 +1,6 @@
 <template>
-    <v-ons-page>
+    <v-ons-page modifier="white">
+        <div class="background" />
         <v-toolbar v-bind="toolbarInfo">
             <span slot="right"></span>
         </v-toolbar>
@@ -17,6 +18,8 @@
                                 float
                                 type="text"
                                 v-model="lauthInfo.username"
+                                maxlength="11"
+                                @blur="checkPhone"
                             />
                         </div>
                         <div class="inp-groups">
@@ -25,17 +28,25 @@
                                 placeholder="密码"
                                 float
                                 type="password"
+                                maxlength="18"
                                 v-model="lauthInfo.password"
                             />
                         </div>
-                        <div class="inp-groups" v-if="!isSelectLogin && !isPhone">
+                        <div class="inp-groups" v-if="!isSelectLogin">
                             <v-ons-icon icon="ion-ios-information-circle-outline" />
-                            <v-ons-input float type="text" v-model="lauthInfo.captcha" />
-                            <svg class="captcha" v-html="captcha" @click="getCaptcha" />
-                        </div>
-                        <div class="inp-groups" v-if="!isSelectLogin && isPhone">
-                            <v-ons-icon icon="ion-ios-information-circle-outline" />
-                            <v-ons-input float type="text" v-model="lauthInfo.captcha" />
+                            <v-ons-input
+                                float
+                                type="text"
+                                v-model="lauthInfo.captcha"
+                                maxlength="4"
+                            />
+                            <svg
+                                v-if="!isPhone"
+                                class="captcha"
+                                v-html="captcha"
+                                @click="getCaptcha"
+                            />
+                            <button v-if="isPhone" class="captcha" @click="getSmsCode">{{smsButton}}</button>
                         </div>
                         <v-ons-button
                             class="text-center w-100"
@@ -43,18 +54,16 @@
                         >{{currentTitle}}</v-ons-button>
                     </div>
                 </div>
-                <div>
+                <div class="d-flex">
                     <div class="login-none-btn">
                         {{isSelectLogin?'没有账号?点击':'已有账号?点击'}}
                         <span
                             @click="toggleView"
                         >{{isSelectLogin?"注册":"登录"}}</span>
                     </div>
+
+                    <div class="login-none-btn ml-auto" @click="forget" v-if="isSelectLogin">忘记密码?</div>
                 </div>
-                <!-- <div class="ml-auto">
-                    <v-ons-icon class="m-2" icon="fa-qq" style="color:#0076ff"></v-ons-icon>
-                    <v-ons-icon icon="fa-weixin" style="color:#00bb00"></v-ons-icon>
-                </div> -->
             </div>
         </div>
     </v-ons-page>
@@ -69,7 +78,7 @@ import { AuthService } from "../core/services/auth.service";
 import { LAuthDTO } from "../core/models/sys/lauth.dto";
 import { UserService } from "../core/services/user.service";
 import AppSplitter from "../app-splitter.vue";
-
+import { ValidatorUtils } from "@/utils/validator.utils";
 @Component
 export default class LoginPage extends Vue {
     @Prop() toolbarInfo!: any;
@@ -78,12 +87,13 @@ export default class LoginPage extends Vue {
     isSelectLogin: boolean = true;
     isPhone: boolean = false;
     captcha = "";
+    smsCode = "";
+    smsButton = "获取验证码";
     lauthInfo: LAuthDTO = {};
     captchaTime: number = 0;
     authService: AuthService = new AuthService();
     navigatorModule: NavigatorModule = getModule(NavigatorModule);
     authModule: AuthModule = getModule(AuthModule);
-
     mounted() {}
 
     onSelect() {
@@ -95,6 +105,9 @@ export default class LoginPage extends Vue {
             this.getCaptcha();
         }
         this.toolbarInfo.title = this.currentTitle;
+        this.lauthInfo.username = "";
+        this.lauthInfo.password = "";
+        this.lauthInfo.captcha = "";
     }
 
     login() {
@@ -103,7 +116,6 @@ export default class LoginPage extends Vue {
                 this.navigatorModule.pop();
                 this.authModule.login(rsp.data.data);
             }
-
             this.$ons.notification.toast(rsp.data.message, {
                 buttonLabels: "确定",
                 timeout: 1500
@@ -134,20 +146,56 @@ export default class LoginPage extends Vue {
             }
         });
     }
-
-    // @Watch("lauthInfo.username")
-    // isPhoneNum(value:string){
-    //     if(value.length>10){
-
-    //     }
-    // }
+    getSmsCode() {
+        this.authService.smsCode(this.lauthInfo.username!).then(rsp => {
+            if (rsp.data.code === "0") {
+                this.$ons.notification.toast(rsp.data.message, {
+                    buttonLabels: "确定",
+                    timeout: 1500
+                });
+                let count = 60;
+                const timer = setInterval(() => {
+                    count--;
+                    this.smsButton = count + "s";
+                    if (count < 1) {
+                        clearInterval(timer);
+                        this.smsButton = "获取验证码";
+                    }
+                }, 1000);
+                this.$once("hook:beforeDestroy", () => {
+                    clearInterval(timer);
+                });
+            }
+        });
+    }
 
     get currentTitle() {
         return this.isSelectLogin ? "登录" : "注册";
     }
+
+    checkPhone(e: any) {
+        if (ValidatorUtils.isMobile(this.lauthInfo.username + "")) {
+            this.isPhone = true;
+        } else {
+            this.isPhone = false;
+        }
+    }
+
+    forget() {
+        this.$ons.notification.alert(
+            "绑定手机的用户若忘记密码，请选择重新注册账号修改密码。未绑定手机号的用户请联系管理员",
+            {
+                title: "提示",
+                buttonLabels: "确定"
+            }
+        );
+    }
 }
 </script>
 <style scoped lang='scss'>
+.background {
+    background-color: #fff;
+}
 .login {
     width: 100%;
     height: auto;
@@ -173,6 +221,7 @@ export default class LoginPage extends Vue {
             right: 0;
             height: 32px;
             width: 80px;
+            background-color: #efeff4;
         }
         ons-input {
             width: 100%;

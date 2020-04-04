@@ -3,7 +3,7 @@
         <v-toolbar v-bind="toolbarInfo">
             <div slot="right"></div>
         </v-toolbar>
-        <v-ons-list v-if="loginState">
+        <!-- <v-ons-list v-if="loginState">
             <v-ons-list-item modifier="chevron nodivider">
                 <div class="center">
                     <span class="title">主题设置</span>
@@ -14,7 +14,7 @@
                     <span class="title">通用设置</span>
                 </div>
             </v-ons-list-item>
-        </v-ons-list>
+        </v-ons-list> -->
         <v-ons-list class="mt-3">
             <v-ons-list-item modifier="chevron nodivider">
                 <div class="center">
@@ -35,11 +35,11 @@
             </v-ons-list-item>
         </v-ons-list>
         <v-ons-list class="mt-3" v-if="loginState">
-            <v-ons-list-item modifier="chevron nodivider">
+            <!-- <v-ons-list-item modifier="chevron nodivider">
                 <div class="center">
                     <span class="title">安全设置</span>
                 </div>
-            </v-ons-list-item>
+            </v-ons-list-item> -->
             <v-ons-list-item modifier="nodivider" @click="logout">
                 <div class="center">
                     <span class="title">退出登录</span>
@@ -57,6 +57,7 @@ import HomePage from "./home.vue";
 import AppSplitter from "../app-splitter.vue";
 import MemorandumTagModule from "../store/modules/memorandum-tag";
 import { ResultCodeEnum } from '../core/enums/result-code.enum';
+import UserModule from '../store/modules/user';
 
 @Component
 export default class PersonSetting extends Vue {
@@ -86,7 +87,8 @@ export default class PersonSetting extends Vue {
                 }
             });
     }
-    refreshCache() {
+    async refreshCache() {
+        await getModule(UserModule).getCurrentInfo();
         getModule(MemorandumTagModule)
             .getTagList()
             .then(code => {

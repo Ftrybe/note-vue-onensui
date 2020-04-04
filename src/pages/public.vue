@@ -1,5 +1,6 @@
 <template>
     <v-ons-page :infinite-scroll="loadMore">
+        <div class="background" />
         <v-ons-pull-hook :action="init" @changestate="state = $event.state">
             <span v-show="state === 'initial'">刷新</span>
             <span v-show="state === 'preaction'">加载完成</span>
@@ -134,5 +135,8 @@ export default class PublicPage extends Vue {
 <style scoped lang='scss'>
 .center {
     width: auto;
+}
+.list{
+    background: none;
 }
 </style>

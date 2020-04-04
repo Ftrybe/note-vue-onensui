@@ -30,9 +30,9 @@
                     <div class="username">{{localData.userInfo.nickname}}</div>
                     <div class="time">{{localData.unKnowDate | dataformat("yyyy-MM-d")}}</div>
                 </div>
-                <div class="share">
+                <!-- <div class="share">
                     <v-ons-icon icon="ion-ios-redo" style="color:#fff"></v-ons-icon>
-                </div>
+                </div> -->
             </div>
             <div class="content" v-html="localData.content"></div>
         </div>

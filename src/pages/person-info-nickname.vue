@@ -10,7 +10,7 @@
             </div>
         </v-toolbar>
         <div class="inp">
-            <v-ons-input float v-model="value" @keyup="change" />
+            <v-ons-input float v-model="value" @keyup="change" :maxlength="maxlength" />
         </div>
         <v-ons-list-header
             style="color:rab(160,160,160);background:none"
@@ -27,9 +27,8 @@ import { getModule } from "vuex-module-decorators";
 import NavigatorModule from "../store/modules/navigator";
 import UserModule from "../store/modules/user";
 import AuthModule from "../store/modules/auth";
-
 @Component
-export default class PersonInfoEditPage extends Vue {
+export default class PersonInfoNicknameComponent extends Vue {
     @Prop() toolbarInfo!: any;
 
     @Prop() name!: string;
@@ -40,32 +39,19 @@ export default class PersonInfoEditPage extends Vue {
 
     response: any;
 
+    maxlength: number = 11;
+
     mounted() {
         this.value = this.name;
     }
 
     async save() {
-        switch (this.toolbarInfo.title) {
-            case "昵称":
-                const user = new UserDTO();
-                const userService = new UserService();
-                user.nickname = this.value;
-                userService.update(user).then(rsp => {
-                    this.optsSuccess(rsp.data.message);
-                });
-                break;
-            case "手机号":
-                const auth = new LAuthDTO();
-                const authService = new AuthService();
-                auth.phone = this.value;
-                authService.update(auth).then(rsp => {
-                    if (rsp.data.code === "0") {
-                        getModule(AuthModule).setToken(rsp.data.data);
-                        this.optsSuccess(rsp.data.message);
-                    }
-                });
-                break;
-        }
+        const user = new UserDTO();
+        const userService = new UserService();
+        user.nickname = this.value;
+        userService.update(user).then(rsp => {
+            this.optsSuccess(rsp.data.message);
+        });
     }
 
     change(event: InputEvent) {
