@@ -28,8 +28,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import QuillEditorComponent from "@/partials/quill-editor.vue";
 import { DateFilter } from "@/core/filters/date.filter";
 import SelectDropdownComponent from "../partials/select-dropdown.vue";
-import { getModule } from "vuex-module-decorators";
-import MemorandumTagModule from "../store/modules/memorandum-tag";
+import {MemorandumTagModule} from "../store/modules/memorandum-tag";
 import { MemorandumDTO } from "../core/models/sys/memorandum.dto";
 import { MemorandumService } from "../core/services/memorandum.service";
 @Component({
@@ -75,7 +74,7 @@ export default class MemorandumEditPage extends Vue {
         }
     }
     get tags() {
-        return getModule(MemorandumTagModule).tags;
+        return MemorandumTagModule.tags;
     }
 }
 </script>

@@ -1,4 +1,4 @@
-import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { Action, Module, Mutation, VuexModule, getModule } from 'vuex-module-decorators';
 import store from '../index';
 import { UserService } from '@/core/services/user.service';
 const key = "user";
@@ -7,10 +7,9 @@ const key = "user";
     name: 'UserModule',
     store
 })
-export default class UserModule extends VuexModule {
+class User extends VuexModule {
 
     userInfo = window.localStorage.getItem(key);
-
     @Mutation
     setUserInfo(info: any) {
         window.localStorage.setItem(key, JSON.stringify(info));
@@ -25,13 +24,14 @@ export default class UserModule extends VuexModule {
 
     @Action
     async init() {
-       this.setUserInfo(JSON.parse(localStorage.getItem(key) || ''));
+        this.setUserInfo(JSON.parse(localStorage.getItem(key) || ''));
     }
 
     @Action
-    async getCurrentInfo(){
-       const rsp = await new UserService().getCurrentUser();
-       const user = rsp.data.data;
-       this.setUserInfo(user);
+    async getCurrentInfo() {
+        const rsp = await new UserService().getCurrentUser();
+        const user = rsp.data.data;
+        this.setUserInfo(user);
     }
 }
+export const UserModule = getModule(User);

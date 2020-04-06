@@ -23,10 +23,8 @@ import { UserDTO } from "../core/models/sys/user.dto";
 import { UserService } from "../core/services/user.service";
 import { AuthService } from "../core/services/auth.service";
 import { LAuthDTO } from "../core/models/sys/lauth.dto";
-import { getModule } from "vuex-module-decorators";
-import NavigatorModule from "../store/modules/navigator";
-import UserModule from "../store/modules/user";
-import AuthModule from "../store/modules/auth";
+import {NavigatorModule} from "../store/modules/navigator";
+import {UserModule} from "../store/modules/user";
 @Component
 export default class PersonInfoNicknameComponent extends Vue {
     @Prop() toolbarInfo!: any;
@@ -63,11 +61,11 @@ export default class PersonInfoNicknameComponent extends Vue {
     }
 
     async optsSuccess(message: string) {
-        getModule(UserModule).getCurrentInfo();
+        await UserModule.getCurrentInfo();
         this.$ons.notification.toast(message, {
             timeout: 1000
         });
-        getModule(NavigatorModule).pop();
+        NavigatorModule.pop();
     }
 }
 </script>

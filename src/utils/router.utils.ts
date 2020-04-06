@@ -1,5 +1,4 @@
-import NavigatorModule from "../store/modules/navigator";
-import { getModule } from "vuex-module-decorators";
+import {NavigatorModule} from "../store/modules/navigator";
 import { Component } from 'vue';
 import {Router} from '@/core/models/diary/router'
 import { OnsPageOptions } from '@/core/models/ons/page.options';
@@ -7,7 +6,7 @@ import { OnsPageOptions } from '@/core/models/ons/page.options';
 export class RouterUtils {
 
     public static forward( router:Router | {page: Component, animation?: string,title?:string,backLabel?:string,backButton?:boolean,props?:any,data?:any,replace?:boolean}) {
-        const navigator: NavigatorModule = getModule(NavigatorModule);
+        const navigator = NavigatorModule;
         navigator.option({
             animation: router.animation,
             callback: () => navigator.option({})

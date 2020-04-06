@@ -1,4 +1,4 @@
-import { VuexModule, Module, Mutation, Action, MutationAction } from 'vuex-module-decorators';
+import { VuexModule, Module, Mutation, Action, MutationAction, getModule } from 'vuex-module-decorators';
 import store from '../index';
 import { MemorandumTagService } from '@/core/services/memorandum-tag.service';
 import { MemorandumTagDTO } from '@/core/models/sys/memorandum-tag.dto';
@@ -9,7 +9,7 @@ const  key = "m_tags";
     name: 'MemorandumTagModule',
     store
 })
-export default class MemorandumTagModule extends VuexModule {
+class MemorandumTag extends VuexModule {
     tags = window.localStorage.getItem(key);
 
     @Mutation
@@ -48,3 +48,4 @@ export default class MemorandumTagModule extends VuexModule {
 
     }
 }
+export const MemorandumTagModule = getModule(MemorandumTag);

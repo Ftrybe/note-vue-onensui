@@ -43,7 +43,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { DiaryDTO } from "../core/models/sys/diary.dto";
 import { getModule } from "vuex-module-decorators";
-import UserModule from "../store/modules/user";
+import {UserModule} from "../store/modules/user";
 import { RouterUtils } from "@/utils/router.utils";
 import DiaryEditPage from "./diary-edit.vue";
 import { DateFilter } from "@/core/filters/date.filter";
@@ -71,7 +71,7 @@ export default class DiaryPage extends Vue {
     }
 
     get userinfo() {
-        return getModule(UserModule).userInfo;
+        return UserModule.userInfo;
     }
 
     forward(data: DiaryDTO) {

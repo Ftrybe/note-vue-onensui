@@ -1,4 +1,4 @@
-import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
+import { VuexModule, Module, Mutation, getModule } from 'vuex-module-decorators';
 
 import store from '../index';
 @Module({
@@ -6,7 +6,7 @@ import store from '../index';
     name: 'SplitterModule',
     store
 })
-export default class SplitterModule extends VuexModule {
+class Splitter extends VuexModule {
     open: boolean = false;
 
     @Mutation
@@ -18,3 +18,4 @@ export default class SplitterModule extends VuexModule {
           }
     }
 }
+export const SplitterModule = getModule(Splitter);

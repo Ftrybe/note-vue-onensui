@@ -1,4 +1,4 @@
-import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
+import { VuexModule, Module, Mutation, getModule } from 'vuex-module-decorators';
 import store from '../index';
 import { Component } from 'vue';
 import { OnsPageOptions } from '@/core/models/ons/page.options';
@@ -8,7 +8,7 @@ import { NavigatorOptions } from '@/core/models/ons';
     name: 'NavigatorModule',
     store
 })
-export default class NavigatorModule extends VuexModule {
+class Navigator extends VuexModule {
     stack: any[] = [];
     options?: NavigatorOptions | {};
     @Mutation
@@ -40,3 +40,4 @@ export default class NavigatorModule extends VuexModule {
     }
 
 }
+export const NavigatorModule = getModule(Navigator);

@@ -37,18 +37,21 @@ export default class ChequerInputComponent extends Vue {
             ((this.$refs[
                 "input" + num
             ] as Element[])[0] as HTMLInputElement).focus();
-           
         }
-		this.arr[index] = "";
-		this.$emit("change", this.arr.join(""));
-	}
-	
-	public clear(){
-        this.$nextTick(()=>{
-            this.arr = new Array(this.max);
-            this.$emit("change", this.arr.join(""));
-        })
-	}
+        this.arr[index] = "";
+        this.$emit("change", this.arr.join(""));
+    }
+
+    public clear() {
+        for(var i=0;i<this.max!;i++){
+            ((this.$refs[
+                "input" + i
+            ] as Element[])[0] as HTMLInputElement).value = "";
+        }
+
+        this.arr = new Array(this.max);
+        this.$emit("change", this.arr);
+    }
 }
 </script>
 <style scoped lang='scss'>

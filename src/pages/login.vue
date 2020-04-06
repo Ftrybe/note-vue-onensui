@@ -70,10 +70,9 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { getModule } from "vuex-module-decorators";
-import NavigatorModule from "@/store/modules/navigator";
+import { NavigatorModule } from "@/store/modules/navigator";
 import PublicPage from "./public.vue";
-import AuthModule from "../store/modules/auth";
+import { AuthModule } from "../store/modules/auth";
 import { AuthService } from "../core/services/auth.service";
 import { LAuthDTO } from "../core/models/sys/lauth.dto";
 import { UserService } from "../core/services/user.service";
@@ -92,8 +91,6 @@ export default class LoginPage extends Vue {
     lauthInfo: LAuthDTO = {};
     captchaTime: number = 0;
     authService: AuthService = new AuthService();
-    navigatorModule: NavigatorModule = getModule(NavigatorModule);
-    authModule: AuthModule = getModule(AuthModule);
     mounted() {}
 
     onSelect() {
@@ -113,8 +110,8 @@ export default class LoginPage extends Vue {
     login() {
         this.authService.login(this.lauthInfo).then(rsp => {
             if (rsp.data.code === "0") {
-                this.navigatorModule.pop();
-                this.authModule.login(rsp.data.data);
+                NavigatorModule.pop();
+                AuthModule.login(rsp.data.data);
             }
             this.$ons.notification.toast(rsp.data.message, {
                 buttonLabels: "确定",
@@ -128,8 +125,8 @@ export default class LoginPage extends Vue {
             .register(this.lauthInfo, this.captchaTime)
             .then(rsp => {
                 if (rsp.data.code === "0") {
-                    this.navigatorModule.pop();
-                    this.authModule.login(rsp.data.data);
+                    NavigatorModule.pop();
+                    AuthModule.login(rsp.data.data);
                 }
                 this.$ons.notification.toast(rsp.data.message, {
                     buttonLabels: "确定",

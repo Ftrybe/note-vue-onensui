@@ -13,15 +13,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import HomePage from "./pages/home.vue";
-import TabbarModule from "./store/modules/tabbar";
-import SplitterModule from "./store/modules/splitter";
-import { getModule } from "vuex-module-decorators";
+import {TabbarModule} from "./store/modules/tabbar";
+import {SplitterModule} from "./store/modules/splitter";
 import TimeLinePage from './pages/time-line.vue';
 import PublicPage from './pages/public.vue';
 @Component
 export default class AppTabbar extends Vue {
-  private tabbar: TabbarModule = getModule(TabbarModule);
-  private splitter: SplitterModule = getModule(SplitterModule);
+   splitter = SplitterModule;
   private tabs = [
     {
       label: "主页",
@@ -36,10 +34,10 @@ export default class AppTabbar extends Vue {
   ];
 
   get index() {
-    return this.tabbar.index;
+    return TabbarModule.index;
   }
   set index(newValue) {
-    this.tabbar.set(newValue);
+    TabbarModule.set(newValue);
   }
 
   get title() {

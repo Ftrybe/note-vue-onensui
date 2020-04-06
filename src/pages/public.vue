@@ -36,12 +36,10 @@
 <script lang='ts'>
 import { Component, Vue, Watch } from "vue-property-decorator";
 import HomePage from "./home.vue";
-import { getModule } from "vuex-module-decorators";
 import { RouterUtils } from "@/utils/router.utils";
 import DiaryPage from "./diary.vue";
 import { DiaryDTO } from "@/core/models/sys/diary.dto";
-import AuthModule from "../store/modules/auth";
-import DiaryModule from "../store/modules/diary";
+import {DiaryModule} from "../store/modules/diary";
 import { PublicService } from "../core/services/public.service";
 import { DiaryTagEnum } from "../core/enums/diary-tag.enum";
 import Page from "@/core/models/diary/page";
@@ -121,7 +119,7 @@ export default class PublicPage extends Vue {
             });
     }
     get tagList() {
-        return getModule(DiaryModule).diaryTags;
+        return DiaryModule.diaryTags;
     }
 
     get map(){

@@ -41,8 +41,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import DiaryEditPage from "./diary-edit.vue";
 import MemorandumPage from "./memorandum-edit.vue";
-import NavigatorModule from "@/store/modules/navigator";
-import { getModule } from "vuex-module-decorators";
+import {NavigatorModule} from "@/store/modules/navigator";
 import { Component as VueComponent } from "vue";
 import { RouterUtils } from "../utils/router.utils";
 import { DiaryService } from "../core/services/diary.service";
@@ -58,7 +57,6 @@ import { mapActions } from "vuex";
 export default class TimeLinePage extends Vue {
     @Prop() toolbarInfo!: {};
     state = "initial";
-    navigatorVuex: NavigatorModule = getModule(NavigatorModule);
     diaryService = new DiaryService();
     times: Map<string, Date> = new Map();
     diarys: DiaryDTO[] = [];

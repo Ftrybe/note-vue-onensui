@@ -23,8 +23,7 @@
 import AppTabbar from './app-tabbar.vue';
 import PersonPage from '@/pages/person.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
-import SplitterModule from './store/modules/splitter';
+import {SplitterModule} from './store/modules/splitter';
 import store from './store';
 
 @Component({
@@ -36,10 +35,10 @@ import store from './store';
 export default class AppSplitter extends Vue {
   subscribe:any;
   get isOpen() {
-    return getModule(SplitterModule).open;
+    return SplitterModule.open;
   }
   set isOpen(newValue) {
-    getModule(SplitterModule).toggle(newValue);
+    SplitterModule.toggle(newValue);
   }
   // 
   created(){

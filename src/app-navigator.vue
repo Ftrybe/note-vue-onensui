@@ -14,29 +14,26 @@
 <script lang="ts">
 import AppSplitter from "./app-splitter.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { getModule } from "vuex-module-decorators";
-import NavigatorModule from "./store/modules/navigator";
+import {NavigatorModule} from "./store/modules/navigator";
 import LoginPage from './pages/login.vue';
 
 @Component
 export default class AppNavigator extends Vue {
-  navigator: NavigatorModule = getModule(NavigatorModule);
 
   private storePop() {
-    this.navigator.pop();
+    NavigatorModule.pop();
   }
 
   private beforeCreate() {
-    this.navigator = getModule(NavigatorModule);
-    this.navigator.push(AppSplitter);
+    NavigatorModule.push(AppSplitter);
   }
 
   get pageStack() {
-    return this.navigator.stack;
+    return NavigatorModule.stack;
   }
 
   get options() {
-    return this.navigator.options;
+    return NavigatorModule.options;
   }
 
   get borderRadius() {

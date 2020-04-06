@@ -34,12 +34,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import NavigatorModule from "@/store/modules/navigator";
+import {NavigatorModule} from "@/store/modules/navigator";
 import { getModule } from "vuex-module-decorators";
 import DiaryEditPage from "@/pages/diary-edit.vue";
 import MemorandumPage from "@/pages/memorandum-edit.vue";
-import TabbarModule from "@/store/modules/tabbar";
-import AuthModule from '../store/modules/auth';
+import {TabbarModule} from "@/store/modules/tabbar";
+import {AuthModule} from '../store/modules/auth';
 
 @Component
 export default class ToolbarComponent extends Vue {
@@ -47,7 +47,7 @@ export default class ToolbarComponent extends Vue {
     @Prop() private backLabel?: string;
     @Prop() private backButton?: boolean;
 
-    private navigatorVuex: NavigatorModule = getModule(NavigatorModule);
+    private navigatorVuex = NavigatorModule;
 
     private popoverVisible: boolean = false;
     private popoverTarget = null;
@@ -100,7 +100,7 @@ export default class ToolbarComponent extends Vue {
         });
     }
     get token(){
-      return getModule(AuthModule).token;
+      return AuthModule.token;
     }
 }
 </script>

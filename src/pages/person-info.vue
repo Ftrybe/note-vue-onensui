@@ -27,14 +27,14 @@
                 <div class="center">
                     <span class="list-item__title">昵称</span>
                 </div>
-                <div class="right">{{user.nickname}}</div>
+                <div class="right">{{userInfo.nickname}}</div>
             </v-ons-list-item>
 
             <v-ons-list-item modifier="chevron" @click="forward('手机号',user.phone,PersonInfoPhone)">
                 <div class="center">
                     <span class="list-item__title">手机号</span>
                 </div>
-                <div class="right">{{user.phone}}</div>
+                <div class="right">{{userInfo.phone}}</div>
             </v-ons-list-item>
 
             <v-ons-list-item modifier="chevron">
@@ -68,13 +68,11 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { Component as VueComponent } from "vue";
-import NavigatorModule from "../store/modules/navigator";
-import { getModule } from "vuex-module-decorators";
 import { DateFilter } from "@/core/filters/date.filter";
 import DatePickerComponent from "../partials/date-picker.vue";
 import SelectScrollComponent from "../partials/select-scroll.vue";
 import { RouterUtils } from "@/utils/router.utils";
-import UserModule from "../store/modules/user";
+import { UserModule } from "../store/modules/user";
 import { UserDTO } from "../core/models/sys/user.dto";
 import PersonInfoEditPage from "./person-info-edit.vue";
 import PersonInfoNickname from "./person-info-nickname.vue";
@@ -119,6 +117,7 @@ export default class PersonInfoPage extends Vue {
             clearInterval(timer);
         });
     }
+
     forward(title: string, value: string, page: any) {
         RouterUtils.forward({
             page: page,
@@ -144,13 +143,14 @@ export default class PersonInfoPage extends Vue {
     }
 
     updateInfo() {
-        this.userService.update(this.user).then(rsp => {
-            getModule(UserModule).getCurrentInfo();
+        this.userService.update(this.user).then(async rsp => {
+            await UserModule.getCurrentInfo();
         });
         this.isOpenPicker = false;
     }
+
     get userInfo(): any {
-        return getModule(UserModule).userInfo;
+        return UserModule.userInfo;
     }
 }
 </script>

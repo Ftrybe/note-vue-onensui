@@ -50,21 +50,19 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { getModule } from "vuex-module-decorators";
-import AuthModule from "../store/modules/auth";
-import NavigatorModule from "../store/modules/navigator";
+import {AuthModule} from "../store/modules/auth";
+import {NavigatorModule} from "../store/modules/navigator";
 import HomePage from "./home.vue";
 import AppSplitter from "../app-splitter.vue";
-import MemorandumTagModule from "../store/modules/memorandum-tag";
+import {MemorandumTagModule} from "../store/modules/memorandum-tag";
 import { ResultCodeEnum } from '../core/enums/result-code.enum';
-import UserModule from '../store/modules/user';
+import {UserModule} from '../store/modules/user';
 
 @Component
 export default class PersonSetting extends Vue {
     @Prop() toolbarInfo?: {};
-    authModule = getModule(AuthModule);
     get loginState() {
-        return this.authModule.token;
+        return AuthModule.token;
     }
 
     async logout() {
@@ -76,20 +74,20 @@ export default class PersonSetting extends Vue {
             .then(code => {
                 // console.log(code.nodeValue);
                 if (code == 0) {
-                    this.authModule.logout();
+                    AuthModule.logout();
                     this.$ons.notification.toast("退出成功", {
                         buttonLabels: "关闭",
                         timeout: 1500
                     });
-                    getModule(NavigatorModule).reset({
+                    NavigatorModule.reset({
                         extends: AppSplitter
                     });
                 }
             });
     }
     async refreshCache() {
-        await getModule(UserModule).getCurrentInfo();
-        getModule(MemorandumTagModule)
+        await UserModule.getCurrentInfo();
+        MemorandumTagModule
             .getTagList()
             .then(code => {
                 if (code == ResultCodeEnum.SUCCESS) {

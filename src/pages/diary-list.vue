@@ -25,7 +25,6 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import ToolbarSearchComponent from "../partials/toolbar-search.vue";
 import { Component as VueComponent } from "vue";
-import { getModule } from "vuex-module-decorators";
 import DiaryPage from "./diary.vue";
 import { RouterUtils } from "../utils/router.utils";
 import { DiaryService } from "@/core/services/diary.service";

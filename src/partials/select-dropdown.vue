@@ -6,7 +6,7 @@
             </slot>
             <input class="dd-select-inp d-none" :value="localValue" readonly />
             <span class="dd-label">{{localName}}</span>
-            <span class="dd-suffix-box" v-if="suffix">
+            <span class="dd-suffix-box" v-if="suffixIcon">
                 <i class="dd-suffix" />
             </span>
         </div>
@@ -51,7 +51,11 @@ export default class SelectDropdownComponent extends Vue {
     list?: any;
 
     @Prop({ default: true })
-    suffix?: boolean;
+    suffixIcon?: boolean;
+
+    // 点击选项后是否关闭窗口
+    @Prop({default:false})
+    close?:boolean;
 
     popoverVisible = false;
     popoverTarget = null;
@@ -73,7 +77,6 @@ export default class SelectDropdownComponent extends Vue {
     }
     mounted(){
         this.localValue = this.value;
-        console.log(this.value);
         this.currentSelect = this.value;
     }
     
@@ -81,6 +84,10 @@ export default class SelectDropdownComponent extends Vue {
     select(localValue: string) {
         this.localValue = localValue;
         this.currentSelect = this.value;
+        if(this.close){
+            this.popoverVisible = false;
+        }
+
     }
 
     showPopover(event: any, direction: any, coverTarget = false) {

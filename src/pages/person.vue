@@ -137,22 +137,21 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import PersonInfoPage from "./person-info.vue";
-import NavigatorModule from "../store/modules/navigator";
-import { getModule } from "vuex-module-decorators";
-import SplitterModule from "@/store/modules/splitter";
+import {NavigatorModule} from "../store/modules/navigator";
+import {SplitterModule} from "@/store/modules/splitter";
 import { Component as VueComponent } from "vue";
 import PersonSettingPage from "./person-setting.vue";
 import DiaryListPage from "./diary-list.vue";
 import MemorandumListPage from "./memorandum-list.vue";
 import TimeLinePage from "./time-line.vue";
 import LoginPage from "./login.vue";
-import UserModule from "../store/modules/user";
+import {UserModule} from "../store/modules/user";
 import { RouterUtils } from "../utils/router.utils";
 import draggable from "vuedraggable";
 import MemorandumEditPage from "./memorandum-edit.vue";
 import { UserDTO } from "../core/models/sys/user.dto";
-import MemorandumTagModule from "../store/modules/memorandum-tag";
-import DiaryModule from "../store/modules/diary";
+import {MemorandumTagModule} from "../store/modules/memorandum-tag";
+import {DiaryModule} from "../store/modules/diary";
 import { MemorandumTagService } from "../core/services/memorandum-tag.service";
 import { MemorandumTagDTO } from "../core/models/sys/memorandum-tag.dto";
 import Tag from '../core/models/sys/tag';
@@ -164,9 +163,7 @@ import Tag from '../core/models/sys/tag';
 })
 export default class PersonPage extends Vue {
     // 导入vuex模块
-    splitter = getModule(SplitterModule);
-    userModule = getModule(UserModule);
-    memorandumTagModule = getModule(MemorandumTagModule);
+    splitter = SplitterModule;
 
     memoranduTagService = new MemorandumTagService();
 
@@ -193,7 +190,7 @@ export default class PersonPage extends Vue {
     };
 
     get diaryTags() {
-        return getModule(DiaryModule).diaryTags;
+        return DiaryModule.diaryTags;
     }
 
     onMove(event: { relatedContext: any; draggedContext: any }) {
@@ -248,7 +245,7 @@ export default class PersonPage extends Vue {
                         tag.name = name;
                         
                         this.memoranduTagService.save(tag).then(rsp => {
-                            this.memorandumTagModule.getTagList();
+                            MemorandumTagModule.getTagList();
                         });
                     }
                 });
@@ -264,20 +261,20 @@ export default class PersonPage extends Vue {
 
     beforeCreate() {
         if (localStorage.user_token) {
-            getModule(UserModule).init();
-            getModule(MemorandumTagModule).init();
+            UserModule.init();
+            MemorandumTagModule.init();
         }
     }
 
     get userInfo() {
-        return this.userModule.userInfo;
+        return UserModule.userInfo;
     }
 
     get memorandumTags() {
-        return this.memorandumTagModule.tags;
+        return MemorandumTagModule.tags;
     }
     set memorandumTags(value:any) {
-        this.memorandumTagModule.setTag(value);
+        MemorandumTagModule.setTag(value);
     }
 }
 </script>

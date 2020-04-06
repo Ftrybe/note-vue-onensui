@@ -1,8 +1,7 @@
 import Axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler, CancelTokenStatic } from 'axios';
-import { getModule } from 'vuex-module-decorators';
-import ToastModule from '@/store/modules/toast';
+import {ToastModule} from '@/store/modules/toast';
 import { ResultCodeEnum } from '../enums/result-code.enum';
-import AuthModule from '@/store/modules/auth';
+import {AuthModule} from '@/store/modules/auth';
 const baseURL = process.env.VUE_APP_BASE_API;
 export class HttpInterceptor {
     public axios: AxiosInstance;
@@ -44,9 +43,9 @@ export class HttpInterceptor {
             if (response.data) {
                 if (response.data.code !== ResultCodeEnum.SUCCESS) {
                     if(response.data.code == ResultCodeEnum.TOKENEXPIREERROR){
-                        getModule(AuthModule).logout();
+                        AuthModule.logout();
                     }
-                    getModule(ToastModule).errorTip(response.data.message);
+                    ToastModule.errorTip(response.data.message);
                     throw new Error(response.data.message);
                 }
             }

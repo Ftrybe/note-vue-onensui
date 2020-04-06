@@ -51,4 +51,8 @@ export class AuthService {
     updatePhone(phones:{oldPhone:string,newPhone:string}){
         return https.put('/phone',phones);
     }
+
+    bindPhone(phone:string){
+        return https.post('/phone',{phone:phone});
+    }
 }

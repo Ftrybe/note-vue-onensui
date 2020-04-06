@@ -3,8 +3,8 @@
         <v-toolbar v-bind="toolbarInfo">
             <div class="center">手机号</div>
             <div slot="right">
-                <v-ons-toolbar-button v-if="name==phone" @click="next()">验证</v-ons-toolbar-button>
-                <v-ons-toolbar-button v-else @click="next()">保存</v-ons-toolbar-button>
+                <v-ons-toolbar-button v-if="name && name==phone" @click="next()">验证</v-ons-toolbar-button>
+                <v-ons-toolbar-button v-if="!name || (name!=phone)" @click="next()">保存</v-ons-toolbar-button>
             </div>
         </v-toolbar>
         <div class="inp">
@@ -12,11 +12,13 @@
                 float
                 :disabled="disabled"
                 v-model="phone"
-                style="opacity:.9"
+                style="opacity:.9;width:100%"
                 ref="phoneInput"
             />
         </div>
-        <v-ons-list-header style="color:rab(160,160,160);background:none">您当前的手机号</v-ons-list-header>
+        <v-ons-list-header
+            style="color:rab(160,160,160);background:none"
+        >{{name?'您当前的手机号':'您当前未绑定手机'}}</v-ons-list-header>
         <v-ons-alert-dialog modifier="rowfooter" :visible.sync="isOpenVerifyDialog">
             <span slot="title">
                 请输入验证码
@@ -40,10 +42,9 @@ import { UserDTO } from "../core/models/sys/user.dto";
 import { UserService } from "../core/services/user.service";
 import { AuthService } from "../core/services/auth.service";
 import { LAuthDTO } from "../core/models/sys/lauth.dto";
-import { getModule } from "vuex-module-decorators";
-import NavigatorModule from "../store/modules/navigator";
-import UserModule from "../store/modules/user";
-import AuthModule from "../store/modules/auth";
+import {NavigatorModule} from "../store/modules/navigator";
+import {UserModule} from "../store/modules/user";
+import {AuthModule} from "../store/modules/auth";
 import ChequerInput from "@/partials/chequer-input.vue";
 @Component({
     components: {
@@ -69,6 +70,9 @@ export default class PersonInfoPhoneComponent extends Vue {
 
     mounted() {
         this.phone = this.name;
+        if (!this.name) {
+            this.disabled = false;
+        }
     }
 
     next() {
@@ -84,6 +88,7 @@ export default class PersonInfoPhoneComponent extends Vue {
             });
         });
     }
+
     changeCode(str: string) {
         this.smsCode = str;
     }
@@ -91,32 +96,46 @@ export default class PersonInfoPhoneComponent extends Vue {
         this.getSmsCode(this.phone);
     }
 
-    optsSuccess(message: string) {
-        getModule(UserModule).getCurrentInfo();
+     async optsSuccess(message: string) {
+        await UserModule.getCurrentInfo();
         this.$ons.notification.toast(message, {
             timeout: 1000
         });
-        getModule(NavigatorModule).pop();
+        await this.$nextTick();
+        
+        NavigatorModule.pop();
     }
 
     verifyCode() {
+
+        // 验证短信验证码
         this.authService.verifyPhone(this.smsCode, this.phone).then(rsp => {
             this.$ons.notification.toast(rsp.data.message, {
                 buttonLabels: "确定",
                 timeout: 1500
             });
-            if (this.name != this.phone) {
+        // 未绑定手机用户绑定手机
+            if (!this.name) {
+                this.authService.bindPhone(this.phone).then(rsp => {
+                    this.optsSuccess(rsp.data.message);
+                    return;
+                });
+            }
+
+            // 绑定手机用户修改手机
+            if (this.name && this.name != this.phone) {
                 this.authService
                     .updatePhone({ oldPhone: this.name, newPhone: this.phone })
                     .then(rsp => {
                         this.optsSuccess(rsp.data.message);
+                     
                     });
-                getModule(UserModule).getCurrentInfo().then();
-            } else {
+            } else if(this.name) {
                 this.disabled = false;
                 this.phone = "";
                 this.$nextTick(() => {
-                    ((this.$refs.phoneInput as Vue).$el.children[0] as any).focus();
+                    ((this.$refs.phoneInput as Vue).$el
+                        .children[0] as any).focus();
                 });
             }
             this.isOpenVerifyDialog = false;
@@ -125,7 +144,6 @@ export default class PersonInfoPhoneComponent extends Vue {
             (this.$refs.chequerInput as any).clear();
         });
     }
-    
 }
 </script>
 <style scoped lang='scss'>

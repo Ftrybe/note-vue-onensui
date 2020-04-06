@@ -1,12 +1,11 @@
-import { VuexModule, Module } from 'vuex-module-decorators';
+import { VuexModule, Module, getModule } from 'vuex-module-decorators';
 import store from '../index';
-import { DiaryTagEnum } from '../../core/enums/diary-tag.enum';
 @Module({
     dynamic: true,
     name: 'DiaryModule',
     store
 })
-export default class DiaryModule extends VuexModule {
+class Diary extends VuexModule {
     diaryTags = [
         { id: "0", name: "默认" },
         { id: "1", name: "故事" },
@@ -16,3 +15,4 @@ export default class DiaryModule extends VuexModule {
         { id: "5", name: "感情" },
     ]
 }
+export const DiaryModule = getModule(Diary);

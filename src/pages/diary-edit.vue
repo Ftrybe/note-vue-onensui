@@ -16,7 +16,7 @@
 
                 <div class="ext-content px-4">
                     <div class="select-box w-100">
-                        <v-select-dropdown v-model="diary.tag" :list="diaryTags" :suffix="false">
+                        <v-select-dropdown v-model="diary.tag" :list="diaryTags" :suffix-icon="false" :close="true">
                             <v-ons-icon icon="ion-ios-bookmark" />
                         </v-select-dropdown>
                     </div>
@@ -57,8 +57,7 @@ import { DateFilter } from "@/core/filters/date.filter";
 import { DiaryService } from "../core/services/diary.service";
 import { DiaryDTO } from "../core/models/sys/diary.dto";
 import { DiaryTagEnum } from "../core/enums/diary-tag.enum";
-import { getModule } from "vuex-module-decorators";
-import DiaryModule from "../store/modules/diary";
+import {DiaryModule} from "../store/modules/diary";
 @Component({
     filters: {
         dataformat: (date: Date, format: string) =>
@@ -82,11 +81,9 @@ export default class DiaryEditPage extends Vue {
         if(this.data){
             this.diary = this.data;
         }
-        // this.diary = this.data || this.diary;
     }
     
     private async save() {
-        console.log(this.diary);
         let response;
         if (this.data) {
             response = await this.diaryService.update(this.diary);
@@ -100,13 +97,16 @@ export default class DiaryEditPage extends Vue {
         }
     }
     private toggleSubcontent(isFocus: boolean) {
+        if(!this.diary.title && isFocus){
+            return;
+        }
         this.isFocus = isFocus;
         const style = this.isFocus ? "height: 0px" : "";
         (this.$refs.subcontent as HTMLElement).setAttribute("style", style);
     }
 
     public get diaryTags() {
-        return getModule(DiaryModule).diaryTags;
+        return DiaryModule.diaryTags;
     }
 }
 </script>
