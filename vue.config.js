@@ -20,7 +20,6 @@ module.exports = {
         // css预设器配置项
         loaderOptions: {},
         // 启用 CSS modules for all css / pre-processor files.
-        modules: false,
     },
     // webpack-dev-server 相关配置
     devServer: { // 设置代理
