@@ -56,3 +56,4 @@ export class AuthService {
         return https.post('/phone',{phone:phone});
     }
 }
+export default new AuthService();

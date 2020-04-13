@@ -2,7 +2,7 @@ module.exports = {
     // 部署应用包时的基本 URL
     publicPath: '/',
     // 当运行 vue-cli-service build 时生成的生产环境构建文件的目录
-    outputDir: 'dist',
+    outputDir: 'note',
     // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
     assetsDir: 'assets',
     // eslint-loader 是否在保存的时候检查 安装@vue/cli-plugin-eslint有效

@@ -2,6 +2,7 @@ import {NavigatorModule} from "../store/modules/navigator";
 import { Component } from 'vue';
 import {Router} from '@/core/models/diary/router'
 import { OnsPageOptions } from '@/core/models/ons/page.options';
+import { NavigatorOptions } from '@/core/models/ons';
 
 export class RouterUtils {
 

@@ -11,3 +11,4 @@ export class UserService extends BaseService<UserDTO>{
     }
   
 }
+export default new UserService();

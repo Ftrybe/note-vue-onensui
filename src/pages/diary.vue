@@ -2,22 +2,6 @@
     <v-ons-page>
         <v-toolbar v-bind="toolbarInfo">
             <div slot="right" class="text-14 text-blue">
-                <!-- <v-ons-toolbar-button icon="ion-ios-more" @click="showPopover($event)" />
-                <v-ons-popover
-                    cancelable
-                    :visible.sync="popoverVisible"
-                    :target="popoverTarget"
-                    :direction="'down'"
-                    :mask-color="'rgba(0,0,0,0)'"
-                >
-                    <p class="text-center">分享</p>
-                    <p class="text-center">收藏</p>
-                    <p
-                        class="text-center"
-                        v-if="userinfo.id == localData.userId"
-                        @click="forward(localData)"
-                    >编辑</p>
-                </v-ons-popover> -->
             </div>
         </v-toolbar>
 

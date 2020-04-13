@@ -7,3 +7,4 @@ export class DiaryService extends BaseService<DiaryDTO> {
     baseUrl = "/diary";
 
 }
+export default new DiaryService();

@@ -30,7 +30,7 @@ class MemorandumTag extends VuexModule {
 
     @Action
     async getTagList(){
-        const rsp = await new MemorandumTagService().list({pageSize:99});
+        const rsp = await new MemorandumTagService().list();
         if(rsp.data.code == ResultCodeEnum.SUCCESS){
             const tags:MemorandumTagDTO[]  = rsp.data.data;
             this.setTagList(tags);
@@ -40,11 +40,8 @@ class MemorandumTag extends VuexModule {
     }
 
     @Action
-    async setTag(tags:any){
-        console.log(this.tags);
-        console.log(tags);
+    async setTag(tags:MemorandumTag){
         this.setTagList(tags);
-        // await new MemorandumTagService().update(tags);
 
     }
 }

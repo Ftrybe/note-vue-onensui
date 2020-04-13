@@ -3,8 +3,8 @@
         <v-toolbar v-bind="toolbarInfo">
             <div class="center">手机号</div>
             <div slot="right">
-                <v-ons-toolbar-button v-if="name && name==phone" @click="next()">验证</v-ons-toolbar-button>
-                <v-ons-toolbar-button v-if="!name || (name!=phone)" @click="next()">保存</v-ons-toolbar-button>
+                <v-ons-toolbar-button v-if="data && data==phone" @click="next()">验证</v-ons-toolbar-button>
+                <v-ons-toolbar-button v-if="!data || (data!=phone)" @click="next()">保存</v-ons-toolbar-button>
             </div>
         </v-toolbar>
         <div class="inp">
@@ -18,7 +18,7 @@
         </div>
         <v-ons-list-header
             style="color:rab(160,160,160);background:none"
-        >{{name?'您当前的手机号':'您当前未绑定手机'}}</v-ons-list-header>
+        >{{data?'您当前的手机号':'您当前未绑定手机'}}</v-ons-list-header>
         <v-ons-alert-dialog modifier="rowfooter" :visible.sync="isOpenVerifyDialog">
             <span slot="title">
                 请输入验证码
@@ -54,7 +54,7 @@ import ChequerInput from "@/partials/chequer-input.vue";
 export default class PersonInfoPhoneComponent extends Vue {
     @Prop() toolbarInfo!: any;
 
-    @Prop() name!: string;
+    @Prop() data?: string;
 
     isChange: boolean = false;
 
@@ -69,8 +69,8 @@ export default class PersonInfoPhoneComponent extends Vue {
     phone: string = "";
 
     mounted() {
-        this.phone = this.name;
-        if (!this.name) {
+        this.phone = this.data!;
+        if (!this.data) {
             this.disabled = false;
         }
     }
@@ -115,7 +115,7 @@ export default class PersonInfoPhoneComponent extends Vue {
                 timeout: 1500
             });
         // 未绑定手机用户绑定手机
-            if (!this.name) {
+            if (!this.data) {
                 this.authService.bindPhone(this.phone).then(rsp => {
                     this.optsSuccess(rsp.data.message);
                     return;
@@ -123,14 +123,14 @@ export default class PersonInfoPhoneComponent extends Vue {
             }
 
             // 绑定手机用户修改手机
-            if (this.name && this.name != this.phone) {
+            if (this.data && this.data != this.phone) {
                 this.authService
-                    .updatePhone({ oldPhone: this.name, newPhone: this.phone })
+                    .updatePhone({ oldPhone: this.data, newPhone: this.phone })
                     .then(rsp => {
                         this.optsSuccess(rsp.data.message);
                      
                     });
-            } else if(this.name) {
+            } else if(this.data) {
                 this.disabled = false;
                 this.phone = "";
                 this.$nextTick(() => {

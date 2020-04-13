@@ -29,7 +29,7 @@ import {UserModule} from "../store/modules/user";
 export default class PersonInfoNicknameComponent extends Vue {
     @Prop() toolbarInfo!: any;
 
-    @Prop() name!: string;
+    @Prop() data!: string;
 
     isChange: boolean = false;
 
@@ -40,7 +40,7 @@ export default class PersonInfoNicknameComponent extends Vue {
     maxlength: number = 11;
 
     mounted() {
-        this.value = this.name;
+        this.value = this.data;
     }
 
     async save() {
@@ -53,7 +53,7 @@ export default class PersonInfoNicknameComponent extends Vue {
     }
 
     change(event: InputEvent) {
-        if (this.value == this.name) {
+        if (this.value == this.data) {
             this.isChange = false;
         } else {
             this.isChange = true;

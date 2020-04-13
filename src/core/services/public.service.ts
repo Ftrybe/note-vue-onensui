@@ -6,3 +6,4 @@ import { BaseService } from './base.service';
 export class PublicService extends BaseService<DiaryDTO>{
     baseUrl = "/public";
 }
+export default new PublicService();

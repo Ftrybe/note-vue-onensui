@@ -4,13 +4,20 @@
             <div slot="right"></div>
         </v-toolbar>
         <v-ons-list style="overflow: initial;">
-            <v-ons-list-item class="person-pic" modifier="chevron">
+            <v-ons-list-item class="person-pic" modifier="chevron" @click="updatePhoto">
                 <div class="center">
                     <span class="list-item__title">头像</span>
                 </div>
                 <div class="right">
-                    <img class="list-item__thumbnail" :src="user.photo" />
+                    <img class="list-item__thumbnail" :src="userInfo.photo" />
                 </div>
+                <input
+                    hidden
+                    type="file"
+                    accept="image/png, image/jpeg, image/gif, image/jpg"
+                    @change="uploadImg($event)"
+                    ref="fileInput"
+                />
             </v-ons-list-item>
 
             <v-ons-list-item>
@@ -76,9 +83,12 @@ import { UserModule } from "../store/modules/user";
 import { UserDTO } from "../core/models/sys/user.dto";
 import PersonInfoEditPage from "./person-info-edit.vue";
 import PersonInfoNickname from "./person-info-nickname.vue";
+import PersonInfoPhoto from "./person-info-photo.vue";
 import PersonInfoPhone from "./person-info-phone.vue";
 import { UserService } from "../core/services/user.service";
 import { GenderEnum } from "../core/enums/gender.enum";
+import fileService from "@/core/services/file.service";
+
 @Component({
     filters: {
         dataformat: (date: Date, format: string) =>
@@ -90,14 +100,13 @@ import { GenderEnum } from "../core/enums/gender.enum";
 })
 export default class PersonInfoPage extends Vue {
     @Prop() toolbarInfo?: {};
-
+    // cropper
     PersonInfoPhone = PersonInfoPhone;
     PersonInfoNickname = PersonInfoNickname;
-
+    PersonInfoPhoto = PersonInfoPhoto;
     user: UserDTO = new UserDTO(true);
 
     isOpenPicker: boolean = false;
-
     userService = new UserService();
 
     switchPicker() {
@@ -127,7 +136,7 @@ export default class PersonInfoPage extends Vue {
                     backLabel: "个人信息",
                     title: title
                 },
-                name: value
+                data: value ? value : ""
             }
         });
     }
@@ -149,6 +158,42 @@ export default class PersonInfoPage extends Vue {
         this.isOpenPicker = false;
     }
 
+    async updatePhoto() {
+        const rsp = await this.$ons.notification.confirm("更换头像?", {
+            buttonLabels: ["取消", "确定"],
+            title: ""
+        });
+
+        if (rsp) {
+            (this.$refs.fileInput as HTMLInputElement).click();
+
+        }
+    }
+    uploadImg(e:any) {
+        //上传图片
+        // this.option.img
+        var file = e.target.files[0];
+        if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+            alert("图片类型必须是.gif,jpeg,jpg,png,bmp中的一种");
+            return false;
+        }
+        var reader = new FileReader();
+
+        reader.onload = e => {
+            let data;
+            if (typeof e.target!.result === "object") {
+                // 把Array Buffer转化为blob 如果是base64不需要
+                data = window.URL.createObjectURL(new Blob([e.target!.result!]));
+            } else {
+                data = e.target!.result;
+            }
+             this.forward("裁剪头像", data, PersonInfoPhoto);
+        };
+        // 转化为base64
+        // reader.readAsDataURL(file)
+        // 转化为blob
+        reader.readAsArrayBuffer(file);
+    }
     get userInfo(): any {
         return UserModule.userInfo;
     }

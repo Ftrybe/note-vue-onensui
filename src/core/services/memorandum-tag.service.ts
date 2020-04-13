@@ -6,3 +6,4 @@ export class MemorandumTagService extends BaseService<MemorandumTagDTO> {
     baseUrl = "/memorandumTag";
 
 }
+export default new MemorandumTagService();
