@@ -1,5 +1,8 @@
 declare module 'vue-touch' {
-    import Vue,{ PluginFunction } from 'vue';
+    import { PluginFunction } from 'vue';
     export const install: PluginFunction<{}>;
-    export function VueTouch (): any;
+    interface VueTouch {
+    }
+  
+    export const VueTouch: VueTouch
 }

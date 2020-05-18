@@ -50,10 +50,13 @@ export default class MemorandumEditPage extends Vue {
 
     memo = new MemorandumDTO(true);
     
+    id?:string;
+
     beforeMount() {
         
         if (this.data && this.data.id) {
             this.memo = this.data;
+            this.id = this.memo.id;
             // this.memoService.get(this.data.id).then(res => {
             //     this.memo = res.data.dataformat;
             // });
@@ -62,10 +65,11 @@ export default class MemorandumEditPage extends Vue {
 
     async save() {
         let response;
-        if (this.data) {
+        if (this.id) {
             response = await this.memoService.update(this.memo);
         } else {
             response = await this.memoService.save(this.memo);
+            this.id = response.data.data;
         }
         if (response && response.data.code == "0") {
             this.$ons.notification.toast(response.data.message, {
@@ -83,7 +87,7 @@ export default class MemorandumEditPage extends Vue {
     background: #fff;
     padding: 0.5rem 0.5rem 0 0.5rem;
     .select-box {
-        max-width: 5rem;
+        // max-width: 5rem;
     }
 }
 .mmdm-editor {

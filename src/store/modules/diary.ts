@@ -7,7 +7,7 @@ import store from '../index';
 })
 class Diary extends VuexModule {
     diaryTags = [
-        { id: "0", name: "默认" },
+        { id: "0", name: "未分类" },
         { id: "1", name: "故事" },
         { id: "2", name: "随笔" },
         { id: "3", name: "心情" },

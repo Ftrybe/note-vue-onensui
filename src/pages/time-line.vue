@@ -10,8 +10,8 @@
             <div
                 class="timeline-item"
                 :class="reverse?'reverse':''"
-                v-for="(diary,index) of diarys"
-                :key="index"
+                v-for="diary of diarys"
+                :key="diary.id"
             >
                 <div class="timeline-item__day">
                     <div v-if="createDateView(diary.createTime)">
@@ -23,7 +23,8 @@
                         class="year-mouth"
                     >{{diary.createTime| dataformat('yyyy.MM')}}</div>
                 </div>
-                <v-touch :swipe-options="{direction:'left'}">
+                
+                <div @click="forward(diary)">
                     <div class="timeline-item__content">
                         <div class="timeline-item__tail" />
                         <div class="timeline-item__node" />
@@ -32,7 +33,7 @@
                             <div class="time">{{diary.createTime | dataformat("hh:mm")}}</div>
                         </div>
                     </div>
-                </v-touch>
+                </div>
             </div>
         </v-ons-list>
     </v-ons-page>
@@ -48,6 +49,7 @@ import { DiaryService } from "../core/services/diary.service";
 import { DiaryDTO } from "../core/models/sys/diary.dto";
 import { DateFilter } from "@/core/filters/date.filter";
 import { mapActions } from "vuex";
+import DiaryPage from './diary.vue';
 @Component({
     filters: {
         dataformat: (date: Date, format: string) =>
@@ -122,9 +124,10 @@ export default class TimeLinePage extends Vue {
     }
     private forward(item: any) {
         RouterUtils.forward({
-            page: item.page,
-            title: item.name,
-            backLabel: "时间轴"
+            page: DiaryEditPage,
+            title: item.title,
+            backLabel: "时间轴",
+            data: item
         });
     }
 }

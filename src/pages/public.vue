@@ -49,7 +49,7 @@ import { HtmlFilter } from "@/core/filters/html.filter";
     filters: {
         dataformat: (date: Date, format: string) =>
             new DateFilter().format(date, format),
-        stripHtml: (html: string) => new HtmlFilter().strip(html)
+        stripHtml: (html: string) => new HtmlFilter().strip(html,100)
     }
 })
 export default class PublicPage extends Vue {

@@ -218,6 +218,7 @@ export default class LoginPage extends Vue {
             right: 0;
             height: 32px;
             width: 80px;
+            font-size: 12px;
             background-color: #efeff4;
         }
         ons-input {

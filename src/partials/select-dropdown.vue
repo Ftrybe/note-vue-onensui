@@ -5,7 +5,7 @@
                 <v-ons-icon class="dd-select-icon" icon="ion-ios-pricetags"></v-ons-icon>
             </slot>
             <input class="dd-select-inp d-none" :value="localValue" readonly />
-            <span class="dd-label">{{localName}}</span>
+            <span class="dd-label" :style="'max-width:'+maxWidth">{{localName}}</span>
             <span class="dd-suffix-box" v-if="suffixIcon">
                 <i class="dd-suffix" />
             </span>
@@ -56,6 +56,9 @@ export default class SelectDropdownComponent extends Vue {
     // 点击选项后是否关闭窗口
     @Prop({default:false})
     close?:boolean;
+
+    @Prop({default:'10rem'})
+    maxWidth?:string;
 
     popoverVisible = false;
     popoverTarget = null;
@@ -121,14 +124,10 @@ export default class SelectDropdownComponent extends Vue {
             font-size: 14px;
         }
 
-        // .dd-label {
-        //     // min-width: 90px;
-        //     display: inline-block;
-        //     border: none;
-        //     width: 100%;
-        //     font-size: 14px;
-        //     background-clip:padding-box
-        // }
+        .dd-label {
+            overflow: hidden;
+            word-break:keep-all;
+        }
         .dd-suffix-box {
             width: 16px;
             height: 0;

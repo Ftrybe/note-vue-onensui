@@ -24,9 +24,10 @@ export class DiaryDTO extends BaseDTO {
 
     tag?: string;
 
-    unKnowDate?:Date;
-
     userNickname?:string;
 
     userInfo?:UserDTO;
+
+    unKnowDate?:Date;
+
 }

@@ -14,8 +14,8 @@
                 :center-box="true"
                 :original="false"
                 :info="false"
-                :outputSize="0.1"
-                :enlarge="0.32"
+                :outputSize="0.5"
+                :enlarge="0.64"
                 :auto-crop-width="'200px'"
                 :auto-crop-height="'200px'"
             ></vue-cropper>

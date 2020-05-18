@@ -11,7 +11,7 @@
             <br />
         </p>
         <v-ons-list>
-            <v-ons-list-item class="item" v-for="(diary,index) in list" :key="index">
+            <v-ons-list-item class="item" v-for="(diary,index) in list" :key="diary.id">
                 <v-touch
                     @swipe="swipe($event,index)"
                     :swipe-options="{direction:'left'}"
@@ -25,7 +25,7 @@
                             class="opt-btn"
                             @click="forward(diary,diaryEditPage)"
                         >编辑</span>
-                        <span class="opt-btn" @click="del(diary)">删除</span>
+                        <span class="opt-btn" @click="del(diary,index)">删除</span>
                     </div>
                 </div>
             </v-ons-list-item>
@@ -124,7 +124,8 @@ export default class DiaryListPage extends Vue {
     swipe(e: Event, index: number) {
         this.itemIndex = index;
     }
-    async del(diary:DiaryDTO){
+
+    async del(diary:DiaryDTO,index:number){
         this.itemIndex = -1;
        const confirm =  await this.$ons.notification.confirm(diary.title!,{
             title: "确定删除该故事？",
@@ -135,6 +136,7 @@ export default class DiaryListPage extends Vue {
            await this.$ons.notification.toast(rsp.data.message,{
                timeout: 1500
            })
+           Object.assign(this.list,this.list.splice(index,1));
         }
     }
     
@@ -168,12 +170,16 @@ export default class DiaryListPage extends Vue {
     z-index: 11;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    .opt-btn {
-        padding-left: 4px;
-    }
     &.active {
         right: 0;
         box-shadow: -2px 0 2px 0 #0076ff;
+        .opt-btn {
+            padding-left: 4px;
+            padding-right: 4px;
+            &:not(:first-child){
+                border-left: 1px solid;
+            }
+         }
     }
 }
 .mask {

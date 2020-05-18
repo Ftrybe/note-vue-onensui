@@ -21,10 +21,10 @@
             </v-ons-list-item>
 
             <v-ons-list-item>
-                <div class="center">
+                <div class="center" @click="user.username?null:forward('用户名',userInfo.phone,PersonInfoUsername)">
                     <span class="list-item__title">用户名</span>
                 </div>
-                <div class="right username">{{user.username}}</div>
+                <div class="right username">{{userInfo.username}}</div>
             </v-ons-list-item>
 
             <v-ons-list-item
@@ -64,7 +64,7 @@
                             class="w-100"
                             is-inline
                         ></v-date-picker>
-                        <v-ons-action-sheet-button @click="updateInfo">保存</v-ons-action-sheet-button>
+                        <v-ons-action-sheet-button @click="updateInfo({birthday:user.birthday})">保存</v-ons-action-sheet-button>
                     </v-ons-action-sheet>
                 </div>
             </v-ons-list-item>
@@ -85,6 +85,7 @@ import PersonInfoEditPage from "./person-info-edit.vue";
 import PersonInfoNickname from "./person-info-nickname.vue";
 import PersonInfoPhoto from "./person-info-photo.vue";
 import PersonInfoPhone from "./person-info-phone.vue";
+import PersonInfoUsername from "./person-info-username.vue";
 import { UserService } from "../core/services/user.service";
 import { GenderEnum } from "../core/enums/gender.enum";
 import fileService from "@/core/services/file.service";
@@ -104,6 +105,8 @@ export default class PersonInfoPage extends Vue {
     PersonInfoPhone = PersonInfoPhone;
     PersonInfoNickname = PersonInfoNickname;
     PersonInfoPhoto = PersonInfoPhoto;
+    PersonInfoUsername = PersonInfoUsername;
+
     user: UserDTO = new UserDTO(true);
 
     isOpenPicker: boolean = false;
@@ -120,7 +123,7 @@ export default class PersonInfoPage extends Vue {
                 this.user.gender == GenderEnum.MEN
                     ? GenderEnum.WOMEN
                     : GenderEnum.MEN;
-            this.updateInfo();
+            this.updateInfo({gender:this.user.gender});
         }, 1000);
         this.$once("hook:beforeDestroy", () => {
             clearInterval(timer);
@@ -151,8 +154,8 @@ export default class PersonInfoPage extends Vue {
         this.user.birthday = new Date(date);
     }
 
-    updateInfo() {
-        this.userService.update(this.user).then(async rsp => {
+    updateInfo(entity:UserDTO) {
+        this.userService.update(entity).then(async rsp => {
             await UserModule.getCurrentInfo();
         });
         this.isOpenPicker = false;

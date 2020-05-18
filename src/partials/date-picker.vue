@@ -17,7 +17,7 @@ import { getModule } from 'vuex-module-decorators';
 @Component
 export default class DatePickerComponent extends Vue {
 
-  date: Date = new Date();
+  date = Date.now();
 
   @Emit("save")
   savePicker(date: Date) {}
