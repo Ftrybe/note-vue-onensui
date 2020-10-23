@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 import QuillEditorComponent from "../partials/quill-editor.vue";
 import SelectDropdownComponent from "@/partials/select-dropdown.vue";
 import { DateFilter } from "@/core/filters/date.filter";

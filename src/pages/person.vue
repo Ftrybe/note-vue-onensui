@@ -102,6 +102,17 @@
                 </div>
                 <div class="center">时光轴</div>
             </v-ons-list-item>
+
+              <v-ons-list-item
+                modifier="chevron"
+                @click="forward(audioListPage,'小可爱的小故事')"
+                v-if="userInfo && userInfo.id == 1"
+            >
+                <div class="left">
+                    <v-ons-icon icon="ion-ios-happy" class="list-item__icon"></v-ons-icon>
+                </div>
+                <div class="center">语音</div>
+            </v-ons-list-item>
         </v-ons-list>
 
         <v-ons-list class="mt-3">
@@ -126,6 +137,7 @@ import DiaryListPage from "./diary-list.vue";
 import MemorandumListPage from "./memorandum-list.vue";
 import TimeLinePage from "./time-line.vue";
 import LoginPage from "./login.vue";
+import AudioListPage from "./audio-list.vue";
 import { UserModule } from "../store/modules/user";
 import { RouterUtils } from "../utils/router.utils";
 import draggable from "vuedraggable";
@@ -153,6 +165,7 @@ export default class PersonPage extends Vue {
     diaryListPage = DiaryListPage;
     memorandumListPage = MemorandumListPage;
     timeLinePage = TimeLinePage;
+    audioListPage = AudioListPage;
     loginPage = LoginPage;
 
     localMemorandumTags?: MemorandumTagDTO[];

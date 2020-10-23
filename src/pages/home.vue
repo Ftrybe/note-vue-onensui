@@ -1,9 +1,10 @@
-<template>
+ 
+ <template>
     <v-ons-page>
         <div class="warp bg" style="background-image: url('bg/light_gril.jpg')">
             <v-ons-card class="panel">
                 <div class="content" v-test="123" @click="test">
-                    <div class="note">简单的记事本网站，请不要保存私密信息，防止个人信息泄漏</div>
+                    <div class="note">简单的记事本网站，请不要保存私密信息，防止个<span @click="audio">人</span>信息泄漏</div>
                     <div class="time">-- 2020/1/1</div>
                 </div>
             </v-ons-card>
@@ -16,7 +17,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import { UserService } from "../core/services/user.service";
 import debounceDirective from '../core/directives/debounce.directive';
-
+import { RouterUtils } from '@/utils/router.utils';
+import AudioPage from '@/pages/audio-list.vue';
 @Component({
     directives: {
         test: debounceDirective
@@ -26,6 +28,9 @@ export default class HomePage extends Vue {
     private userService: UserService = new UserService();
     mounted() {}
     test(){}
+    audio(){
+        RouterUtils.forward({title:"语音",page:AudioPage,animation: "slide", backButton:true});
+    }
 }
 </script>
 

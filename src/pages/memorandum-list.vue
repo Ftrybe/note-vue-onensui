@@ -26,7 +26,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import MemorandumEditPage from "./memorandum-edit.vue";
 import { RouterUtils } from "@/utils/router.utils";
 import { MemorandumDTO } from "@/core/models/sys/memorandum.dto";
-import { MemorandumService } from "../core/services/memorandum.service";
+import { MemorandumService } from "@/core/services/memorandum.service";
 import Page from "@/core/models/diary/page";
 import { HtmlFilter } from "@/core/filters/html.filter";
 import { MemorandumTagScopeDTO } from "../core/models/sys/memorandum-tag-scope.dto";

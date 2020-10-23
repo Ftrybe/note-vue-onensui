@@ -54,6 +54,7 @@ export default class AppSplitter extends Vue {
   }
   destroyed(){
     this.subscribe();
+  
   }
   
   

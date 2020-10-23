@@ -8,25 +8,13 @@
             </div>
         </v-toolbar>
         <div class="inp">
-            <v-ons-input
-                float
-                :disabled="disabled"
-                v-model="phone"
-                style="opacity:.9;width:100%"
-                ref="phoneInput"
-            />
+            <v-ons-input float :disabled="disabled" v-model="phone" style="opacity:.9;width:100%" ref="phoneInput" />
         </div>
-        <v-ons-list-header
-            style="color:rab(160,160,160);background:none"
-        >{{data?'您当前的手机号':'您当前未绑定手机'}}</v-ons-list-header>
+        <v-ons-list-header style="color:rab(160,160,160);background:none">{{data?'您当前的手机号':'您当前未绑定手机'}}</v-ons-list-header>
         <v-ons-alert-dialog modifier="rowfooter" :visible.sync="isOpenVerifyDialog">
             <span slot="title">
                 请输入验证码
-                <v-ons-icon
-                    icon="ion-ios-refresh"
-                    style="vertical-align:0;margin-left:4px"
-                    @click="refreshSmsCode"
-                />
+                <v-ons-icon icon="ion-ios-refresh" style="vertical-align:0;margin-left:4px" @click="refreshSmsCode" />
             </span>
             <chequer-input @change="changeCode" ref="chequerInput" />
             <template slot="footer">
@@ -42,14 +30,14 @@ import { UserDTO } from "../core/models/sys/user.dto";
 import { UserService } from "../core/services/user.service";
 import { AuthService } from "../core/services/auth.service";
 import { LAuthDTO } from "../core/models/sys/lauth.dto";
-import {NavigatorModule} from "../store/modules/navigator";
-import {UserModule} from "../store/modules/user";
-import {AuthModule} from "../store/modules/auth";
+import { NavigatorModule } from "../store/modules/navigator";
+import { UserModule } from "../store/modules/user";
+import { AuthModule } from "../store/modules/auth";
 import ChequerInput from "@/partials/chequer-input.vue";
 @Component({
     components: {
-        ChequerInput
-    }
+        ChequerInput,
+    },
 })
 export default class PersonInfoPhoneComponent extends Vue {
     @Prop() toolbarInfo!: any;
@@ -81,10 +69,10 @@ export default class PersonInfoPhoneComponent extends Vue {
     }
 
     getSmsCode(str: string) {
-        this.authService.smsCode(str).then(rsp => {
+        this.authService.smsCode(str).then((rsp) => {
             this.$ons.notification.toast(rsp.data.message, {
                 buttonLabels: "确定",
-                timeout: 1500
+                timeout: 1500,
             });
         });
     }
@@ -96,27 +84,26 @@ export default class PersonInfoPhoneComponent extends Vue {
         this.getSmsCode(this.phone);
     }
 
-     async optsSuccess(message: string) {
+    async optsSuccess(message: string) {
         await UserModule.getCurrentInfo();
         this.$ons.notification.toast(message, {
-            timeout: 1000
+            timeout: 1000,
         });
         await this.$nextTick();
-        
+
         NavigatorModule.pop();
     }
 
     verifyCode() {
-
         // 验证短信验证码
-        this.authService.verifyPhone(this.smsCode, this.phone).then(rsp => {
+        this.authService.verifyPhone(this.smsCode, this.phone).then((rsp) => {
             this.$ons.notification.toast(rsp.data.message, {
                 buttonLabels: "确定",
-                timeout: 1500
+                timeout: 1500,
             });
-        // 未绑定手机用户绑定手机
+            // 未绑定手机用户绑定手机
             if (!this.data) {
-                this.authService.bindPhone(this.phone).then(rsp => {
+                this.authService.bindPhone(this.phone).then((rsp) => {
                     this.optsSuccess(rsp.data.message);
                     return;
                 });
@@ -126,11 +113,10 @@ export default class PersonInfoPhoneComponent extends Vue {
             if (this.data && this.data != this.phone) {
                 this.authService
                     .updatePhone({ oldPhone: this.data, newPhone: this.phone })
-                    .then(rsp => {
+                    .then((rsp) => {
                         this.optsSuccess(rsp.data.message);
-                     
                     });
-            } else if(this.data) {
+            } else if (this.data) {
                 this.disabled = false;
                 this.phone = "";
                 this.$nextTick(() => {

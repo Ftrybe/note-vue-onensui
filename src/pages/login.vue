@@ -37,6 +37,7 @@
                             <v-ons-input
                                 float
                                 type="text"
+                                placeholder="验证码"
                                 v-model="lauthInfo.captcha"
                                 maxlength="4"
                             />
@@ -99,7 +100,7 @@ export default class LoginPage extends Vue {
     toggleView() {
         this.isSelectLogin = !this.isSelectLogin;
         if (!this.isSelectLogin) {
-            this.getCaptcha();
+           this.getCaptcha()
         }
         this.toolbarInfo.title = this.currentTitle;
         this.lauthInfo.username = "";
@@ -124,6 +125,7 @@ export default class LoginPage extends Vue {
         this.authService
             .register(this.lauthInfo, this.captchaTime)
             .then(rsp => {
+                console.log(rsp);
                 if (rsp.data.code === "0") {
                     NavigatorModule.pop();
                     AuthModule.login(rsp.data.data);
@@ -220,6 +222,7 @@ export default class LoginPage extends Vue {
             width: 80px;
             font-size: 12px;
             background-color: #efeff4;
+            border: 1px solid #efefef;
         }
         ons-input {
             width: 100%;

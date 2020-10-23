@@ -76,7 +76,6 @@ export default class SelectDropdownComponent extends Vue {
         this.list.map((item: Tag) => {
             this.map.set(item.id, item.name);
         });
-        // this.localName = 
     }
     mounted(){
         this.localValue = this.value;

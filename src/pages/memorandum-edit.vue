@@ -11,10 +11,7 @@
                     <v-select-dropdown v-model="memo.scope.tagId" :list="tags"></v-select-dropdown>
                 </div>
                 <div class="ml-auto p-1">
-                    <v-date-picker
-                        v-model="memo.eventStartTime"
-                        :popover="{ placement: 'align-right', visibility: 'click' }"
-                    >
+                    <v-date-picker v-model="memo.eventStartTime" :popover="{ placement: 'align-right', visibility: 'click' }" >
                         <div class="text-14">{{memo.eventStartTime | dataformat("yyyy-MM-d")}}</div>
                     </v-date-picker>
                 </div>
@@ -28,18 +25,18 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import QuillEditorComponent from "@/partials/quill-editor.vue";
 import { DateFilter } from "@/core/filters/date.filter";
 import SelectDropdownComponent from "../partials/select-dropdown.vue";
-import {MemorandumTagModule} from "../store/modules/memorandum-tag";
+import { MemorandumTagModule } from "../store/modules/memorandum-tag";
 import { MemorandumDTO } from "../core/models/sys/memorandum.dto";
 import { MemorandumService } from "../core/services/memorandum.service";
 @Component({
     filters: {
         dataformat: (date: Date, format: string) =>
-            new DateFilter().format(date, format)
+            new DateFilter().format(date, format),
     },
     components: {
         "v-quill-editor": QuillEditorComponent,
-        "v-select-dropdown": SelectDropdownComponent
-    }
+        "v-select-dropdown": SelectDropdownComponent,
+    },
 })
 export default class MemorandumEditPage extends Vue {
     @Prop() toolbarInfo!: {};
@@ -49,11 +46,10 @@ export default class MemorandumEditPage extends Vue {
     memoService = new MemorandumService();
 
     memo = new MemorandumDTO(true);
-    
-    id?:string;
+
+    id?: string;
 
     beforeMount() {
-        
         if (this.data && this.data.id) {
             this.memo = this.data;
             this.id = this.memo.id;
@@ -73,7 +69,7 @@ export default class MemorandumEditPage extends Vue {
         }
         if (response && response.data.code == "0") {
             this.$ons.notification.toast(response.data.message, {
-                timeout: 1500
+                timeout: 1500,
             });
         }
     }
@@ -86,9 +82,6 @@ export default class MemorandumEditPage extends Vue {
 .mmdm-header {
     background: #fff;
     padding: 0.5rem 0.5rem 0 0.5rem;
-    .select-box {
-        // max-width: 5rem;
-    }
 }
 .mmdm-editor {
     height: 100%;

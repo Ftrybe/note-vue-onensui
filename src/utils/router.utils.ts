@@ -1,9 +1,6 @@
 import {NavigatorModule} from "../store/modules/navigator";
 import { Component } from 'vue';
 import {Router} from '@/core/models/diary/router'
-import { OnsPageOptions } from '@/core/models/ons/page.options';
-import { NavigatorOptions } from '@/core/models/ons';
-
 export class RouterUtils {
 
     public static forward( router:Router | {page: Component, animation?: string,title?:string,backLabel?:string,backButton?:boolean,props?:any,data?:any,replace?:boolean}) {

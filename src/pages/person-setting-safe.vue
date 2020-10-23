@@ -30,7 +30,7 @@ import { UserModule } from "../store/modules/user";
 import { RouterUtils } from "../utils/router.utils";
 @Component
 export default class PersonSettingSafePage extends Vue {
-  @Prop() toolbarInfo?: {};
+    @Prop() toolbarInfo?: {};
     safePage = PersonSettingSafePage;
     get loginState() {
         return AuthModule.token;

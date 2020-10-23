@@ -2,19 +2,13 @@
     <v-ons-page>
         <v-toolbar v-bind="toolbarInfo">
             <div slot="right">
-                <v-ons-toolbar-button
-                    icon="ion-ios-save"
-                    :style="isChange? '':'color:#c8e0fb'"
-                    @click="save()"
-                />
+                <v-ons-toolbar-button icon="ion-ios-save" :style="isChange? '':'color:#c8e0fb'" @click="save()" />
             </div>
         </v-toolbar>
         <div class="inp">
             <v-ons-input float v-model="value" @keyup="change" :maxlength="maxlength" />
         </div>
-        <v-ons-list-header
-            style="color:rab(160,160,160);background:none"
-        >请在此处输入你的{{toolbarInfo.title}}</v-ons-list-header>
+        <v-ons-list-header style="color:rab(160,160,160);background:none">请在此处输入你的{{toolbarInfo.title}}</v-ons-list-header>
     </v-ons-page>
 </template>
 <script lang='ts'>
@@ -23,8 +17,8 @@ import { UserDTO } from "../core/models/sys/user.dto";
 import { UserService } from "../core/services/user.service";
 import { AuthService } from "../core/services/auth.service";
 import { LAuthDTO } from "../core/models/sys/lauth.dto";
-import {NavigatorModule} from "../store/modules/navigator";
-import {UserModule} from "../store/modules/user";
+import { NavigatorModule } from "../store/modules/navigator";
+import { UserModule } from "../store/modules/user";
 @Component
 export default class PersonInfoNicknameComponent extends Vue {
     @Prop() toolbarInfo!: any;
@@ -47,7 +41,7 @@ export default class PersonInfoNicknameComponent extends Vue {
         const user = new UserDTO();
         const userService = new UserService();
         user.nickname = this.value;
-        userService.update(user).then(rsp => {
+        userService.update(user).then((rsp) => {
             this.optsSuccess(rsp.data.message);
         });
     }
@@ -63,7 +57,7 @@ export default class PersonInfoNicknameComponent extends Vue {
     async optsSuccess(message: string) {
         await UserModule.getCurrentInfo();
         this.$ons.notification.toast(message, {
-            timeout: 1000
+            timeout: 1000,
         });
         NavigatorModule.pop();
     }
