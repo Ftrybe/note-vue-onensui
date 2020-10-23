@@ -9,11 +9,19 @@
             <span v-show="state === 'action'">加载中。。</span>
         </v-ons-pull-hook>
         <v-ons-list>
-            <v-ons-list-item v-for="(item,index) in list" :key="index" @click="forward(item)">
-                <div class="item">
-                    <div class="title">{{item.title |stripHtml(20)}}</div>
-                    <div class="time">{{item.createTime |dataformat("yyyy-MM-d")}}</div>
+            <v-ons-list-item class="item-box" v-for="(item,index) in list" :key="index" @tap="forward(item)">
+                <v-touch @swipe="swipe($event,index)" :swipe-options="{direction:'left'}" class="w-100">
+                    <div class="item">
+                        <div class="title">{{item.title |stripHtml(20)}}</div>
+                        <div class="time">{{item.createTime |dataformat("yyyy-MM-d")}}</div>
+                    </div>
+                </v-touch>
+
+                <div class="opts" :class="itemIndex == index?'active':''">
+                    <!-- <span class="opt-btn" @click="forward(diary,diaryEditPage)">编辑</span> -->
+                    <span class="opt-btn" @tap.stop="del(item,index)">删除</span>
                 </div>
+
             </v-ons-list-item>
         </v-ons-list>
 
@@ -48,8 +56,9 @@
 
                 </v-ons-list>
             </div>
-
         </v-ons-modal>
+
+        <div :class="itemIndex!=-1? 'mask':''" @tap="itemIndex=-1" />
 
     </v-ons-page>
 </template>
@@ -85,6 +94,7 @@ export default class AudioListComponent extends Vue {
     total = 1;
     state = "initial";
     addDialogVisible = false;
+    itemIndex: number = -1;
 
     title?: string = "";
     content?: string = "";
@@ -133,6 +143,9 @@ export default class AudioListComponent extends Vue {
             });
     }
     forward(data: OssFileDTO) {
+        if(this.itemIndex!=-1){
+            return;
+        }
         RouterUtils.forward({
             page: AudioPage,
             animation: "slide",
@@ -153,6 +166,24 @@ export default class AudioListComponent extends Vue {
         this.addDialogVisible = !this.addDialogVisible;
     }
 
+    swipe(e: Event, index: number) {
+        this.itemIndex = index;
+    }
+
+    async del(file: OssFileDTO, index: number) {
+        this.itemIndex = -1;
+        const confirm = await this.$ons.notification.confirm(`确认删除${file.title}?`, {
+            title: "提示",
+            buttonLabels: ["取消", "确定"],
+        });
+        if (confirm) {
+            const rsp = await ossFileService.delete(file.id!);
+            await this.$ons.notification.toast(rsp.data.message, {
+                timeout: 1500,
+            });
+            this.init();
+        }
+    }
     save() {
         ossFileService.getSts("audio").then(async (res) => {
             const sts = res.data.data;
@@ -163,7 +194,7 @@ export default class AudioListComponent extends Vue {
                     title: this.title,
                     targetUser: "-1",
                     type: "audio",
-                    content: this.content
+                    content: this.content,
                 });
                 this.init();
                 this.switchDiaLog();
@@ -176,6 +207,10 @@ export default class AudioListComponent extends Vue {
 }
 </script>
 <style scoped lang='scss'>
+// .item-box {
+//     position: relative;
+//     z-index: 1;
+// }
 .item {
     display: contents;
     .time {
@@ -198,8 +233,45 @@ export default class AudioListComponent extends Vue {
     background-color: #ffffff;
     box-shadow: 0 0 5px 0 #efefef;
 }
-::v-deep .dialog-box .dialog{
+::v-deep .dialog-box .dialog {
     width: 100%;
     height: 100%;
+}
+
+::v-deep .opts {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -80px;
+    font-size: 14px;
+    background-color: #0076ff;
+    color: #fff;
+    line-height: 48px;
+    height: 46px;
+    padding: 0 8px;
+    opacity: 0.8;
+    transition: right 0.3s;
+    z-index: 99;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    &.active {
+        right: 0;
+        box-shadow: -2px 0 2px 0 #0076ff;
+        .opt-btn {
+            padding-left: 4px;
+            padding-right: 4px;
+            &:not(:first-child) {
+                border-left: 1px solid;
+            }
+        }
+    }
+}
+.mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
 }
 </style>

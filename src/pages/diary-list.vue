@@ -126,7 +126,7 @@ export default class DiaryListPage extends Vue {
     }
 
     async del(diary:DiaryDTO,index:number){
-        this.itemIndex = -1;
+       this.itemIndex = -1;
        const confirm =  await this.$ons.notification.confirm(diary.title!,{
             title: "确定删除该故事？",
             buttonLabels: ["取消","确定"]
@@ -136,7 +136,7 @@ export default class DiaryListPage extends Vue {
            await this.$ons.notification.toast(rsp.data.message,{
                timeout: 1500
            })
-           Object.assign(this.list,this.list.splice(index,1));
+           this.init();
         }
     }
     
