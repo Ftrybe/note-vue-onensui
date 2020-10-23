@@ -29,7 +29,7 @@ export default class HomePage extends Vue {
     mounted() {}
     test(){}
     audio(){
-        RouterUtils.forward({title:"语音",page:AudioPage,animation: "slide", backButton:true});
+        RouterUtils.forward({title:"可能是个故事吧",page:AudioPage,animation: "slide", backButton:true});
     }
 }
 </script>

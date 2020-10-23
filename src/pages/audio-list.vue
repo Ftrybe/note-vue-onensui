@@ -186,13 +186,17 @@ export default class AudioListComponent extends Vue {
     }
     save() {
         ossFileService.getSts("audio").then(async (res) => {
+            this.$ons.notification.toast("上传中，请稍等..。",{
+                buttonLabels: "关闭",
+                timeout: 1500
+            })
             const sts = res.data.data;
             const url = await ossUtils.upload(sts, this.file, this.file.name);
             if (url) {
                 await ossFileService.save({
                     url: url,
                     title: this.title,
-                    targetUser: "-1",
+                    targetUser: "all",
                     type: "audio",
                     content: this.content,
                 });
@@ -212,7 +216,7 @@ export default class AudioListComponent extends Vue {
 //     z-index: 1;
 // }
 .item {
-    display: contents;
+    display: flex;
     .time {
         font-size: 14px;
         color: #333;
