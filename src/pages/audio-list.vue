@@ -17,7 +17,7 @@
                     </div>
                 </v-touch>
 
-                <div class="opts" :class="itemIndex == index?'active':''">
+                <div class="opts" :class="itemIndex == index?'active':''" v-if="item.createId == userInfo.id || userInfo.role == 0">
                     <!-- <span class="opt-btn" @click="forward(diary,diaryEditPage)">编辑</span> -->
                     <span class="opt-btn" @tap.stop="del(item,index)">删除</span>
                 </div>
@@ -25,7 +25,7 @@
             </v-ons-list-item>
         </v-ons-list>
 
-        <div class="fab" v-if="userInfo && userInfo.id == 1" @click="switchDiaLog">
+        <div class="fab" v-if="userInfo && userInfo.role == '0'" @click="switchDiaLog">
             <v-ons-icon icon="ion-ios-add" size="26px" />
         </div>
         <div class="text-center mt-4" v-if="currPage < total">
@@ -34,7 +34,7 @@
 
         <v-ons-modal cancelable :visible.sync="addDialogVisible" class="dialog-box">
             <div>
-                <v-ons-list class="w-100 pt-2">
+                <v-ons-list class="pt-2" style="width:90%;margin: 0 auto">
                     <!-- <v-ons-list-header>标题</v-ons-list-header> -->
                     <v-ons-list-item>
                         <v-ons-input placeholder="请输入标题" type="text" v-model="title"></v-ons-input>
@@ -46,9 +46,24 @@
                     </v-ons-list-item>
 
                     <v-ons-list-item style="height:300px">
-                        <v-quill-editor placeholder="在此输入您想记住的内容" v-model="content" />
+                        <v-quill-editor placeholder="这里输入说明" v-model="content" />
                     </v-ons-list-item>
 
+                    <v-ons-list>
+                        <v-ons-list-item v-for="(item, $index) in targetUserItems" :key="item.value" tappable>
+                        <label class="left">
+                            <v-ons-radio
+                            :input-id="'radio-' + $index"
+                            :value="item.value"
+                            v-model=" targetUser"
+                            >
+                            </v-ons-radio>
+                        </label>
+                        <label :for="'radio-' + $index" class="center">
+                            {{ item.text }}
+                        </label>
+                        </v-ons-list-item>
+                    </v-ons-list>
                     <v-ons-list-item>
                         <v-ons-button class="ml-auto" modifier="outline" @click="save">确定</v-ons-button>
                         <v-ons-button class="mx-2" modifier="outline" @click="switchDiaLog">取消</v-ons-button>
@@ -99,7 +114,16 @@ export default class AudioListComponent extends Vue {
     title?: string = "";
     content?: string = "";
     file: any = null;
-
+    targetUser: string = "";
+    targetUserItems: any[] = [
+        {
+            text: "所有人可见",
+            value: "all"
+        },
+        {
+            text: "仅自己可见",
+            value: "only"
+        }];
     loadMore(done: Function) {
         if (this.total > this.currPage) {
             setTimeout(() => {
@@ -196,7 +220,7 @@ export default class AudioListComponent extends Vue {
                 await ossFileService.save({
                     url: url,
                     title: this.title,
-                    targetUser: "all",
+                    targetUser: this.targetUser,
                     type: "audio",
                     content: this.content,
                 });
@@ -238,7 +262,7 @@ export default class AudioListComponent extends Vue {
     box-shadow: 0 0 5px 0 #efefef;
 }
 ::v-deep .dialog-box .dialog {
-    width: 100%;
+    width: 90%;
     height: 100%;
 }
 

@@ -106,7 +106,7 @@
               <v-ons-list-item
                 modifier="chevron"
                 @click="forward(audioListPage,'小可爱的小故事')"
-                v-if="userInfo && userInfo.id == 1"
+                v-if="userInfo && userInfo.role == 0"
             >
                 <div class="left">
                     <v-ons-icon icon="ion-ios-happy" class="list-item__icon"></v-ons-icon>

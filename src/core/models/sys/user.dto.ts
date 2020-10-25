@@ -30,4 +30,6 @@ export class UserDTO extends BaseDTO {
     username?: string;
 
     phone?: string;
+
+    role?: string
 }
