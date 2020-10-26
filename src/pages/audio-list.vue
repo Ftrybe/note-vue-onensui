@@ -13,11 +13,12 @@
                 <v-touch @swipe="swipe($event,index)" :swipe-options="{direction:'left'}" class="w-100">
                     <div class="item">
                         <div class="title">{{item.title |stripHtml(20)}}</div>
+                        <span v-if="isNew(item.createTime)" class="new">new</span>
                         <div class="time">{{item.createTime |dataformat("yyyy-MM-d")}}</div>
                     </div>
                 </v-touch>
 
-                <div class="opts" :class="itemIndex == index?'active':''" v-if="item.createId == userInfo.id || userInfo.role == 0">
+                <div class="opts" :class="itemIndex == index?'active':''" v-if="userInfo && (item.createId == userInfo.id || userInfo.role == 0)">
                     <!-- <span class="opt-btn" @click="forward(diary,diaryEditPage)">编辑</span> -->
                     <span class="opt-btn" @tap.stop="del(item,index)">删除</span>
                 </div>
@@ -154,7 +155,7 @@ export default class AudioListComponent extends Vue {
     load(num: number, fun: Function) {
         ossFileService
             .list({
-                order: { create_time: "ASC" },
+                order: { create_time: "DESC" },
                 currPage: num,
                 pageSize: 20,
             })
@@ -229,6 +230,11 @@ export default class AudioListComponent extends Vue {
             }
         });
     }
+
+    isNew(createTime: Date){
+        return (Date.now() -  new Date(createTime).getTime()) < 3600000 * 24
+    }
+
     get userInfo() {
         return UserModule.userInfo;
     }
@@ -301,5 +307,12 @@ export default class AudioListComponent extends Vue {
     width: 100%;
     height: 100%;
     z-index: 9;
+}
+.new{
+    font-size: 12px;
+    color: #ff0000;
+    transform: scale(.75);
+    text-shadow: 0 0 1px #ff0000;
+    margin-top: -4px;
 }
 </style>
