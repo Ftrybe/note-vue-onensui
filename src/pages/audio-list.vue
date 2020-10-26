@@ -12,8 +12,7 @@
             <v-ons-list-item class="item-box" v-for="(item,index) in list" :key="index" @tap="forward(item)">
                 <v-touch @swipe="swipe($event,index)" :swipe-options="{direction:'left'}" class="w-100">
                     <div class="item">
-                        <div class="title">{{item.title |stripHtml(20)}}</div>
-                        <span v-if="isNew(item.createTime)" class="new">new</span>
+                        <div class="title">{{item.title |stripHtml(20)}} <span v-if="isNew(item.createTime)" class="new">new</span></div>
                         <div class="time">{{item.createTime |dataformat("yyyy-MM-d")}}</div>
                     </div>
                 </v-touch>
@@ -171,6 +170,7 @@ export default class AudioListComponent extends Vue {
         if(this.itemIndex!=-1){
             return;
         }
+        ossFileService.get(data.id!).then();
         RouterUtils.forward({
             page: AudioPage,
             animation: "slide",
@@ -241,16 +241,17 @@ export default class AudioListComponent extends Vue {
 }
 </script>
 <style scoped lang='scss'>
-// .item-box {
-//     position: relative;
-//     z-index: 1;
-// }
+
 .item {
     display: flex;
+    // flex-direction: column;
+    align-items: center;
+    font-size: 14px;
     .time {
-        font-size: 14px;
+        font-size: 12px;
         color: #333;
         margin-left: auto;
+        min-width: 74px;
     }
 }
 .fab {
@@ -314,5 +315,6 @@ export default class AudioListComponent extends Vue {
     transform: scale(.75);
     text-shadow: 0 0 1px #ff0000;
     margin-top: -4px;
+    position: absolute;
 }
 </style>
