@@ -1,5 +1,5 @@
 <template>
-    <v-ons-page>
+    <v-ons-page :infinite-scroll="loadMore">
         <v-toolbar v-bind="toolbarInfo">
             <div slot="right"></div>
         </v-toolbar>
@@ -12,7 +12,11 @@
             <v-ons-list-item class="item-box" v-for="(item,index) in list" :key="index" @tap="forward(item)">
                 <v-touch @swipe="swipe($event,index)" :swipe-options="{direction:'left'}" class="w-100">
                     <div class="item">
-                        <div class="title">{{item.title |stripHtml(20)}} <span v-if="isNew(item.createTime)" class="new">new</span></div>
+                        <div class="title">
+                            <v-ons-icon v-if="item.password" icon="ion-ios-key" class="lock" />
+                            {{item.title |stripHtml(20)}}
+                            <span v-if="isNew(item.createTime)" class="new">new</span>
+                        </div>
                         <div class="time">{{item.createTime |dataformat("yyyy-MM-d")}}</div>
                     </div>
                 </v-touch>
@@ -35,17 +39,15 @@
         <v-ons-modal cancelable :visible.sync="addDialogVisible" class="dialog-box">
             <div>
                 <v-ons-list class="pt-2" style="width:90%;margin: 0 auto">
-                    <!-- <v-ons-list-header>标题</v-ons-list-header> -->
                     <v-ons-list-item>
-                        <v-ons-input placeholder="请输入标题" type="text" v-model="title"></v-ons-input>
+                        <v-ons-input placeholder="请输入标题" type="text" v-model="title" class="w-100"></v-ons-input>
                     </v-ons-list-item>
 
-                    <!-- <v-ons-list-header>语音</v-ons-list-header> -->
                     <v-ons-list-item>
                         <v-ons-input type="file" @change="handleFile"></v-ons-input>
                     </v-ons-list-item>
 
-                    <v-ons-list-item style="height:300px">
+                    <v-ons-list-item style="height:200px">
                         <v-quill-editor placeholder="这里输入说明" v-model="content" />
                     </v-ons-list-item>
 
@@ -64,6 +66,12 @@
                         </label>
                         </v-ons-list-item>
                     </v-ons-list>
+
+                    <v-ons-list-item v-show="targetUser == 'all'" modifier="nodivider">
+                        <v-ons-input type="password" placeholder="请输入密码（可选）" v-model="password" class="w-100 password"/>
+                    </v-ons-list-item>
+
+
                     <v-ons-list-item>
                         <v-ons-button class="ml-auto" modifier="outline" @click="save">确定</v-ons-button>
                         <v-ons-button class="mx-2" modifier="outline" @click="switchDiaLog">取消</v-ons-button>
@@ -108,6 +116,7 @@ export default class AudioListComponent extends Vue {
     currPage = 1;
     total = 1;
     state = "initial";
+    password = "";
     addDialogVisible = false;
     itemIndex: number = -1;
 
@@ -124,6 +133,7 @@ export default class AudioListComponent extends Vue {
             text: "仅自己可见",
             value: "only"
         }];
+
     loadMore(done: Function) {
         if (this.total > this.currPage) {
             setTimeout(() => {
@@ -170,24 +180,52 @@ export default class AudioListComponent extends Vue {
         if(this.itemIndex!=-1){
             return;
         }
-        ossFileService.get(data.id!).then();
-        RouterUtils.forward({
-            page: AudioPage,
-            animation: "slide",
-            title: data.title,
-            backButton: true,
-            data: data,
-        });
+        if(data.password){
+            this.$ons.notification.prompt("当前音频需要验证",{
+                    autofocus: true,
+                    placeholder: "请输入密码",
+                    title: "",
+                    buttonLabels: ["取消","验证"]
+                }).then(password=>{
+                    if(password){
+                        this.getFileDetailed(data,password) 
+                    }
+                })
+        }else{
+            this.getFileDetailed(data);
+        }
     }
+
+    getFileDetailed(data:OssFileDTO,password?:string){
+        let query = {
+            id: data.id,
+            password: password
+        }
+        ossFileService.getDynamic(query).then(res => {
+            data = res.data.data;
+            RouterUtils.forward({
+                page: AudioPage,
+                animation: "slide",
+                title: data.title,
+                backButton: true,
+                data: data,
+            });
+        })
+        .catch(e => {
+            throw "密码错误";
+        })
+    }
+    
     handleFile(e: Event) {
         var target = e.target as any;
         var file = target.files[0];
         this.file = file;
     }
     switchDiaLog() {
-        this.file = null;
+        this.file = "";
         this.title = "";
         this.content = "";
+        this.password = "";
         this.addDialogVisible = !this.addDialogVisible;
     }
 
@@ -224,6 +262,7 @@ export default class AudioListComponent extends Vue {
                     targetUser: this.targetUser,
                     type: "audio",
                     content: this.content,
+                    password: this.password
                 });
                 this.init();
                 this.switchDiaLog();
@@ -242,6 +281,10 @@ export default class AudioListComponent extends Vue {
 </script>
 <style scoped lang='scss'>
 
+.lock{
+    transform: rotate(-100deg);
+    color: gray;
+}
 .item {
     display: flex;
     // flex-direction: column;
@@ -273,6 +316,14 @@ export default class AudioListComponent extends Vue {
     height: 100%;
 }
 
+::v-deep .password .text-input,
+::v-deep .password  .text-input__label
+{
+    font-size: 14px;
+    padding-left: 16px;
+    height: 16px;
+    line-height: 16px;
+}
 ::v-deep .opts {
     position: absolute;
     top: 50%;

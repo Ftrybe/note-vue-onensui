@@ -4,7 +4,7 @@
             <div slot="right"></div>
         </v-toolbar>
         <div class="content">
-            <div class="audio-box">
+            <div class="audio-box mt-3">
                 <audio class="audio" :src="data.url" ref="doubleAudio" controls />
                 <div class="controller">
                     当前倍速{{playbackRate}}<v-ons-range v-model="volume" style="width: 100%;"></v-ons-range>
@@ -19,7 +19,6 @@
 <script lang='ts'>
 import { Component, Ref, Vue, Prop, Watch } from "vue-property-decorator";
 import { OssFileDTO } from "@/core/models/sys/oss-file.dto";
-
 @Component
 export default class AudioComponent extends Vue {
     @Prop() toolbarInfo?: {};
@@ -29,6 +28,7 @@ export default class AudioComponent extends Vue {
     currentAudio: string = "double";
     volume: number = 50;
     playbackRate: number = 1;
+    file: OssFileDTO = {};
 
     @Watch("volume")
     playbackRateChange() {
@@ -36,10 +36,11 @@ export default class AudioComponent extends Vue {
         if (this.volume < 10) {
             this.volume = 10;
         }
+        if(this.playbackRate < 0.2){
+            this.playbackRate = 0.2;
+        }
         this.doubleAudio.playbackRate = this.playbackRate;
     }
-
-    created() {}
 }
 </script>
 <style scoped lang='scss'>

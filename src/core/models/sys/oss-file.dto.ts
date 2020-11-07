@@ -10,4 +10,6 @@ export class OssFileDTO extends BaseDTO {
     targetUser?: string;
 
     content?: string;
+
+    password?: string;
 }
