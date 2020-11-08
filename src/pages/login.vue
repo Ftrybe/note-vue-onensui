@@ -41,7 +41,7 @@
                                 v-model="lauthInfo.captcha"
                                 maxlength="4"
                             />
-                            <svg
+                            <div
                                 v-if="!isPhone"
                                 class="captcha"
                                 v-html="captcha"
@@ -97,6 +97,7 @@ export default class LoginPage extends Vue {
     onSelect() {
         this.selectStandard = !this.selectStandard;
     }
+
     toggleView() {
         this.isSelectLogin = !this.isSelectLogin;
         if (!this.isSelectLogin) {

@@ -188,7 +188,7 @@ export default class AudioListComponent extends Vue {
                     buttonLabels: ["取消","验证"]
                 }).then(password=>{
                     if(password){
-                        this.getFileDetailed(data,password) 
+                        this.getFileDetailed(data, password) 
                     }
                 })
         }else{
