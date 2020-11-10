@@ -10,6 +10,7 @@ const key = "user";
 class User extends VuexModule {
 
     userInfo = window.localStorage.getItem(key);
+
     @Mutation
     setUserInfo(info: any) {
         window.localStorage.setItem(key, JSON.stringify(info));
@@ -33,5 +34,6 @@ class User extends VuexModule {
         const user = rsp.data.data;
         this.setUserInfo(user);
     }
+
 }
 export const UserModule = getModule(User);

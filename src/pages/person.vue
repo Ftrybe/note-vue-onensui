@@ -14,30 +14,14 @@
             <v-ons-list-item
                 class="info"
                 modifier="chevron nodivider"
-                @click="forward(infoPage,'个人信息')"
-                v-if="userInfo"
+                @click="userInfo ?forward(infoPage,'个人信息') : forward(loginPage,'用户验证')"
             >
                 <div class="left">
-                    <img class="list-item__thumbnail" :src="userInfo.photo" />
+                    <img class="list-item__thumbnail"  :src="userInfo ? userInfo.photo : 'pic/unlogin.gif'" />
                 </div>
                 <div class="center" style="line-height: 28px;margin-left: 8px">
-                    <span class="list-item__title">{{userInfo.nickname}}</span>
-                    <span class="list-item__subtitle">{{userInfo.username}}</span>
-                </div>
-            </v-ons-list-item>
-
-            <v-ons-list-item
-                class="info"
-                modifier="chevron nodivider"
-                @click="forward(loginPage,'登录')"
-                v-else
-            >
-                <div class="left">
-                    <img class="list-item__thumbnail" src="pic/unlogin.gif" />
-                </div>
-                <div class="center" style="line-height: 28px;margin-left: 8px">
-                    <span class="list-item__title">还未登录哦</span>
-                    <span class="list-item__subtitle">点击登录账号~</span>
+                    <span class="list-item__title"> {{userInfo ? userInfo.nickname : '还未登录哦'}} </span>
+                    <span class="list-item__subtitle">{{userInfo ? userInfo.username : '点击登录账号'}} </span>
                 </div>
             </v-ons-list-item>
 
@@ -103,7 +87,7 @@
                 <div class="center">时光轴</div>
             </v-ons-list-item>
 
-              <v-ons-list-item
+            <v-ons-list-item
                 modifier="chevron"
                 @click="forward(audioListPage,'小可爱的小故事')"
                 v-if="userInfo && userInfo.role == 0"
@@ -112,6 +96,17 @@
                     <v-ons-icon icon="ion-ios-happy" class="list-item__icon"></v-ons-icon>
                 </div>
                 <div class="center">语音</div>
+            </v-ons-list-item>
+
+            <v-ons-list-item
+                modifier="chevron"
+                @click="forward(fileListPage,'文件柜')"
+                v-if="userInfo && userInfo.role == 0"
+            >
+                <div class="left">
+                    <v-ons-icon icon="ion-ios-briefcase" class="list-item__icon"></v-ons-icon>
+                </div>
+                <div class="center">文件柜</div>
             </v-ons-list-item>
         </v-ons-list>
 
@@ -138,6 +133,7 @@ import MemorandumListPage from "./memorandum-list.vue";
 import TimeLinePage from "./time-line.vue";
 import LoginPage from "./login.vue";
 import AudioListPage from "./audio-list.vue";
+import FileListPage from "./file-list.vue";
 import { UserModule } from "../store/modules/user";
 import { RouterUtils } from "../utils/router.utils";
 import draggable from "vuedraggable";
@@ -167,6 +163,7 @@ export default class PersonPage extends Vue {
     timeLinePage = TimeLinePage;
     audioListPage = AudioListPage;
     loginPage = LoginPage;
+    fileListPage = FileListPage
 
     localMemorandumTags?: MemorandumTagDTO[];
 

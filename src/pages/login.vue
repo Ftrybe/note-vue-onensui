@@ -49,18 +49,22 @@
                             />
                             <button v-if="isPhone" class="captcha" @click="getSmsCode">{{smsButton}}</button>
                         </div>
+                         <v-ons-button
+                            class="text-center w-100"
+                            @click="login()"
+                            v-show="isSelectLogin"
+                        > 登陆</v-ons-button>
                         <v-ons-button
                             class="text-center w-100"
-                            @click="isSelectLogin ?login() :register()"
-                        >{{currentTitle}}</v-ons-button>
+                            @click="register()"
+                            v-show="!isSelectLogin"
+                        > 注册 </v-ons-button>
                     </div>
                 </div>
                 <div class="d-flex">
                     <div class="login-none-btn">
-                        {{isSelectLogin?'没有账号?点击':'已有账号?点击'}}
-                        <span
-                            @click="toggleView"
-                        >{{isSelectLogin?"注册":"登录"}}</span>
+                        <span @click="toggleView" v-show="!isSelectLogin">已有账号?进行登陆</span>
+                        <span @click="toggleView" v-show="isSelectLogin">没有账号?点击注册</span>
                     </div>
 
                     <div class="login-none-btn ml-auto" @click="forget" v-if="isSelectLogin">忘记密码?</div>
@@ -79,6 +83,7 @@ import { LAuthDTO } from "../core/models/sys/lauth.dto";
 import { UserService } from "../core/services/user.service";
 import AppSplitter from "../app-splitter.vue";
 import { ValidatorUtils } from "@/utils/validator.utils";
+
 @Component
 export default class LoginPage extends Vue {
     @Prop() toolbarInfo!: any;
@@ -103,7 +108,6 @@ export default class LoginPage extends Vue {
         if (!this.isSelectLogin) {
            this.getCaptcha()
         }
-        this.toolbarInfo.title = this.currentTitle;
         this.lauthInfo.username = "";
         this.lauthInfo.password = "";
         this.lauthInfo.captcha = "";
@@ -112,8 +116,8 @@ export default class LoginPage extends Vue {
     login() {
         this.authService.login(this.lauthInfo).then(rsp => {
             if (rsp.data.code === "0") {
-                NavigatorModule.pop();
                 AuthModule.login(rsp.data.data);
+                NavigatorModule.pop();
             }
             this.$ons.notification.toast(rsp.data.message, {
                 buttonLabels: "确定",
@@ -167,10 +171,6 @@ export default class LoginPage extends Vue {
                 });
             }
         });
-    }
-
-    get currentTitle() {
-        return this.isSelectLogin ? "登录" : "注册";
     }
 
     checkPhone(e: any) {

@@ -12,4 +12,6 @@ export class OssFileDTO extends BaseDTO {
     content?: string;
 
     password?: string;
+
+    filename?: string;
 }

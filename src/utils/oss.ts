@@ -2,6 +2,7 @@
 import axios from 'axios'
 import Crypto from '@/utils/crypto/crypto';
 import Base64 from '@/utils/crypto/base64';
+import { isPrimitive } from 'vue-class-component/lib/util';
 
 // getSts返回参数
 // "accessKeyId"
@@ -13,11 +14,11 @@ import Base64 from '@/utils/crypto/base64';
 export class OssUtils{
   private ossUploadUrl = "https://ftrybe.oss-cn-shenzhen.aliyuncs.com";
 
-  async upload(sts: { Expiration: any; AccessKeySecret: any; AllowObjectPrefix: string; AccessKeyId: string ; SecurityToken: string }, data: any, filename:string) {
+  async upload(sts: { Expiration: any; AccessKeySecret: any; AllowObjectPrefix: string; AccessKeyId: string ; SecurityToken: string;}, data: any, filename:string,isPrivate?:boolean) {
     const policy = this.getPolicy(sts.Expiration);
     const signature = this.getSignature(policy, sts.AccessKeySecret);
-
-    const key = sts.AllowObjectPrefix + "/" + this.getFileName(filename);
+    const ossFilename = this.getFileName(filename);
+    const key = sts.AllowObjectPrefix + "/" + ossFilename;
     let param = new FormData();
     param.append('name', filename);
     param.append('key', key);
@@ -25,14 +26,19 @@ export class OssUtils{
     param.append('signature', signature);
     param.append('OSSAccessKeyId', sts.AccessKeyId);
     param.append('x-oss-security-token', sts.SecurityToken);
-    param.append('x-oss-object-acl', "public-read");
+    param.append('x-oss-object-acl', isPrivate ?"private":"public-read");
     param.append('success_action_status', "200");
     param.append('file', data, filename);
 
     try {
       const response = await axios.post(this.ossUploadUrl, param);
       if (response.status = 200) {
-        return this.ossUploadUrl + "/" + key;
+        return {
+          url: this.ossUploadUrl + "/" + key,
+          filename: ossFilename,
+          uri: key
+        }
+        
       }
       return false;
     } catch (e) {

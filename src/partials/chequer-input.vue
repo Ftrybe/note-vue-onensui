@@ -15,7 +15,7 @@ import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 
 @Component
 export default class ChequerInputComponent extends Vue {
-    @Prop({ default: 4, type: Number }) max?: number;
+    @Prop({ default: 4, type: Number }) max!: number;
 
     arr: Array<string> = new Array(this.max);
 

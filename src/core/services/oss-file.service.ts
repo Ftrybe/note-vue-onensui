@@ -11,5 +11,13 @@ export class OssFileService extends BaseService<OssFileDTO>{
             }
         })
     }
+
+    getPrivate(id:string, type: string){
+        return http.get(`/oss/private/${id}`,{
+            params: {
+                type: type
+            }
+        })
+    }
 }
 export default new OssFileService();

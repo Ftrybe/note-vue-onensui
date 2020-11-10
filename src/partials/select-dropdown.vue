@@ -45,7 +45,7 @@ import Tag from "@/core/models/sys/tag";
 @Component
 export default class SelectDropdownComponent extends Vue {
     @Prop()
-    value?: any;
+    value!: any;
     // 列表需要有id 和 name属性
     @Prop()
     list?: any;

@@ -4,12 +4,15 @@
         <div class="warp bg" style="background-image: url('bg/light_gril.jpg')">
             <v-ons-card class="panel">
                 <div class="content" v-test="123" @click="test">
-                    <div class="note">简单的记事本网站，请不要保存私密信息，防止个<span @click="audio">人</span>信息泄漏</div>
+                    <div class="note">简单的记事本网站，请不要保存私密信息，防止个人信息泄漏</div>
                     <div class="time">-- 2020/1/1</div>
                 </div>
             </v-ons-card>
         </div>
-        <div class="record">Copyright © 2019 - 2020  不记事 版权所有 <a href="http://www.beian.miit.gov.cn" target="_blank">闽ICP备16027976号-2</a> </div>
+        <div class="record">Copyright © 2019 - 2020  不记事
+            <div><a href="http://www.beian.miit.gov.cn" target="_blank">闽ICP备16027976号-2</a> </div>
+        </div>
+        
     </v-ons-page>
 </template>
 
@@ -86,13 +89,14 @@ $sm-font-size: 12px;
 }
 .record {
     position: fixed;
-    right: 0;
+    left: 0;
     bottom: 0;
     color: #000;
     font-size: 12px;
     padding-right: 8px;
     a{
       color: #000;
+      right: 0;
     }
 }
 </style>
