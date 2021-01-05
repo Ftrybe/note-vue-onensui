@@ -9,7 +9,7 @@
     "start": "npm run serve"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "core-js": "^3.7.0",
     "onsenui": "^2.11.1",
     "pluralize": "^8.0.0",
