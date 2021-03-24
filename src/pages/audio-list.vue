@@ -182,6 +182,7 @@ export default class AudioListComponent extends Vue {
             return;
         }
       if(this.userInfo){
+         
          if((this.userInfo as UserDTO).role == '0'){
             this.getFileDetailed(data) 
          }
@@ -260,7 +261,7 @@ export default class AudioListComponent extends Vue {
                 timeout: 1500
             })
             const sts = res.data.data;
-            const rsp = await ossUtils.upload(sts, this.file, this.file.name,true);
+            const rsp = await ossUtils.upload(sts, this.file, this.file.name,false);
             if (rsp) {
                 await ossFileService.save({
                     url: rsp.url,

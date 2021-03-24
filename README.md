@@ -54,3 +54,7 @@ yarn run serve
 or
 npm run serve
 ```
+
+[back-end](https://github.com/Ftrybe/note-server-public)
+
+[online](https://bujishi.cn/)
