@@ -31,7 +31,7 @@
     "@types/vue2-editor": "^2.6.1",
     "@vue/cli-plugin-babel": "^4.5.8",
     "@vue/cli-plugin-typescript": "^4.5.8",
-    "@vue/cli-service": "^4.5.8",
+    "@vue/cli-service": "^5.0.8",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.13.0",
     "eslint-plugin-vue": "^7.1.0",
